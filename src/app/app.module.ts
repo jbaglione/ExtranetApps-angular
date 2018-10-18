@@ -1,12 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { FooterComponent } from './components/footer/footer.component';
 import {SharedModule} from './shared/shared.module';
-import { ListHallazgosComponent } from './components/list-hallazgos/list-hallazgos.component';
+
+//Rutas
+// import { FeatureRoutingModule} from './app.routes'
+import { APP_ROUTING } from './app.routes'
+
+//Servicios
+import{HallazgosListService} from './services/hallazgos/hallazgos-list/hallazgos-list.service';
+
+//Componentes
+import { HeaderComponent } from './components/shared/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+import { ListHallazgosComponent } from './components/hallazgos/hallazgos-list/hallazgos-list.component';
+import { HallazgoDetailComponent } from './components/hallazgos/hallazgo-detail/hallazgo-detail.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
+import { NotFoundComponent } from './components/shared/not-found/not-found.component';
 // import {MatButtonModule, MatCheckboxModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 // import {} from '@angular/material/sidenav';
 // export class PizzaPartyAppModule { }
@@ -14,19 +26,27 @@ import { ListHallazgosComponent } from './components/list-hallazgos/list-hallazg
   declarations: [
     AppComponent,
     HeaderComponent,
+    HomeComponent,
     FooterComponent,
-    ListHallazgosComponent
+    ListHallazgosComponent,
+    HallazgoDetailComponent,
+    NotFoundComponent
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    // FeatureRoutingModule,
+    APP_ROUTING,
     // MatButtonModule,
     // MatCheckboxModule,
     // MatSidenavModule,
     // MatToolbarModule
     SharedModule
   ],
-  providers: [],
+  providers: [
+    HallazgosListService
+  ],
   bootstrap: [
     AppComponent],
   

@@ -17,3 +17,21 @@
 .text--right {
     text-align: right;
 }
+
+.example-spacer-small {
+    flex: 0.3 0.3 auto;
+}
+
+.example-spacer-extra-small {
+    flex: 0.15 0.15 auto;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.icon-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -27,6 +27,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     // RouterModule,
     // NgxExampleLibraryModule,
     // WebStorageModule,
+    CdkTableModule,
     MaterialModule
   ],
   // declarations: [
@@ -53,6 +54,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     // HeroCardComponent,
     // HeroLoadingComponent,
     // ScrollToFirstInvalidDirective,
+    CdkTableModule,
     MaterialModule
   ]
 })
