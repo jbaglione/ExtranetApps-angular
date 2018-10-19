@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http'; 
+// import { moduleOrComponent } from 'path';
+
 
 import { AppComponent } from './app.component';
 import {SharedModule} from './shared/shared.module';
@@ -10,7 +14,7 @@ import {SharedModule} from './shared/shared.module';
 import { APP_ROUTING } from './app.routes'
 
 //Servicios
-import{HallazgosListService} from './services/hallazgos/hallazgos-list/hallazgos-list.service';
+import{HallazgosListService} from './services/hallazgos/hallazgos.service';
 
 //Componentes
 import { HeaderComponent } from './components/shared/header/header.component';
@@ -36,6 +40,8 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
+    HttpClientModule,//Modo dos
     // FeatureRoutingModule,
     APP_ROUTING,
     // MatButtonModule,

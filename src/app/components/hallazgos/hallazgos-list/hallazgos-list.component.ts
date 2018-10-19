@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import {HallazgosListService, PeriodicElement} from '../../../services/hallazgos/hallazgos-list/hallazgos-list.service';
+import {HallazgosListService, PeriodicElement} from '../../../services/hallazgos/hallazgos.service';
 import { Router } from '@angular/router';
 
 
