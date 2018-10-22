@@ -15,9 +15,17 @@ export class HallazgoDetailComponent implements OnInit {
   dataL:any;
   hallazgo:PeriodicElement;
   gradoComplejidad:listable;
-  usuario:Usuario;
+  // ID: number,
+  //       NombreUsuario: string,
+  //       FecHasta: string,
+  //       btnAgregar: string,
+  //       btnAutorizar: string,
+  //       headerStyle: string
+  usuario = new Usuario();
+  id:string;
 
   constructor(private _activatedRoute:ActivatedRoute, private _hallazgosListService:HallazgosListService) {
+    
     _activatedRoute.params.subscribe(params => {
       debugger;
       // console.log(params);
@@ -25,7 +33,14 @@ export class HallazgoDetailComponent implements OnInit {
       // console.log(this.dataL);
       // this.hallazgo = this._hallazgosListService.getHallazgo(params['id']);
       this._hallazgosListService.GetGradosComplejidad().subscribe(data=>this.gradoComplejidad = data);
-      this._hallazgosListService.GetUsuarioValidacion(params['id']).subscribe(data=>this.usuario = data);
+
+      this.id = params['id'];
+      if(this.id !== 'nuevo')
+      {
+        this._hallazgosListService.GetUsuarioValidacion(this.id).subscribe(data=>this.usuario = data);
+      }
+
+
     });
   }
 
