@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-// import { throwError } from 'rxjs';
-// import { map, catchError } from 'rxjs/operators';
-// import { map } from 'rxjs/Rx';
 import { map } from 'rxjs/operators';
 import {AppConfig} from '../../configs/app.config';
 
@@ -11,13 +8,15 @@ import {catchError, tap} from 'rxjs/operators';
 import {LoggerService} from '../logger.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Usuario} from '../../models/usuario.model';
+import { Hallazgo } from 'src/app/models/hallazgo.model';
+import { listable } from 'src/app/models/listable.model';
 
 @Injectable()
 export class HallazgosListService {
-
-  // private accessPointUrl: string = 'http://localhost:64997/'; //(PamiApi)
   pamiUrl: string;
+  extranetUrl: string;
   constructor(private http: Http, private httpClient:HttpClient) {
+    this.extranetUrl = AppConfig.endpoints.extranet;
     this.pamiUrl = AppConfig.endpoints.pami;
   }
 
@@ -41,12 +40,10 @@ hallazgos:PeriodicElement[];
   }
 
   public GetGradosComplejidad(){
-    debugger;
     return this.http.get(this.pamiUrl + "GetGradosComplejidad").pipe(map(res=>res.json()));
   }
 
   // public GetGradosComplejidad(){
-  //   debugger;
   //   return this.http.get(this.pamiUrl + "GetGradosComplejidad").pipe(map(res=>res.json()));
   // }
 
@@ -54,8 +51,8 @@ hallazgos:PeriodicElement[];
   public GetUsuarioValidacion(id: string): Observable<Usuario> {
     const url = `${this.pamiUrl + 'GetUsuarioValidacion'}/${id}`;
     return this.httpClient.get<Usuario>(url).pipe(
-      tap(() => LoggerService.log(`fetched hero id=${id}`)),
-      catchError(HallazgosListService.handleError<Usuario>(`getHero id=${id}`))
+      tap(() => LoggerService.log(`fetched Usuario id=${id}`)),
+      catchError(HallazgosListService.handleError<Usuario>(`getUsuario id=${id}`))
     );
   }
   
@@ -77,10 +74,26 @@ hallazgos:PeriodicElement[];
   }
 
   
+  public GetHallazgo(id: string): Observable<Hallazgo> {
+    const url = `${this.extranetUrl}/${id}`;
+    return this.httpClient.get<Hallazgo>(url).pipe(
+      tap(() => LoggerService.log(`fetched Hallazgo id=${id}`)),
+      catchError(HallazgosListService.handleError<Hallazgo>(`GetHallazgo id=${id}`))
+    );
+  }
 
-  public getHallazgo(id:string){
-    this.getHallazgos();
-    return this.hallazgos[id];
+  public getTest(id:string){
+    const url = `${this.extranetUrl}/${id}`;
+    return this.httpClient.get<listable>(url).pipe(
+      tap(() => 
+      {
+        LoggerService.log(`fetched test id=${id}`)
+      }
+      
+      ),
+      catchError(HallazgosListService.handleError<listable>(`getTest id=${id}`))
+    );
+
   }
 
 //   public get() {

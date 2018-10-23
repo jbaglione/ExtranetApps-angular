@@ -1,0 +1,14 @@
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExtranetApps.Api.deps.json
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExtranetApps.Api.runtimeconfig.json
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExtranetApps.Api.runtimeconfig.dev.json
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExtranetApps.Api.dll
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExtranetApps.Api.pdb
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.csproj.CoreCompileInputs.cache
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.RazorAssemblyInfo.cache
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.RazorAssemblyInfo.cs
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.AssemblyInfoInputs.cache
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.AssemblyInfo.cs
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.RazorTargetAssemblyInfo.cache
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.dll
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.pdb
+C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.csprojAssemblyReference.cache

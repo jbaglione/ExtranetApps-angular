@@ -8,7 +8,8 @@ export const AppConfig: any = {
     error404: '404'
   },
   endpoints: {
-    pami: 'http://localhost:64997/Api/traslado/'
+    pami: 'http://localhost:64997/Api/traslado/',
+    extranet: 'https://localhost:5001/api/ExtranetApps'
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,
