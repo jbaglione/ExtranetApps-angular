@@ -1,0 +1,41 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+ExtranetApps.Site/dist
+ExtranetApps.Site/tmp
+ExtranetApps.Site/out-tsc
+
+# dependencies
+ExtranetApps.Site/node_modules
+
+# IDEs and editors
+ExtranetApps.Site/.idea
+ExtranetApps.Site/.project
+ExtranetApps.Site/.classpath
+ExtranetApps.Site/.c9/
+ExtranetApps.Site/*.launch
+ExtranetApps.Site/.settings/
+ExtranetApps.Site/*.sublime-workspace
+
+# IDE - VSCode
+ExtranetApps.Site/.vscode/*
+ExtranetApps.Site/!.vscode/settings.json
+ExtranetApps.Site/!.vscode/tasks.json
+ExtranetApps.Site/!.vscode/launch.json
+ExtranetApps.Site/!.vscode/extensions.json
+
+ExtranetApps.Api/.vs
+
+# misc
+ExtranetApps.Site/.sass-cache
+ExtranetApps.Site/connect.lock
+ExtranetApps.Site/coverage
+ExtranetApps.Site/libpeerconnection.log
+ExtranetApps.Site/npm-debug.log
+ExtranetApps.Site/yarn-error.log
+ExtranetApps.Site/testem.log
+ExtranetApps.Site/typings
+
+# System Files
+ExtranetApps.Site/.DS_Store
+ExtranetApps.Site/Thumbs.db

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { map } from 'rxjs/operators';
+import { map , catchError, tap} from 'rxjs/operators';
 import {AppConfig} from '../../configs/app.config';
 
 import {Observable, of, throwError as observableThrowError} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
 import {LoggerService} from '../logger.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Usuario} from '../../models/usuario.model';

@@ -16,7 +16,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 export class HallazgoDetailComponent implements OnInit {
 
   dataL:any;
-  hallazgo:Hallazgo = new Hallazgo();
+  hallazgo:Hallazgo;
   gradoComplejidad:listable;
   date = new FormControl(new Date("2018-07-23T10:46:51.3278575-03:00"));
   usuario = new Usuario();
