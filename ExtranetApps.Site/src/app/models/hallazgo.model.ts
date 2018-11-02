@@ -8,28 +8,28 @@ export class Hallazgo
     fecha: Date | string;
     hora: string;
     titulo: string;
-    motivo: string;
+    motivo: number;
     administrador: string;
     estado: number; //0 = ,1 = pendiente,2 = finalizado
-    ultfecha: Date | string;
-    diasrta: number;
+    ultFecha: Date | string;
+    diasRta: number;
     duracion: number;
     registraciones: Registracion[];
     destinos: Destino[];
     constructor(
         id: number = 0,
-        nro: number = 0,
+        nro: number = 3,
         fecha: Date |string = "",
         hora: string = "",
         titulo: string= "",
-        motivo: string= "",
+        motivo: number= 0,
         administrador: string= "",
         estado: number = 0,
-        ultfecha: Date | string= "",
-        diasrta: number = 0,
+        ultFecha: Date | string= "",
+        diasRta: number = 0,
         duracion: number = 0,
-        registraciones: Registracion[],
-        destinos: Destino[]
+        registraciones:Registracion[]=[new Registracion()],
+        destinos: Destino[]=[new Destino()],
     )
     {
         this.id = id;
@@ -40,8 +40,8 @@ export class Hallazgo
         this.motivo = motivo;
         this.administrador = administrador;
         this.estado = estado;
-        this.ultfecha = ultfecha;
-        this.diasrta = diasrta;
+        this.ultFecha = ultFecha;
+        this.diasRta = diasRta;
         this.duracion = duracion;
         this.registraciones = registraciones;
         this.destinos = destinos;

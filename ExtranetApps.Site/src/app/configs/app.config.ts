@@ -9,7 +9,7 @@ export const AppConfig: any = {
   },
   endpoints: {
     pami: 'http://localhost:64997/Api/traslado/',
-    extranet: 'https://localhost:5001/api/ExtranetApps'
+    extranet: 'https://localhost:5001/api/Hallazgos'
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,

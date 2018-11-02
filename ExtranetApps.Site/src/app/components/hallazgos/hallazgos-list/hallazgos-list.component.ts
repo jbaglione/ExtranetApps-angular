@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import {HallazgosListService, PeriodicElement} from '../../../services/hallazgos/hallazgos.service';
 import { Router } from '@angular/router';
+import { Hallazgo } from 'src/app/models/hallazgo.model';
 
 
 @Component({
@@ -11,27 +12,23 @@ import { Router } from '@angular/router';
 })
 export class ListHallazgosComponent implements OnInit {
 
-  constructor( private _hallazgosListService:HallazgosListService, private _router:Router) {
+  dcHallazgos: string[] = ['nro','fecha','hora','titulo','motivo','administrador','estado','ultFecha','diasRta','duracion'];
+  mtHallazgos = new MatTableDataSource();
 
-    
-  }
 
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  // dataSource = ELEMENT_DATA;
-  dataSource = new MatTableDataSource();//ELEMENT_DATA);
   
-  ngOnInit() {
-    const ELEMENT_DATA: PeriodicElement[] = this._hallazgosListService.getHallazgos();
+  constructor( private _hallazgosListService:HallazgosListService, private _router:Router) {
+    this._hallazgosListService.GetHallazgos().subscribe(data=>{this.mtHallazgos.data = data});
+  }
 
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    this.dataSource.sort = this.sort;
+  ngOnInit() {
+    this.mtHallazgos.sort = this.sort;
   }
 
   verHallazgo(id:number)
   {
     this._router.navigate(['hallazgos/detail', id]);
-    // console.log(id);
   }
 
 }

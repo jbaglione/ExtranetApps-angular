@@ -1,89 +1,160 @@
-<h1>
-    Hallazgo <small> <small><small> <small>{{hallazgo.titulo | uppercase}}</small></small>
-    </small>
-    </small>
-</h1>
-<button mat-raised-button [routerLink]="['/hallazgos']">Volver</button>
-
+<div class="mat-typography">
+    <h1>
+        Hallazgo <small> <small><small> <small>{{hallazgo.titulo | uppercase}}</small></small>
+        </small>
+        </small>
+    </h1>
+</div>
+<div>
+    <button mat-raised-button [routerLink]="['/hallazgos']">Volver</button>
+</div>
+<br />
 <form class="example-form">
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Número" value="{{hallazgo.nro}}" type="number">
-    </mat-form-field>
-    <mat-form-field style="width: 178px;">
-        <input matInput [matDatepicker]="picker3" placeholder="Fecha" [value]="hallazgo.fecha">
-        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-        <mat-datepicker #picker3></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-select placeholder="Motivo ">
-            <mat-option *ngFor="let item of gradoComplejidad " [value]="item.ID ">
-                {{item.Descripcion}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class="example-full-width ">
-        <input matInput placeholder="Titulo " value="{{hallazgo.titulo}} " type="text ">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-select placeholder="Estado ">
-            <mat-option *ngFor="let item of gradoComplejidad " [value]="item.ID ">
-                {{item.Descripcion}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <div id="cabecera">
+        <mat-form-field class="margin-lr5">
+            <input matInput placeholder="Número" value="{{hallazgo.nro}}" type="number">
+        </mat-form-field>
+        <mat-form-field class="margin-lr5" style="width: 178px;">
+            <input matInput [matDatepicker]="picker3" placeholder="Fecha" [value]="hallazgo.fecha">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="margin-lr5">
+            <mat-select placeholder="Motivo" [(value)]=hallazgo.motivo>
+                <mat-option *ngFor="let item of motivos" [value]="item.id ">
+                    {{item.descripcion}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="margin-lr5">
+            <input matInput placeholder="Titulo " value="{{hallazgo.titulo}} " type="text ">
+        </mat-form-field>
+        <mat-form-field class="margin-lr5">
+            <mat-select placeholder="Estado " [(value)]=hallazgo.estado>
+                <mat-option *ngFor="let item of estados" [value]="item.id ">
+                    {{item.descripcion}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <br />
 
-    <table mat-table [dataSource]="hallazgo.registraciones" matSort class="mat-elevation-z8">
-        <!-- id: number;
-            usuario: string;
-            fecha: Date | string;
-            hora: Date | string;
-            clasificacion: number;
-            descripcion: string;
-            adjunto: string; -->
-        <!-- Position Column -->
-        <ng-container matColumnDef="usuario">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 220px !important"> Usuario </th>
-            <td mat-cell *matCellDef="let element">
-                <!-- Mediante routerLink -->
-                <!-- <a [routerLink]="['detail', element.position]">{{element.position}}</a> -->
-                <!-- Mediante Funcion() -->
-                <button mat-icon-button>{{element.usuario}}</button>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-            <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-        </ng-container>
-        <ng-container matColumnDef="hora">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora </th>
-            <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
-        </ng-container>
-        <ng-container matColumnDef="clasificacion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Clasificacion </th>
-            <td mat-cell *matCellDef="let element"> {{element.clasificacion}} </td>
-        </ng-container>
-        <ng-container matColumnDef="descripcion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
-            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
-        </ng-container>
-        <ng-container matColumnDef="adjunto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Adjunto </th>
-            <td mat-cell *matCellDef="let element"> {{element.adjunto}} </td>
-        </ng-container>
+    <div id="leftPanel">
+        <div>
+            <mat-card>
+                <mat-card-header style="background-color: #f5f5f5">
+                    <p>Registraciones</p>
+                </mat-card-header>
+                <!-- <mat-card-subtitle>Registro de actividades del hallazgo</mat-card-subtitle> -->
+                <mat-card-content>
+                    <!-- TABLA Registraciones mat-table -->
+                    <mat-table id="tableR" [dataSource]="mtRegistraciones" matSort class="mat-elevation-z8">
+                        <ng-container matColumnDef="usuario">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Usuario </mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="mat-cell-first">
+                                <span class="mobile-label">Usuario:</span>
+                                <button (click)="verRegistracion(element.clasificacion, element.descripcion)" mat-icon-button class="mat-cell-button">{{element.usuario}}</button>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="fecha">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Fecha
+                            </mat-header-cell>
+                            <mat-cell mat-cell *matCellDef="let element">
+                                <span class="mobile-label">Fecha:</span> {{element.fecha | date: 'dd/MM/yyyy'}}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="hora">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Hora </mat-header-cell>
+                            <mat-cell *matCellDef="let element"><span class="mobile-label">Hora:</span> {{element.hora | date: 'hh:mm'}}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="clasificacion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Clasificacion </mat-header-cell>
+                            <mat-cell *matCellDef="let element"><span class="mobile-label">Clasificacion:</span> {{element.clasificacion}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="descripcion">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="adjunto">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Adjunto </mat-header-cell>
+                            <mat-cell *matCellDef="let element"><span class="mobile-label">Adjunto:</span>{{element.adjunto}}
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="dcRegistraciones"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: dcRegistraciones;"></mat-row>
+                    </mat-table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <br />
+        <div>
+            <mat-card>
+                <mat-card-header style="background-color: #f5f5f5">
+                    <p>Destinos</p>
+                </mat-card-header>
+                <!-- <mat-card-subtitle>Usuarios a los que va dirigido y el permiso que poseen</mat-card-subtitle> -->
+                <mat-card-content>
+                    <!-- TABLA DESTINOS -->
+                    <!-- id: number; usuario: string; finalizacionPermiso: boolean; -->
+                    <mat-table [dataSource]="mtDestinos" matSort class="mat-elevation-z8">
+                        <ng-container matColumnDef="usuario">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header style="width: 220px !important">
+                                Usuario </mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="mat-cell-first">
+                                <span class="mobile-label">Usuario:</span>
+                                <button mat-icon-button class="mat-cell-button">{{element.usuario}}</button>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="finalizacionPermiso">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Finalizacion </mat-header-cell>
+                            <mat-cell mat-cell *matCellDef="let element">
+                                <span class="mobile-label">Finalizacion:</span>
+                                <mat-checkbox [checked]=element.finalizacionPermiso></mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+                        <!-- Checkbox Column -->
+                        <!-- <ng-container matColumnDef="finalizacionPermiso">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Finalizacion
+                            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container> -->
+                        <mat-header-row *matHeaderRowDef="dcDestinos"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: dcDestinos;"></mat-row>
+                    </mat-table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <br />
+    </div>
+    <div id="rightPanel">
+        <mat-card>
+            <!--class="mat-elevation-z8" -->
+            <mat-card-header style="background-color: #f5f5f5">
+                <p style="width: 160px;">Detalle Registracion</p>
 
-        <!-- <button mat-raised-button color="primary"><a [routerLink]="['detail', {{element.position}}]">detail</a></button> -->
-
-        <!-- <ng-container matColumnDef="ver">
-                <th mat-header-cell *matHeaderCellDef> Ver </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary">
-                            <a [routerLink]="['detail', element.position]">detail</a>
-                        </button>
-                </td>
-            </ng-container> -->
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field>
+                    <mat-select style="max-width: 120px;" placeholder="Clasificacion" [(value)]=reg_id>
+                        <mat-option *ngFor="let item of clasificaciones" [value]="item.id ">
+                            {{item.descripcion}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br /> {{reg_descripcion}}
+            </mat-card-content>
+        </mat-card>
+        <br />
+        <br />
+    </div>
 
 </form>

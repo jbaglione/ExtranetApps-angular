@@ -20,7 +20,8 @@ import {
   MatFormFieldModule,
   MatSelectModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatCheckboxModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -47,7 +48,8 @@ import {NgModule} from '@angular/core';
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   exports: [
     MatButtonModule,
@@ -71,7 +73,8 @@ import {NgModule} from '@angular/core';
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
 })
 

@@ -23,6 +23,12 @@ ExtranetApps.Site/!.vscode/settings.json
 ExtranetApps.Site/!.vscode/tasks.json
 ExtranetApps.Site/!.vscode/launch.json
 ExtranetApps.Site/!.vscode/extensions.json
+ExtranetApps.Api/.vscode/*
+ExtranetApps.Api/!.vscode/settings.json
+ExtranetApps.Api/!.vscode/tasks.json
+ExtranetApps.Api/!.vscode/launch.json
+ExtranetApps.Api/!.vscode/extensions.json
+
 
 ExtranetApps.Api/.vs
 

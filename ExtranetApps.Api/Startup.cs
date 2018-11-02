@@ -6,8 +6,11 @@ using ExtranetApps.Api.Models;
 
 namespace ExtranetApps.Api
 {
+    
     public class Startup
     {
+        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ExtranetAppsContext>(opt => 
