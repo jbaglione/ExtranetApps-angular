@@ -1,18 +1,3 @@
-/* .example-full-width {
-    width: 100%; 
-    padding: 25px;
-} */
-
-
-/* table {
-    width: 100%;
-} */
-
-
-/* .example-form {
-    float: left;
-} */
-
 #cabecera {
     float: left;
     width: 100%;
@@ -20,16 +5,12 @@
 
 #leftPanel {
     float: left;
-    /* margin-left: 1%; */
-    /* position: relative; */
 }
 
 #rightPanel {
     float: left;
-    min-width: 40%;
-    max-width: 700px;
-    /* margin-left: 1%; */
-    /* position: relative; */
+    min-width: 65%;
+    max-width: 900px;
 }
 
 .margin-lr5 {
@@ -37,22 +18,22 @@
     margin-right: 5px;
 }
 
+#tableR {
+    min-width: 400px;
+}
+
 .mobile-label {
     display: none;
 }
 
-#tableR {
-    min-width: 600px;
-}
-
 @media(max-width: 600px) {
+    #tableR {
+        min-width: auto !important;
+    }
     .mobile-label {
         width: 85px;
         display: inline-block;
         font-weight: bold;
-    }
-    #tableR {
-        min-width: auto !important;
     }
     .mat-header-row {
         display: none;

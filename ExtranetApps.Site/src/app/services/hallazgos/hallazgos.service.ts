@@ -22,35 +22,10 @@ export class HallazgosListService {
  
 hallazgos:Hallazgo[];
   public getHallazgos(){
-    this.hallazgos = [
-      {id:1,nro:1,fecha:"2018-10-20T00:00:00",hora:"17:33",titulo:"Primer hallazgo prueba",motivo:2,administrador:"Deberia ser un Id Administrador",estado:1,ultfecha:"2018-11-01T17:33:26.3742517-03:00",diasrta:1,duracion:1,registraciones:null,destinos:null}
-        // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-        // {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-        // {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-        // {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-        // {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-        // {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-        // {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-        // {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-        // {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-      ];
+    this.hallazgos = [{id:1,nro:1,fecha:"2018-10-20T00:00:00",hora:"17:33",titulo:"Primer hallazgo prueba",clasificacion:1, motivo:2,administrador:"Deberia ser un Id Administrador",estado:1,ultFecha:"2018-11-01T17:33:26.3742517-03:00",diasRta:1,duracion:1,registraciones:null,destinos:null}];
     return this.hallazgos;
   }
-  // public GetGradosComplejidad(){
-  //   return this.http.get(this.pamiUrl + "GetGradosComplejidad").pipe(map(res=>res.json()));
-  // }
-  // public GetGradosComplejidad(){
-  //   return this.http.get(this.pamiUrl + "GetGradosComplejidad").pipe(map(res=>res.json()));
-  // }
-  // //GetUsuarioValidacion(int id)
-  // public GetUsuarioValidacion(id: string): Observable<Usuario> {
-  //   const url = `${this.pamiUrl + 'GetUsuarioValidacion'}/${id}`;
-  //   return this.httpClient.get<Usuario>(url).pipe(
-  //     tap(() => LoggerService.log(`fetched Usuario id=${id}`)),
-  //     catchError(HallazgosListService.handleError<Usuario>(`getUsuario id=${id}`))
-  //   );
-  // }
-  
+   
   private static handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

@@ -27,6 +27,7 @@ namespace ExtranetApps.Api.Controllers
                     Fecha = DateTime.ParseExact("20/10/2018", "dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Hora = DateTime.Now.ToShortTimeString(),
                     Titulo = "Primer hallazgo prueba",
+                    Clasificacion = 1,
                     Motivo = 2,
                     Administrador = "Deberia ser un Id Administrador",
                     Estado = 1,
@@ -41,7 +42,7 @@ namespace ExtranetApps.Api.Controllers
                             Hora =  DateTime.Now,
                             Clasificacion = 1,
                             Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
-                            Adjunto = "C:\\RutaDeAdjunto"
+                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto","C:\\RutaDeAdjunto_B" }
                         },new Registracion {
                             Id = 2,
                             Usuario = "Usuario Reg 2 (Id?)",
@@ -49,7 +50,7 @@ namespace ExtranetApps.Api.Controllers
                             Hora =  DateTime.Now,
                             Clasificacion = 2,
                             Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
-                            Adjunto = "C:\\RutaDeAdjunto2"
+                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
                         }},
                     Destinos = new List<Destino> {
                         new Destino{
@@ -115,11 +116,34 @@ namespace ExtranetApps.Api.Controllers
                 .Include(h => h.Registraciones)
                 .AsQueryable().Where(x => x.Id == id).FirstOrDefault();
 
+
+
             //var item = _context.HallazgoItems.Find(id);
             if (item == null)
             {
                 return NotFound();
             }
+
+            //FIX error EF Core in save adjuntos
+            item.Registraciones = new List<Registracion> {
+                        new Registracion {
+                            Id = 1,
+                            Usuario = "Usuario Reg 1 (Id?)",
+                            Fecha = DateTime.Now,
+                            Hora =  DateTime.Now,
+                            Clasificacion = 1,
+                            Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
+                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto","C:\\RutaDeAdjunto_B" }
+                        },new Registracion {
+                            Id = 2,
+                            Usuario = "Usuario Reg 2 (Id?)",
+                            Fecha = DateTime.Now,
+                            Hora =  DateTime.Now,
+                            Clasificacion = 2,
+                            Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
+                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
+                        }};
+
             return item;
         }
     }

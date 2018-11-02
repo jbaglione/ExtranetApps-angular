@@ -8,6 +8,7 @@ import {FormControl} from '@angular/forms';
 import { MatTableDataSource, MatSort} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Destino } from 'src/app/models/destino.model';
+import { Registracion } from 'src/app/models/registracion.model';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -23,15 +24,17 @@ export class HallazgoDetailComponent implements OnInit {
   motivos:listable;
   estados:listable;
   clasificaciones:listable;
+
+  //Panel Registraciones detalle:
   reg_descripcion:string;
-  reg_id:number;
+  reg_clasificacion:string;
+  reg_adjuntos: string[];
 
   @ViewChild(MatSort) sort: MatSort;
-  dcRegistraciones: string[] = ['usuario', 'fecha', 'hora', 'adjunto'];//'clasificacion', 'descripcion',
-  dcDestinos: string[] = ['usuario', 'finalizacionPermiso'];
+  dcRegistraciones: string[] = ['usuario', 'fecha', 'hora'];//', 'adjuntos''clasificacion', 'descripcion',
+  // dcDestinos: string[] = ['usuario', 'finalizacionPermiso'];
   mtRegistraciones = new MatTableDataSource();
-  mtDestinos =  new MatTableDataSource();
-
+  // mtDestinos =  new MatTableDataSource();
   // usuario = new Usuario();
   // date = new FormControl(new Date("2018-07-23T10:46:51.3278575-03:00"));
   // test:listable;
@@ -52,6 +55,18 @@ export class HallazgoDetailComponent implements OnInit {
   //   //     this.selection.clear() :
   //   //     this.mtDestinos.data.forEach(row => this.selection.select(row));
   // }
+  //constructor(..
+  // console.log(params);
+  // this._hallazgosListService.getHallazgosV2().subscribe(res=>this.dataL = res);
+  // console.log(this.dataL);
+  // this.hallazgo = this._hallazgosListService.getHallazgo(params['id']);
+  //  this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
+  // this.id = params['id'];
+  // if(this.id !== 'nuevo')
+  // {
+  //   this._hallazgosListService.GetUsuarioValidacion(this.id).subscribe(data=>this.usuario = data);
+  // }
+// this._hallazgosListService.GetHallazgo(this.id).subscribe(data => this.hallazgoS1 = JSON.stringify(data));
   
   constructor(private _activatedRoute:ActivatedRoute, private _hallazgosListService:HallazgosListService) {
     
@@ -61,17 +76,6 @@ export class HallazgoDetailComponent implements OnInit {
       this._hallazgosListService.GetMotivos().subscribe(data=>this.motivos = data);
       this._hallazgosListService.GetEstados().subscribe(data=>this.estados = data);
       this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
-      
-      // console.log(params);
-      // this._hallazgosListService.getHallazgosV2().subscribe(res=>this.dataL = res);
-      // console.log(this.dataL);
-      // this.hallazgo = this._hallazgosListService.getHallazgo(params['id']);
-      //  this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
-      // this.id = params['id'];
-      // if(this.id !== 'nuevo')
-      // {
-      //   this._hallazgosListService.GetUsuarioValidacion(this.id).subscribe(data=>this.usuario = data);
-      // }
 
       if(this.id !== 'nuevo')
       {
@@ -79,9 +83,8 @@ export class HallazgoDetailComponent implements OnInit {
           {
             this.hallazgo = data;
             this.mtRegistraciones.data = data.registraciones;
-            this.mtDestinos.data = data.destinos;
+            // this.mtDestinos.data = data.destinos;
           });
-        // this._hallazgosListService.GetHallazgo(this.id).subscribe(data => this.hallazgoS1 = JSON.stringify(data));
       }
     });
   }
@@ -89,12 +92,26 @@ export class HallazgoDetailComponent implements OnInit {
 
   ngOnInit() {
     this.mtRegistraciones.sort = this.sort;
-    this.mtDestinos.sort = this.sort;
+    // this.mtDestinos.sort = this.sort;
   }
 
-  verRegistracion(clasificacion: number = 0, descripcion: string = "",)
+  verRegistracion(registracion: Registracion)
   {
-    this.reg_descripcion = descripcion;
-    this.reg_id = clasificacion;
+    this.reg_descripcion = registracion.descripcion;
+    this.reg_clasificacion = registracion.clasificacion;
+    this.reg_adjuntos = registracion.adjuntos;
+    // console.log(JSON.stringify(registracion));
+  }
+
+  guardarHallazgo()
+  {
+    debugger;
+    this.hallazgo;
+    console.log(JSON.stringify(this.hallazgo));
+    
+    // this.reg_descripcion = registracion.descripcion;
+    // this.reg_clasificacion = registracion.clasificacion;
+    // this.reg_adjuntos = registracion.adjuntos;
+    // console.log(JSON.stringify(registracion));
   }
 }

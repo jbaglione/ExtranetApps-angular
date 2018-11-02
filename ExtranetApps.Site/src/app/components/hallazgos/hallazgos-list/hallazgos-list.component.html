@@ -1,6 +1,9 @@
 <p>
-    hallazgos-list works!
+    SU LISTA DE HALLAZGOS
 </p>
+<div>
+    <button mat-raised-button (click)="verHallazgo('nuevo')">Nuevo Hallazgo</button>
+</div>
 
 <mat-table [dataSource]="mtHallazgos" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="nro">

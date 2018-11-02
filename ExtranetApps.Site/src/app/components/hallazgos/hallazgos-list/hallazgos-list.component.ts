@@ -26,14 +26,8 @@ export class ListHallazgosComponent implements OnInit {
     this.mtHallazgos.sort = this.sort;
   }
 
-  verHallazgo(id:number)
+  verHallazgo(id:any)
   {
     this._router.navigate(['hallazgos/detail', id]);
   }
-
 }
-
-
-        
-
-

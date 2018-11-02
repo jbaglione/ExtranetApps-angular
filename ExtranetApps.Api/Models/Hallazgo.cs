@@ -10,6 +10,7 @@ namespace ExtranetApps.Api.Models
         public DateTime Fecha { get; set; }
         public string Hora { get; set; }
         public string Titulo { get; set; }
+        public int Clasificacion { get; set; }
         public int Motivo { get; set; }
         public string Administrador { get; set; }
         public short Estado { get; set; } //0 = ,1 = pendiente,2 = Finalizado

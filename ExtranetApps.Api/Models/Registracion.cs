@@ -1,6 +1,7 @@
 using System;
 using  System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtranetApps.Api.Models
 {
@@ -13,7 +14,8 @@ namespace ExtranetApps.Api.Models
         public DateTime Hora { get; set; }
         public short Clasificacion { get; set; }
         public string Descripcion { get; set; }
-        public string Adjunto { get; set; }
+        [NotMapped]
+        public List<string> Adjuntos { get; set; }
         
     }
 }
