@@ -4,8 +4,8 @@
 //   }
 
   export class listable {
-    constructor(    public ID: string,
-                    public Descripcion: string) {
+    constructor(    public id: string,
+                    public descripcion: string) {
     }
   }
   

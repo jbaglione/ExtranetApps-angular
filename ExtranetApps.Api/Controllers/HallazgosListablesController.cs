@@ -5,6 +5,7 @@ using System.Linq;
 using ExtranetApps.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.AspNetCore.Cors;
 
 namespace ExtranetApps.Api.Controllers
 {
@@ -38,17 +39,15 @@ namespace ExtranetApps.Api.Controllers
             }
             if (_context.ClasificacionItems.Count() == 0)
             {
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 1, Descripcion = "Clasificacion 1", });
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 2, Descripcion = "Clasificacion 2", });
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 3, Descripcion = "Clasificacion 3", });
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 4, Descripcion = "Clasificacion 4", });
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 5, Descripcion = "Clasificacion 5", });
+                _context.ClasificacionItems.Add(new Clasificacion { Id = 0, Descripcion = "Bitacoras", });
+                _context.ClasificacionItems.Add(new Clasificacion { Id = 2, Descripcion = "Hallazgos", });
                 _context.SaveChanges();
             }
         }
 
         [Route("GetMotivos")]
         [HttpGet(Name = "GetMotivos")]
+        [DisableCors]
         public ActionResult<List<Motivo>> GetMotivos()
         {
             return _context.MotivoItems.ToList();
@@ -56,6 +55,7 @@ namespace ExtranetApps.Api.Controllers
 
         [Route("GetEstados")]
         [HttpGet(Name = "GetEstados")]
+        [DisableCors]
         public ActionResult<List<Estado>> GetEstados()
         {
             return _context.EstadoItems.ToList();
@@ -63,6 +63,7 @@ namespace ExtranetApps.Api.Controllers
 
         [Route("GetClasificaciones")]
         [HttpGet(Name = "GetClasificaciones")]
+        [DisableCors]
         public ActionResult<List<Clasificacion>> GetClasificaciones()
         {
             return _context.ClasificacionItems.ToList();

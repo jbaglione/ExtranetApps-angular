@@ -9,6 +9,7 @@ import { MatTableDataSource, MatSort} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Destino } from 'src/app/models/destino.model';
 import { Registracion } from 'src/app/models/registracion.model';
+import { getLocaleDateTimeFormat } from '@angular/common';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -27,7 +28,6 @@ export class HallazgoDetailComponent implements OnInit {
 
   //Panel Registraciones detalle:
   reg_descripcion:string;
-  reg_clasificacion:string;
   reg_adjuntos: string[];
 
   @ViewChild(MatSort) sort: MatSort;
@@ -72,7 +72,6 @@ export class HallazgoDetailComponent implements OnInit {
     
     _activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-
       this._hallazgosListService.GetMotivos().subscribe(data=>this.motivos = data);
       this._hallazgosListService.GetEstados().subscribe(data=>this.estados = data);
       this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
@@ -82,6 +81,7 @@ export class HallazgoDetailComponent implements OnInit {
         this._hallazgosListService.GetHallazgo(this.id).subscribe(data =>
           {
             this.hallazgo = data;
+            // this.hallazgo.fecha = new Date('20/10/2018');
             this.mtRegistraciones.data = data.registraciones;
             // this.mtDestinos.data = data.destinos;
           });
@@ -98,17 +98,47 @@ export class HallazgoDetailComponent implements OnInit {
   verRegistracion(registracion: Registracion)
   {
     this.reg_descripcion = registracion.descripcion;
-    this.reg_clasificacion = registracion.clasificacion;
     this.reg_adjuntos = registracion.adjuntos;
     // console.log(JSON.stringify(registracion));
   }
 
+  // guardarHallazgo(newHero: Hero) {
+  //   if (this.newHeroForm.valid) {
+  //     this.heroService.createHero(newHero).subscribe((newHeroWithId) => {
+  //       this.heroes.push(newHeroWithId);
+  //       this.myNgForm.resetForm();
+  //     }, (response: Response) => {
+  //       if (response.status === 500) {
+  //         this.error = 'errorHasOcurred';
+  //       }
+  //     });
+  //   }
+  // }
+nuevaRegistracion()
+{
+  this.hallazgo.registraciones.push(new Registracion);
+  this.mtRegistraciones.data = this.hallazgo.registraciones;
+  console.log(this.hallazgo);
+}
+
   guardarHallazgo()
   {
     debugger;
-    this.hallazgo;
-    console.log(JSON.stringify(this.hallazgo));
+      let indice:number = this.hallazgo.registraciones.length-1;
+      this.hallazgo.registraciones[indice].descripcion = this.reg_descripcion;
+      this.hallazgo.registraciones[indice].adjuntos = this.reg_adjuntos;
+      this.hallazgo.registraciones[indice].hora = new Date().toTimeString().substring(0,5);
+      this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
+      // this.hallazgo.registraciones = null;
     
+      this._hallazgosListService.CreateHallazgo(this.hallazgo).subscribe(() => {
+            // this.hallazgo.push(newHeroWithId);
+            // this.myNgForm.resetForm();
+          }, (response: Response) => {
+            if (response.status === 500) {
+              console.log('errorHasOcurred');
+            }
+          });
     // this.reg_descripcion = registracion.descripcion;
     // this.reg_clasificacion = registracion.clasificacion;
     // this.reg_adjuntos = registracion.adjuntos;

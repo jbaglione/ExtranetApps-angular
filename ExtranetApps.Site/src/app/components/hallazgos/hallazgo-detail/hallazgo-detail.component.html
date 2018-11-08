@@ -12,33 +12,48 @@
 <br />
 <form class="example-form">
     <div id="cabecera">
-        <mat-form-field class="margin-lr5">
-            <input matInput placeholder="Número" value="{{hallazgo.nro}}" type="number" [disabled]="true">
+
+        <mat-form-field class="margin-lr5" [hidden]="id=='nuevo'">
+            <input matInput placeholder="Número" [(value)]=hallazgo.nro type="number" [disabled]="true">
         </mat-form-field>
         <mat-form-field class="margin-lr5" style="width: 178px;">
-            <input matInput [matDatepicker]="picker3" placeholder="Fecha" [value]="hallazgo.fecha" [disabled]="id!=='nuevo'">
+            <input matInput [matDatepicker]="picker3" placeholder="Fecha" name="dpFecha" [(ngModel)]=hallazgo.fecha [disabled]="id!=='nuevo'">
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="margin-lr5">
-            <mat-select placeholder="Clasificacion" [(value)]=hallazgo.clasificacion [disabled]="id!=='nuevo'">
+            <mat-select placeholder="Clasificacion" #clasificacionSelect required [(value)]=hallazgo.clasificacion.id [disabled]="id!=='nuevo'">
                 <mat-option *ngFor="let item of clasificaciones" [value]="item.id ">
                     {{item.descripcion}}
                 </mat-option>
             </mat-select>
+
+
+            <!-- <mat-form-field>
+                <mat-select placeholder="Fruits" #fruitSelect required [formControl]="fruit">
+                    <mat-option *ngFor="let f of fruits" [value]="f">
+                    {{f}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="fruitSelect.errorState && fruit.hasError('required')">
+                    <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        -->
+
         </mat-form-field>
         <mat-form-field class="margin-lr5">
-            <mat-select placeholder="Motivo" [(value)]=hallazgo.motivo [disabled]="id!=='nuevo'">
+            <mat-select placeholder="Motivo" [(value)]=hallazgo.motivo.id [disabled]="id!=='nuevo'">
                 <mat-option *ngFor="let item of motivos" [value]="item.id ">
                     {{item.descripcion}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="margin-lr5">
-            <input matInput placeholder="Titulo " type="text" [(ngModel)]=hallazgo.titulo [disabled]="id!=='nuevo'">
+            <input matInput placeholder="Titulo " type="text" name="txtTitulo" [(ngModel)]=hallazgo.titulo [disabled]="id!=='nuevo'">
         </mat-form-field>
         <mat-form-field class="margin-lr5">
-            <mat-select placeholder="Estado " [(value)]=hallazgo.estado [disabled]="id!=='nuevo'">
+            <mat-select placeholder="Estado " [(value)]=hallazgo.estado.id [disabled]="id!=='nuevo'">
                 <mat-option *ngFor="let item of estados" [value]="item.id ">
                     {{item.descripcion}}
                 </mat-option>
@@ -47,10 +62,13 @@
     </div>
     <br />
     <div>
-        <div id="leftPanel">
+        <div id="leftPanel" [hidden]="id=='nuevo'">
             <div>
                 <mat-card>
                     <mat-card-header style="background-color: #f5f5f5">
+                        <button mat-icon-button>
+                                    <mat-icon class="icon-center" style="margin-right: 5px;" (click)="nuevaRegistracion()">add_circle</mat-icon>
+                            </button>
                         <p>Registraciones</p>
                     </mat-card-header>
                     <!-- <mat-card-subtitle>Registro de actividades del hallazgo</mat-card-subtitle> -->
@@ -75,12 +93,9 @@
                             </ng-container>
                             <ng-container matColumnDef="hora">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Hora </mat-header-cell>
-                                <mat-cell *matCellDef="let element"><span class="mobile-label">Hora:</span> {{element.hora | date: 'hh:mm'}}
+                                <mat-cell *matCellDef="let element"><span class="mobile-label">Hora:</span> {{element.hora.substring(0,5)}}
+                                    <!-- | date: 'hh:mm' -->
                                 </mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="clasificacion">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Clasificacion </mat-header-cell>
-                                <mat-cell *matCellDef="let element"><span class="mobile-label">Clasificacion:</span> {{element.clasificacion}} </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="descripcion">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
@@ -133,12 +148,7 @@
 
                 </mat-card-header>
                 <mat-card-content>
-                    <!-- <mat-form-field class="margin-lr5">
-                    <input matInput placeholder="Clasificacion " value="{{reg_clasificacion}} " type="text ">
-                </mat-form-field> -->
-                    <!-- <mat-form-field class="example-full-width"> -->
-                    <textarea matInput placeholder="Descripcion" [value]="reg_descripcion"></textarea>
-                    <!-- </mat-form-field> -->
+                    <textarea matInput placeholder="Descripcion" [(ngModel)]="reg_descripcion" name="taDescripcion"></textarea>
                     <br />
                     <mat-divider></mat-divider>
                     <mat-list>

@@ -20,6 +20,7 @@ export class ListHallazgosComponent implements OnInit {
   
   constructor( private _hallazgosListService:HallazgosListService, private _router:Router) {
     this._hallazgosListService.GetHallazgos().subscribe(data=>{this.mtHallazgos.data = data});
+    console.log(this.mtHallazgos.data);
   }
 
   ngOnInit() {
@@ -28,6 +29,7 @@ export class ListHallazgosComponent implements OnInit {
 
   verHallazgo(id:any)
   {
+    console.log(this.mtHallazgos.data);
     this._router.navigate(['hallazgos/detail', id]);
   }
 }

@@ -4,14 +4,14 @@
 <div>
     <button mat-raised-button (click)="verHallazgo('nuevo')">Nuevo Hallazgo</button>
 </div>
-
+<br />
 <mat-table [dataSource]="mtHallazgos" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="nro">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
             Nro. </mat-header-cell>
         <mat-cell *matCellDef="let element" class="mat-cell-first">
             <span class="mobile-label">Nro.:</span>
-            <button (click)="verHallazgo(element.nro)" mat-icon-button class="mat-cell-button">{{element.nro}}</button>
+            <button (click)="verHallazgo(element.id)" mat-icon-button class="mat-cell-button">{{element.nro}}</button>
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="fecha">
@@ -19,7 +19,8 @@
             Fecha
         </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element">
-            <span class="mobile-label">Fecha:</span>{{element.fecha | date: 'dd/MM/yyyy'}}
+            <span class="mobile-label">Fecha:</span>{{element.fecha}}
+            <!-- | date: 'dd/MM/yyyy'}} -->
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="hora">
@@ -38,7 +39,7 @@
     <ng-container matColumnDef="motivo">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Motivo</mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span class="mobile-label">Motivo:</span> {{element.motivo}}
+            <span class="mobile-label">Motivo:</span> {{element.motivo.descripcion}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="administrador">
@@ -50,7 +51,7 @@
     <ng-container matColumnDef="estado">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span class="mobile-label">Estado:</span> {{element.estado}}
+            <span class="mobile-label">Estado:</span> {{element.estado.descripcion}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="ultFecha">
@@ -78,6 +79,7 @@
     <mat-header-row *matHeaderRowDef="dcHallazgos"></mat-header-row>
     <mat-row *matRowDef="let row; columns: dcHallazgos;"></mat-row>
 </mat-table>
+<br />
 
 
 

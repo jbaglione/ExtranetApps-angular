@@ -26,6 +26,10 @@
     display: none;
 }
 
+[hidden] {
+    display: none;
+}
+
 @media(max-width: 600px) {
     #tableR {
         min-width: auto !important;

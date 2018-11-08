@@ -13,6 +13,6 @@ export const AppConfig: any = {
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,
-  // snackBarDuration: 3000,
+  snackBarDuration: 3000,
   // repositoryURL: 'https://github.com/ismaestro/angular6-example-app'
 };
