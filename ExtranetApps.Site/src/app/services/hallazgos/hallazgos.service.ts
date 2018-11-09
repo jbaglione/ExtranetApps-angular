@@ -23,7 +23,7 @@ export class HallazgosListService {
 
   hallazgos: Hallazgo[];
   public getHallazgos() {
-    this.hallazgos = [{ id: 1, nro: 1, fecha: "2018-10-20T00:00:00", hora: "17:33", titulo: "Primer hallazgo prueba", clasificacion:new listable("1","Mock clasificacion") , motivo:new listable("1","Mock motivo"), administrador: "Deberia ser un Id Administrador", estado:new listable("1","Mock estado"), ultFecha: "2018-11-01T17:33:26.3742517-03:00", diasRta: 1, duracion: 1, registraciones: null }];// , destinos: null
+    this.hallazgos = [{ id: 1, nro: 1, fecha: "2018-10-20T00:00:00", hora: "17:33", titulo: "Primer hallazgo prueba", motivo:new listable("1","Mock motivo"), administrador: "Deberia ser un Id Administrador", estado:new listable("1","Mock estado"), ultFecha: "2018-11-01T17:33:26.3742517-03:00", diasRta: 1, duracion: 1, registraciones: null }];// , destinos: null
     return this.hallazgos;
   }
 
@@ -72,13 +72,6 @@ export class HallazgosListService {
     return this.httpClient.get<listable>(url).pipe(
       tap(() => LoggerService.log("fetched GetEstados")),
       catchError(HallazgosListService.handleError<listable>("GetEstados"))
-    );
-  }
-  public GetClasificaciones(): Observable<listable> {
-    const url = `${this.extranetUrl}Listables/GetClasificaciones`;
-    return this.httpClient.get<listable>(url).pipe(
-      tap(() => LoggerService.log("fetched GetClasificaciones")),
-      catchError(HallazgosListService.handleError<listable>("GetClasificaciones"))
     );
   }
 

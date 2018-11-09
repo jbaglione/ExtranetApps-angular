@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http'; 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { moduleOrComponent } from 'path';
 
 import { AppComponent } from './app.component';
@@ -42,7 +42,8 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
     HttpClientModule,
     APP_ROUTING,
     SharedModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     HallazgosListService

@@ -9,7 +9,6 @@ export class Hallazgo {
     fecha: Date | string;
     hora: string;
     titulo: string;
-    clasificacion: listable;
     motivo: listable;
     administrador: string;
     estado: listable; //0 = ,1 = pendiente,2 = finalizado
@@ -24,7 +23,6 @@ export class Hallazgo {
         fecha: Date | string = new Date(),
         hora: string = "",
         titulo: string = "",
-        clasificacion:listable = new listable("", ""),
         motivo:listable = new listable("", ""),
         administrador: string = "",
         estado:listable = new listable("", ""),
@@ -39,9 +37,6 @@ export class Hallazgo {
         this.fecha = fecha;
         this.hora = hora;
         this.titulo = titulo;
-        this.clasificacion = clasificacion;
-        this.clasificacion = clasificacion;
-        console.log(this.clasificacion);
         this.motivo = motivo;
         this.administrador = administrador;
         this.estado = estado;

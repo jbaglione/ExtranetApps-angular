@@ -12,10 +12,8 @@ namespace ExtranetApps.Api.Models
         public string Usuario { get; set; }
         public DateTime Fecha { get; set; }
         public string Hora { get; set; }
-        //public string Clasificacion { get; set; } //Borrrar, no hace falta que lo maneje el usuario comun.
         public string Descripcion { get; set; }
         [NotMapped]
         public List<string> Adjuntos { get; set; }
-        
     }
 }

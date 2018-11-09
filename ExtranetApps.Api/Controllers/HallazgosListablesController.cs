@@ -37,12 +37,6 @@ namespace ExtranetApps.Api.Controllers
                 _context.EstadoItems.Add(new Estado { Id = 5, Descripcion = "Estado 5", });
                 _context.SaveChanges();
             }
-            if (_context.ClasificacionItems.Count() == 0)
-            {
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 0, Descripcion = "Bitacoras", });
-                _context.ClasificacionItems.Add(new Clasificacion { Id = 2, Descripcion = "Hallazgos", });
-                _context.SaveChanges();
-            }
         }
 
         [Route("GetMotivos")]
@@ -61,12 +55,5 @@ namespace ExtranetApps.Api.Controllers
             return _context.EstadoItems.ToList();
         }
 
-        [Route("GetClasificaciones")]
-        [HttpGet(Name = "GetClasificaciones")]
-        [DisableCors]
-        public ActionResult<List<Clasificacion>> GetClasificaciones()
-        {
-            return _context.ClasificacionItems.ToList();
-        }
     }
 }

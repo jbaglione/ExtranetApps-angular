@@ -15,6 +15,5 @@ namespace ExtranetApps.Api.Models
 
         public DbSet<Motivo> MotivoItems { get; set; }
         public DbSet<Estado> EstadoItems { get; set; }
-        public DbSet<Clasificacion> ClasificacionItems { get; set; }
     }
 }

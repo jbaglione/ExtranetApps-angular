@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HallazgosListService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
 import { listable } from '../../../models/listable.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
-import {FormControl} from '@angular/forms';
-import { MatTableDataSource, MatSort} from '@angular/material';
-import {SelectionModel} from '@angular/cdk/collections';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Destino } from 'src/app/models/destino.model';
 import { Registracion } from 'src/app/models/registracion.model';
 import { getLocaleDateTimeFormat } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -17,74 +17,54 @@ import { getLocaleDateTimeFormat } from '@angular/common';
   styleUrls: ['./hallazgo-detail.component.css']
 })
 
-
 export class HallazgoDetailComponent implements OnInit {
-  id:string;
+  id: string;
 
-  hallazgo:Hallazgo = new Hallazgo();
-  motivos:listable;
-  estados:listable;
-  clasificaciones:listable;
-
-  //Panel Registraciones detalle:
-  reg_descripcion:string;
-  reg_adjuntos: string[];
+  hallazgo: Hallazgo = new Hallazgo();
+  motivos: listable;
+  estados: listable;
 
   @ViewChild(MatSort) sort: MatSort;
-  dcRegistraciones: string[] = ['usuario', 'fecha', 'hora'];//', 'adjuntos''clasificacion', 'descripcion',
-  // dcDestinos: string[] = ['usuario', 'finalizacionPermiso'];
+  @ViewChild('ta_reg_descripcion') ta_reg_descripcion: ElementRef;
+  dcRegistraciones: string[] = ['usuario', 'fecha', 'hora'];//', 'adjuntos', 'descripcion',
   mtRegistraciones = new MatTableDataSource();
-  // mtDestinos =  new MatTableDataSource();
-  // usuario = new Usuario();
-  // date = new FormControl(new Date("2018-07-23T10:46:51.3278575-03:00"));
-  // test:listable;
-  // hallazgoS1:string;
-  // hallazgoS2:string;
-  // hallazgoS3:string;
-  // selection = new SelectionModel<Destino>(true, []);
-  // /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.mtDestinos.data.length;
-  //   return numSelected === numRows;
-  // }
-  // /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-  //   this.selection.clear();
-  //   // this.isAllSelected() ?
-  //   //     this.selection.clear() :
-  //   //     this.mtDestinos.data.forEach(row => this.selection.select(row));
-  // }
-  //constructor(..
-  // console.log(params);
-  // this._hallazgosListService.getHallazgosV2().subscribe(res=>this.dataL = res);
-  // console.log(this.dataL);
-  // this.hallazgo = this._hallazgosListService.getHallazgo(params['id']);
-  //  this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
-  // this.id = params['id'];
-  // if(this.id !== 'nuevo')
-  // {
-  //   this._hallazgosListService.GetUsuarioValidacion(this.id).subscribe(data=>this.usuario = data);
-  // }
-// this._hallazgosListService.GetHallazgo(this.id).subscribe(data => this.hallazgoS1 = JSON.stringify(data));
-  
-  constructor(private _activatedRoute:ActivatedRoute, private _hallazgosListService:HallazgosListService) {
-    
+
+  hallazgoForm: FormGroup;
+
+  constructor(private _activatedRoute: ActivatedRoute, private _hallazgosListService: HallazgosListService) {
+
     _activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this._hallazgosListService.GetMotivos().subscribe(data=>this.motivos = data);
-      this._hallazgosListService.GetEstados().subscribe(data=>this.estados = data);
-      this._hallazgosListService.GetClasificaciones().subscribe(data=>this.clasificaciones = data);
+      this._hallazgosListService.GetMotivos().subscribe(data => this.motivos = data);
+      this._hallazgosListService.GetEstados().subscribe(data => this.estados = data);
 
-      if(this.id !== 'nuevo')
-      {
-        this._hallazgosListService.GetHallazgo(this.id).subscribe(data =>
-          {
-            this.hallazgo = data;
-            // this.hallazgo.fecha = new Date('20/10/2018');
-            this.mtRegistraciones.data = data.registraciones;
-            // this.mtDestinos.data = data.destinos;
+      //Creo el formulario con ReactiveForm
+      this.hallazgoForm = new FormGroup({
+        'numero': new FormControl({ value: '0', disabled: this.id !== 'nuevo' }, [Validators.required]),
+        'fecha': new FormControl({ value: new Date(), disabled: this.id !== 'nuevo' }, [Validators.required]),
+        'motivo': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
+        'titulo': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
+        'estado': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
+
+        //Panel Registraciones detalle:
+        'reg_descripcion': new FormControl('', [Validators.required]),
+        'reg_adjuntos': new FormControl(),
+      })
+
+      if (this.id !== 'nuevo') {
+        this._hallazgosListService.GetHallazgo(this.id).subscribe(data => {
+          this.hallazgo = data;
+          this.mtRegistraciones.data = data.registraciones;
+
+          //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
+          this.hallazgoForm.patchValue({
+            numero: this.hallazgo.nro,
+            titulo: this.hallazgo.titulo,
+            fecha: this.hallazgo.fecha,
+            motivo: this.hallazgo.motivo.id,
+            estado: this.hallazgo.estado.id
           });
+        });
       }
     });
   }
@@ -95,10 +75,18 @@ export class HallazgoDetailComponent implements OnInit {
     // this.mtDestinos.sort = this.sort;
   }
 
-  verRegistracion(registracion: Registracion)
-  {
-    this.reg_descripcion = registracion.descripcion;
-    this.reg_adjuntos = registracion.adjuntos;
+  verRegistracion(registracion: Registracion) {
+
+    // if(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].descripcion =='')
+     if(registracion.id != 0 && this.hallazgoForm.controls.reg_descripcion.value == ''
+     && this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].id == 0)
+     
+       this.ta_reg_descripcion.nativeElement.focus();
+     else
+      this.hallazgoForm.patchValue({
+        reg_descripcion: registracion.descripcion,
+        reg_adjuntos: registracion.adjuntos
+      });
     // console.log(JSON.stringify(registracion));
   }
 
@@ -114,34 +102,41 @@ export class HallazgoDetailComponent implements OnInit {
   //     });
   //   }
   // }
-nuevaRegistracion()
-{
-  this.hallazgo.registraciones.push(new Registracion);
-  this.mtRegistraciones.data = this.hallazgo.registraciones;
-  console.log(this.hallazgo);
-}
+  nuevaRegistracion() {
+    this.hallazgo.registraciones.push(new Registracion);
+    this.mtRegistraciones.data = this.hallazgo.registraciones;
+    this.verRegistracion(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1]);
+    this.ta_reg_descripcion.nativeElement.focus();
+    console.log(this.hallazgo);
+  }
+  CheckForm() {
+    console.log(this.hallazgoForm.value);
+  }
 
-  guardarHallazgo()
-  {
+
+  guardarHallazgo() {
     debugger;
-      let indice:number = this.hallazgo.registraciones.length-1;
-      this.hallazgo.registraciones[indice].descripcion = this.reg_descripcion;
-      this.hallazgo.registraciones[indice].adjuntos = this.reg_adjuntos;
-      this.hallazgo.registraciones[indice].hora = new Date().toTimeString().substring(0,5);
+    console.log(this.hallazgoForm.value);
+    if (this.hallazgoForm.valid) {
+
+      let indice: number = this.hallazgo.registraciones.length - 1;
+      this.hallazgo.registraciones[indice].descripcion = this.hallazgoForm.controls.reg_descripcion.value;
+      this.hallazgo.registraciones[indice].adjuntos = this.hallazgoForm.controls.reg_adjuntos.value;
+      this.hallazgo.registraciones[indice].hora = new Date().toTimeString().substring(0, 5);
       this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
       // this.hallazgo.registraciones = null;
-    
+
       this._hallazgosListService.CreateHallazgo(this.hallazgo).subscribe(() => {
-            // this.hallazgo.push(newHeroWithId);
-            // this.myNgForm.resetForm();
-          }, (response: Response) => {
-            if (response.status === 500) {
-              console.log('errorHasOcurred');
-            }
-          });
-    // this.reg_descripcion = registracion.descripcion;
-    // this.reg_clasificacion = registracion.clasificacion;
-    // this.reg_adjuntos = registracion.adjuntos;
-    // console.log(JSON.stringify(registracion));
+        // this.hallazgo.push(newHeroWithId);
+        // this.myNgForm.resetForm();
+      }, (response: Response) => {
+        if (response.status === 500) {
+          console.log('errorHasOcurred');
+        }
+      });
+      // this.reg_descripcion = registracion.descripcion;
+      // this.reg_adjuntos = registracion.adjuntos;
+      // console.log(JSON.stringify(registracion));
+    }
   }
 }

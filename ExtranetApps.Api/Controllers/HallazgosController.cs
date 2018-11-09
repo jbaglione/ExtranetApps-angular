@@ -33,8 +33,6 @@ namespace ExtranetApps.Api.Controllers
                         Id = 1,
                         Nro = 1,
                         Fecha = DateTime.ParseExact("20/10/2018", "dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        //"20/10/2018",//
-                        Clasificacion = _context.ClasificacionItems.Select(x => x.Id == 2) as Clasificacion,
                         Hora = DateTime.Now.ToShortTimeString(),
                         Titulo = "Primer hallazgo prueba",
                         Administrador = "Deberia ser un Id Administrador",
@@ -61,29 +59,6 @@ namespace ExtranetApps.Api.Controllers
                     _context.SaveChanges();
                 }
 
-                //DataRow dr = CreateFakeDataTable();
-                //var item = _context.HallazgoItems.FirstOrDefault();
-                //item.Clasificacion = new Clasificacion(dr, "ClasificacionID", "ClasificacionDesc");
-                //item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
-                //item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
-                //item.Registraciones = new List<Registracion> {
-                //        new Registracion {
-                //            Id = 1,
-                //            Usuario = "Usuario Reg 1 (Id?)",
-                //            Fecha = DateTime.Now,
-                //            Hora =  DateTime.Now.ToShortTimeString(),
-                //            Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
-                //            Adjuntos = new List<string>{"C:\\RutaDeAdjunto","C:\\RutaDeAdjunto_B" }
-                //        },new Registracion {
-                //            Id = 2,
-                //            Usuario = "Usuario Reg 2 (Id?)",
-                //            Fecha = DateTime.Now,
-                //            Hora =  DateTime.Now.ToShortTimeString(),
-                //            Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
-                //            Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
-                //        }};
-
-
                 _context.SaveChanges();
             }
             catch (Exception)
@@ -98,9 +73,6 @@ namespace ExtranetApps.Api.Controllers
         {
             DataTable usersTable = new DataTable();
 
-            usersTable.Columns.Add("ClasificacionID");
-            usersTable.Columns.Add("ClasificacionDesc");
-
             usersTable.Columns.Add("MotivoID");
             usersTable.Columns.Add("MotivoDesc");
 
@@ -109,16 +81,11 @@ namespace ExtranetApps.Api.Controllers
 
             DataRow userRow = usersTable.NewRow();
 
-            //userRow["ClasificacionID"] = 2;
-            userRow["ClasificacionDesc"] = "Hallazgos";
-
             userRow["MotivoID"] = 2;
             userRow["MotivoDesc"] = "Motivo 2";
 
             userRow["EstadoID"] = "4";
             userRow["EstadoDesc"] = "Estado 4";
-
-            //usersTable.Rows.Add(userRow);
 
             return userRow;
         }
@@ -133,10 +100,8 @@ namespace ExtranetApps.Api.Controllers
             lstHallazgos = _context.HallazgoItems.ToList();
 
             DataRow dr = CreateFakeDataTable();
-            item.Clasificacion = new Clasificacion(dr, "ClasificacionID", "ClasificacionDesc");
             item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
             item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
-            //item.Registraciones = new List<Registracion>
             
             return lstHallazgos;
         }
@@ -215,8 +180,6 @@ namespace ExtranetApps.Api.Controllers
                             Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
                         }};
                 DataRow dr = CreateFakeDataTable();
-                dr["ClasificacionID"] = 2;
-                item.Clasificacion = new Clasificacion(dr, "ClasificacionID", "ClasificacionDesc");
                 item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
                 item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
             }
