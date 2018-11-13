@@ -39,7 +39,7 @@
     <ng-container matColumnDef="motivo">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Motivo</mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span class="mobile-label">Motivo:</span> {{element.motivo.descripcion}}
+            <span class="mobile-label">Motivo:</span> {{element.motivo == null?'':element.motivo.descripcion}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="administrador">
@@ -51,7 +51,7 @@
     <ng-container matColumnDef="estado">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span class="mobile-label">Estado:</span> {{element.estado.descripcion}}
+            <span class="mobile-label">Estado:</span> {{element.estado == null?'': element.estado.descripcion}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="ultFecha">

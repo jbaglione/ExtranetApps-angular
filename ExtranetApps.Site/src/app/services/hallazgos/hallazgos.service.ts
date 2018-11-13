@@ -51,7 +51,7 @@ export class HallazgosListService {
     );
   }
 
-  public GetHallazgo(id: string): Observable<Hallazgo> {
+  public GetHallazgo(id: number): Observable<Hallazgo> {
     const url = `${this.extranetUrl}/${id}`;
     return this.httpClient.get<Hallazgo>(url).pipe(
       tap(() => LoggerService.log(`fetched Hallazgo id=${id}`)),
@@ -90,7 +90,7 @@ export class HallazgosListService {
   }
 
 
-  showSnackBar(name): void {
+  public showSnackBar(name): void {
       const config: any = new MatSnackBarConfig();
       config.duration = AppConfig.snackBarDuration;
       this.snackBar.open(name, 'OK', config);

@@ -4,12 +4,15 @@ import { HallazgosListService, PeriodicElement } from '../../../services/hallazg
 import { listable } from '../../../models/listable.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatDialog} from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Destino } from 'src/app/models/destino.model';
 import { Registracion } from 'src/app/models/registracion.model';
 import { getLocaleDateTimeFormat } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {DialogComponent} from '../../shared/dialog/dialog.component'
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -18,7 +21,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 
 export class HallazgoDetailComponent implements OnInit {
-  id: string;
+  idRegistracionSeleccionada: number = 0;
 
   hallazgo: Hallazgo = new Hallazgo();
   motivos: listable;
@@ -30,78 +33,108 @@ export class HallazgoDetailComponent implements OnInit {
   mtRegistraciones = new MatTableDataSource();
 
   hallazgoForm: FormGroup;
+  
+  resultDialog: boolean;
 
-  constructor(private _activatedRoute: ActivatedRoute, private _hallazgosListService: HallazgosListService) {
-
+  constructor(private _activatedRoute: ActivatedRoute,
+    private _hallazgosListService: HallazgosListService,
+    public dialog: MatDialog,
+    private _router:Router) {
     _activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
+      this.hallazgo.id = params['id'] == 'nuevo' ? 0 : parseFloat(params['id']);
       this._hallazgosListService.GetMotivos().subscribe(data => this.motivos = data);
       this._hallazgosListService.GetEstados().subscribe(data => this.estados = data);
 
       //Creo el formulario con ReactiveForm
       this.hallazgoForm = new FormGroup({
-        'numero': new FormControl({ value: '0', disabled: this.id !== 'nuevo' }, [Validators.required]),
-        'fecha': new FormControl({ value: new Date(), disabled: this.id !== 'nuevo' }, [Validators.required]),
-        'motivo': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
-        'titulo': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
-        'estado': new FormControl({ value: '', disabled: this.id !== 'nuevo' }, [Validators.required]),
+        // 'id': new FormControl({ value: '0', }, [Validators.required]),
+        'numero': new FormControl({ value: '0', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
+        'fecha': new FormControl({ value: new Date(), disabled: this.hallazgo.id !== 0 }, [Validators.required]),
+        'motivo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
+        'titulo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
+        'estado': new FormControl({ value: '1', disabled: true }, [Validators.required]),
 
         //Panel Registraciones detalle:
         'reg_descripcion': new FormControl('', [Validators.required]),
         'reg_adjuntos': new FormControl(),
       })
 
-      if (this.id !== 'nuevo') {
-        this._hallazgosListService.GetHallazgo(this.id).subscribe(data => {
+      if (this.hallazgo.id !== 0) {
+        this._hallazgosListService.GetHallazgo(this.hallazgo.id).subscribe(data => {
           this.hallazgo = data;
-          this.mtRegistraciones.data = data.registraciones;
-
-          //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
-          this.hallazgoForm.patchValue({
-            numero: this.hallazgo.nro,
-            titulo: this.hallazgo.titulo,
-            fecha: this.hallazgo.fecha,
-            motivo: this.hallazgo.motivo.id,
-            estado: this.hallazgo.estado.id
-          });
+          this.loadHallazgo();
         });
       }
     });
   }
 
+  loadHallazgo(){
+    if (this.hallazgo.motivo == null || this.hallazgo.estado == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
+      this.resultDialog = false;
+      this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
+      //TODO: arreglar dialogo navegacion.
+      //this._hallazgosListService.showSnackBar('Error en los datos');
+    }
+      
+    if(this.hallazgo.registraciones == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
+      this.hallazgo.registraciones.push(new Registracion());
+      this.mtRegistraciones.data = this.hallazgo.registraciones;
+    }
+    else
+      this.mtRegistraciones.data = this.hallazgo.registraciones;
+   
+    //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
+    this.hallazgoForm.patchValue({
+      // id: this.hallazgo.id,
+      numero: this.hallazgo.nro,
+      titulo: this.hallazgo.titulo,
+      fecha: this.hallazgo.fecha,
+      motivo: this.hallazgo.motivo == null ? new listable("1", "") : this.hallazgo.motivo.id,
+      estado: this.hallazgo.estado == null ? new listable("1", "") : this.hallazgo.estado.id,
+    });
+  }
 
+  openDialog(pTitle:string, pContent:string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {title: pTitle, content: pContent}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.resultDialog = result;
+      //TODO: arreglar dialogo navegacion.
+      if(!this.resultDialog){
+        this._router.navigate(['/hallazgos']);
+      }
+      console.log(this.resultDialog);
+    });
+  }
   ngOnInit() {
     this.mtRegistraciones.sort = this.sort;
     // this.mtDestinos.sort = this.sort;
   }
 
   verRegistracion(registracion: Registracion) {
-
+    
     // if(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].descripcion =='')
-     if(registracion.id != 0 && this.hallazgoForm.controls.reg_descripcion.value == ''
-     && this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].id == 0)
-     
-       this.ta_reg_descripcion.nativeElement.focus();
-     else
+    if (registracion.id != 0 && this.hallazgoForm.controls.reg_descripcion.value == ''
+      && this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].id == 0)
+
+      this.ta_reg_descripcion.nativeElement.focus();
+    else {
       this.hallazgoForm.patchValue({
         reg_descripcion: registracion.descripcion,
-        reg_adjuntos: registracion.adjuntos
+        reg_adjuntos: registracion.adjuntos,
       });
+      this.idRegistracionSeleccionada = registracion.id;
+      console.log(registracion);
+      console.log(this.idRegistracionSeleccionada);
+    }
+
     // console.log(JSON.stringify(registracion));
   }
 
-  // guardarHallazgo(newHero: Hero) {
-  //   if (this.newHeroForm.valid) {
-  //     this.heroService.createHero(newHero).subscribe((newHeroWithId) => {
-  //       this.heroes.push(newHeroWithId);
-  //       this.myNgForm.resetForm();
-  //     }, (response: Response) => {
-  //       if (response.status === 500) {
-  //         this.error = 'errorHasOcurred';
-  //       }
-  //     });
-  //   }
-  // }
   nuevaRegistracion() {
     this.hallazgo.registraciones.push(new Registracion);
     this.mtRegistraciones.data = this.hallazgo.registraciones;
@@ -115,20 +148,27 @@ export class HallazgoDetailComponent implements OnInit {
 
 
   guardarHallazgo() {
-    debugger;
     console.log(this.hallazgoForm.value);
     if (this.hallazgoForm.valid) {
 
       let indice: number = this.hallazgo.registraciones.length - 1;
+
+      // this.hallazgo.nro = this.hallazgoForm.controls.nro.value;
+      this.hallazgo.titulo = this.hallazgoForm.controls.titulo.value;
+      this.hallazgo.fecha = this.hallazgoForm.controls.fecha.value;
+      this.hallazgo.motivo = new listable(this.hallazgoForm.controls.motivo.value, "");
+      this.hallazgo.estado = new listable(this.hallazgoForm.controls.estado.value, "");
+
       this.hallazgo.registraciones[indice].descripcion = this.hallazgoForm.controls.reg_descripcion.value;
       this.hallazgo.registraciones[indice].adjuntos = this.hallazgoForm.controls.reg_adjuntos.value;
       this.hallazgo.registraciones[indice].hora = new Date().toTimeString().substring(0, 5);
       this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
       // this.hallazgo.registraciones = null;
 
-      this._hallazgosListService.CreateHallazgo(this.hallazgo).subscribe(() => {
-        // this.hallazgo.push(newHeroWithId);
-        // this.myNgForm.resetForm();
+      this._hallazgosListService.CreateHallazgo(this.hallazgo).subscribe((newHallazgo) => {
+        console.log(JSON.stringify(newHallazgo));
+        this.hallazgo = newHallazgo as Hallazgo;
+        this.loadHallazgo();
       }, (response: Response) => {
         if (response.status === 500) {
           console.log('errorHasOcurred');
@@ -140,3 +180,6 @@ export class HallazgoDetailComponent implements OnInit {
     }
   }
 }
+
+
+

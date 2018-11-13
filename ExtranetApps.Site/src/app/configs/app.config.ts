@@ -8,8 +8,11 @@ export const AppConfig: any = {
     error404: '404'
   },
   endpoints: {
-    pami: 'http://localhost:64997/Api/traslado/',
-    extranet: 'https://localhost:5001/api/Hallazgos'
+    // pami: 'http://localhost:64997/Api/traslado/',
+     extranet: 'https://localhost:5001/api/Hallazgos',
+     upload: 'https://localhost:5001/api/Upload'
+    //extranet: 'http://paramedicapps.com.ar:5566/api/Hallazgos',
+    //upload: 'http://paramedicapps.com.ar:5566/api/Upload'
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,

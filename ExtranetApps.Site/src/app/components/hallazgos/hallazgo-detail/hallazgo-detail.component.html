@@ -16,7 +16,7 @@
     <!--#form="ngForm"-->
     <div id="cabecera">
 
-        <mat-form-field class="margin-lr5" [hidden]="id=='nuevo'">
+        <mat-form-field class="margin-lr5" [hidden]="hallazgo.id==0">
             <input matInput placeholder="Número" formControlName="numero" type="number">
         </mat-form-field>
 
@@ -48,7 +48,7 @@
     </div>
     <br />
     <div>
-        <div id="leftPanel" [hidden]="id=='nuevo'">
+        <div id="leftPanel" [hidden]="hallazgo.id==0">
             <div>
                 <mat-card>
                     <mat-card-header style="background-color: #f5f5f5">
@@ -94,7 +94,7 @@
             <br />
         </div>
         <!-- <div class="rightPanelNew"> -->
-        <div [className]="id == 'nuevo' ? 'rightPanelNew' : 'rightPanelEdit'">
+        <div [className]="hallazgo.id == 0 ? 'rightPanelNew' : 'rightPanelEdit'">
             <mat-card>
                 <mat-card-header style="background-color: #f5f5f5">
                     <p style="width: 160px;">Detalle Registracion</p>
@@ -108,13 +108,18 @@
                     <mat-divider></mat-divider>
                     <mat-list>
                         <h3 mat-subheader>Adjuntos</h3>
-                        <mat-list-item *ngFor="let adjunto of reg_adjuntos">
+                        <!-- <mat-list-item *ngFor="let adjunto of reg_adjuntos">
                             <mat-icon mat-list-icon>folder</mat-icon>
                             <h4 mat-line>{{adjunto}}</h4>
-                        </mat-list-item>
+                        </mat-list-item> -->
                     </mat-list>
                 </mat-card-content>
+
             </mat-card>
+            <div *ngIf='hallazgo.id != 0 && idRegistracionSeleccionada != 0'>
+                <app-upload [path]='hallazgo.id.toString() + - + idRegistracionSeleccionada.toString()'></app-upload>
+            </div>
+
             <br />
             <br />
         </div>

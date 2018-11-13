@@ -1,4 +1,4 @@
-using  System;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Cors;
 using ShamanClases;
 using NLog;
 using System.Data;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ExtranetApps.Api.Controllers
 {
@@ -66,7 +68,7 @@ namespace ExtranetApps.Api.Controllers
 
                 throw;
             }
-            
+
         }
 
         private DataRow CreateFakeDataTable()
@@ -102,7 +104,7 @@ namespace ExtranetApps.Api.Controllers
             DataRow dr = CreateFakeDataTable();
             item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
             item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
-            
+
             return lstHallazgos;
         }
 
@@ -110,7 +112,7 @@ namespace ExtranetApps.Api.Controllers
         //[DisableCors]
         //public ActionResult<List<Hallazgo>> Get()
         //{
-            
+
         //    List<Hallazgo> lstHallazgos = new List<Hallazgo>();
         //    try
         //    {
@@ -124,7 +126,7 @@ namespace ExtranetApps.Api.Controllers
         //        //< add key = "tangoEmpresaId" value = "3" />
         //        //</ appSettings >
         //        //if (objConexion.Iniciar(appSettings.Get("cacheServer"), int.Parse(appSettings.Get("cachePort")), appSettings.Get("cacheNameSpace"), appSettings.Get("cacheShamanAplicacion"), appSettings.Get("cacheShamanUser"), int.Parse(appSettings.Get("cacheShamanCentro")), true))
-                
+
         //            EmergencyC.Bitacoras objBitacoras = new EmergencyC.Bitacoras();
         //            DataTable dt = objBitacoras.GetHallazgos(29);
 
@@ -189,34 +191,73 @@ namespace ExtranetApps.Api.Controllers
         }
 
 
+        //[HttpPost(Name = "AddNewHallazgo")]
+        //[DisableCors]
+        //public async Task<long> AddNewHallazgo([FromBody] Hallazgo newHallazgo)
+        //{
+        //    var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
+        //    if (lastHallazgos.Registraciones.Count > 0)
+        //    {
+        //        newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
+        //    }
+
+        //    //newHallazgo.
+        //    if (newHallazgo.Id == 0)
+        //    {
+
+        //        newHallazgo.Id = lastHallazgos.Id + 1;
+        //        newHallazgo.Nro = lastHallazgos.Nro + 1;
+        //        newHallazgo.Hora = DateTime.Now.ToShortTimeString();
+        //        _context.HallazgoItems.Add(newHallazgo);
+        //    }
+        //    else
+        //    {
+        //        _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
+        //        _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
+        //    }
+
+        //    _context.SaveChanges();
+
+        //    return newHallazgo.Id;
+        //}
+
         //public void Post([FromBody] dynamic newHallazgo)
         //public void Post([FromBody]  prueba newHallazgo)
         [HttpPost]
         [DisableCors]
-        public void Post([FromBody] Hallazgo newHallazgo)
+        public IActionResult Post([FromBody] Hallazgo newHallazgo)
         {
-            var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
-            if(lastHallazgos.Registraciones.Count > 0)
+            try
             {
-                newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
+                var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
+                if (lastHallazgos.Registraciones.Count > 0)
+                {
+                    newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
+                }
+
+                //newHallazgo.
+                if (newHallazgo.Id == 0)
+                {
+
+                    newHallazgo.Id = lastHallazgos.Id + 1;
+                    newHallazgo.Nro = lastHallazgos.Nro + 1;
+                    newHallazgo.Hora = DateTime.Now.ToShortTimeString();
+                    _context.HallazgoItems.Add(newHallazgo);
+                }
+                else
+                {
+                    _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
+                    _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
+                }
+
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
             }
 
-            //newHallazgo.
-            if (newHallazgo.Id == 0)
-            {
-                
-                newHallazgo.Id = lastHallazgos.Id + 1;
-                newHallazgo.Nro = lastHallazgos.Nro + 1;
-                newHallazgo.Hora = DateTime.Now.ToShortTimeString();
-                _context.HallazgoItems.Add(newHallazgo);
-            }
-            else
-            {
-                _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
-                _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
-            }
-            
-            _context.SaveChanges();
+            return new OkObjectResult(newHallazgo);
         }
     }
 
@@ -226,7 +267,7 @@ namespace ExtranetApps.Api.Controllers
         public string Descripcion { get; set; }
     }
 
-    
+
 }
 
 //[Route("api/[controller]")] /* this is the defualt prefix for all routes, see line 20 for overridding it */

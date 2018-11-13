@@ -23,7 +23,8 @@ import { ListHallazgosComponent } from './components/hallazgos/hallazgos-list/ha
 import { HallazgoDetailComponent } from './components/hallazgos/hallazgo-detail/hallazgo-detail.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
-
+import { UploadModule } from './modules/upload/upload.module';
+import { DialogComponent } from './components/shared/dialog/dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
     FooterComponent,
     ListHallazgosComponent,
     HallazgoDetailComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    DialogComponent
 
   ],
   imports: [
@@ -43,8 +45,11 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
     APP_ROUTING,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UploadModule
   ],
+  entryComponents: [DialogComponent],
+  
   providers: [
     HallazgosListService
   ],
@@ -53,3 +58,4 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
   
 })
 export class AppModule { }
+        // "rxjs": "^6.3.3",
