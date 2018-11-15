@@ -24,6 +24,9 @@
             <input matInput [matDatepicker]="picker3" placeholder="Fecha" formControlName="fecha" name="dpFecha">
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="!hallazgoForm.controls.fecha.valid">
+                Debe ingresar una fecha valida.
+            </mat-error>
         </mat-form-field>
         <mat-form-field class="margin-lr5">
             <mat-select placeholder="Motivo" formControlName="motivo">
@@ -31,11 +34,14 @@
                     {{item.descripcion}}
                 </mat-option>
             </mat-select>
+            <mat-error *ngIf="!hallazgoForm.controls.motivo.valid">
+                Debe seleccionar un motivo.
+            </mat-error>
         </mat-form-field>
         <mat-form-field class="margin-lr5">
             <input matInput placeholder="Titulo" formControlName="titulo" type="text" name="txtTitulo">
             <mat-error *ngIf="!hallazgoForm.controls.titulo.valid">
-                Error hallazgoForm.controls.titulo
+                Ingrese un titulo valido.
             </mat-error>
         </mat-form-field>
         <mat-form-field class="margin-lr5">
@@ -104,21 +110,24 @@
                     <mat-form-field style="width:100% !important">
                         <textarea matInput placeholder="Descripcion" formControlName="reg_descripcion" #ta_reg_descripcion></textarea>
                     </mat-form-field>
+                    <mat-error *ngIf="!hallazgoForm.controls.reg_descripcion.valid">
+                        Debe ingresar una descripcion.
+                    </mat-error>
                     <br />
                     <mat-divider></mat-divider>
                     <mat-list>
-                        <h3 mat-subheader>Adjuntos</h3>
-                        <!-- <mat-list-item *ngFor="let adjunto of reg_adjuntos">
-                            <mat-icon mat-list-icon>folder</mat-icon>
-                            <h4 mat-line>{{adjunto}}</h4>
+                        <!-- <h3 mat-subheader>Adjuntos</h3>
+                        <mat-list-item *ngFor="let adjunto of reg_adjuntos">
+                            <h4 mat-line>{{adjunto.name}}</h4>
+                            <img [src]="adjunto.fullPath">
                         </mat-list-item> -->
                     </mat-list>
                 </mat-card-content>
-
+                <div *ngIf='hallazgo.id != 0 && idRegistracionSeleccionada != 0'>
+                    <app-upload [path]='"0" + "-" + hallazgo.id.toString() + "-" + idRegistracionSeleccionada.toString()'></app-upload>
+                </div>
             </mat-card>
-            <div *ngIf='hallazgo.id != 0 && idRegistracionSeleccionada != 0'>
-                <app-upload [path]='hallazgo.id.toString() + - + idRegistracionSeleccionada.toString()'></app-upload>
-            </div>
+
 
             <br />
             <br />

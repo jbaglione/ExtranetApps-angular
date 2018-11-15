@@ -1,6 +1,7 @@
 using System;
 using  System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace ExtranetApps.Api.Models
@@ -8,6 +9,8 @@ namespace ExtranetApps.Api.Models
     public abstract class Listable
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column(Order = 1, TypeName = "serial")]
         public string Id { get; set; }
         public string Descripcion { get; set; }
 

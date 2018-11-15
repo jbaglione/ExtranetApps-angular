@@ -8,12 +8,13 @@ import { MatTableDataSource, MatSort, MatDialog} from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Destino } from 'src/app/models/destino.model';
 import { Registracion } from 'src/app/models/registracion.model';
+import { Adjunto } from 'src/app/models/adjunto.model';
 import { getLocaleDateTimeFormat } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DialogComponent} from '../../shared/dialog/dialog.component'
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
+import {} from 
 @Component({
   selector: 'app-hallazgo-detail',
   templateUrl: './hallazgo-detail.component.html',
@@ -26,6 +27,7 @@ export class HallazgoDetailComponent implements OnInit {
   hallazgo: Hallazgo = new Hallazgo();
   motivos: listable;
   estados: listable;
+  reg_adjuntos: Adjunto[] = [];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('ta_reg_descripcion') ta_reg_descripcion: ElementRef;
@@ -51,12 +53,12 @@ export class HallazgoDetailComponent implements OnInit {
         'numero': new FormControl({ value: '0', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
         'fecha': new FormControl({ value: new Date(), disabled: this.hallazgo.id !== 0 }, [Validators.required]),
         'motivo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
-        'titulo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
+        'titulo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required, Validators.minLength(3)]),
         'estado': new FormControl({ value: '1', disabled: true }, [Validators.required]),
 
         //Panel Registraciones detalle:
         'reg_descripcion': new FormControl('', [Validators.required]),
-        'reg_adjuntos': new FormControl(),
+        // 'reg_adjuntos': new FormControl(),
       })
 
       if (this.hallazgo.id !== 0) {
@@ -69,6 +71,7 @@ export class HallazgoDetailComponent implements OnInit {
   }
 
   loadHallazgo(){
+    debugger;
     if (this.hallazgo.motivo == null || this.hallazgo.estado == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
       this.resultDialog = false;
       this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
@@ -83,6 +86,7 @@ export class HallazgoDetailComponent implements OnInit {
     else
       this.mtRegistraciones.data = this.hallazgo.registraciones;
    
+    this.verRegistracion(this.hallazgo.registraciones[0]);
     //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
     this.hallazgoForm.patchValue({
       // id: this.hallazgo.id,
@@ -125,9 +129,11 @@ export class HallazgoDetailComponent implements OnInit {
     else {
       this.hallazgoForm.patchValue({
         reg_descripcion: registracion.descripcion,
-        reg_adjuntos: registracion.adjuntos,
+        // reg_adjuntos: registracion.adjuntos,
       });
       this.idRegistracionSeleccionada = registracion.id;
+      this.reg_adjuntos = registracion.adjuntos;
+
       console.log(registracion);
       console.log(this.idRegistracionSeleccionada);
     }
@@ -157,10 +163,11 @@ export class HallazgoDetailComponent implements OnInit {
       this.hallazgo.titulo = this.hallazgoForm.controls.titulo.value;
       this.hallazgo.fecha = this.hallazgoForm.controls.fecha.value;
       this.hallazgo.motivo = new listable(this.hallazgoForm.controls.motivo.value, "");
+      debugger;
       this.hallazgo.estado = new listable(this.hallazgoForm.controls.estado.value, "");
 
       this.hallazgo.registraciones[indice].descripcion = this.hallazgoForm.controls.reg_descripcion.value;
-      this.hallazgo.registraciones[indice].adjuntos = this.hallazgoForm.controls.reg_adjuntos.value;
+      // this.hallazgo.registraciones[indice].adjuntos = this.reg_adjuntos;
       this.hallazgo.registraciones[indice].hora = new Date().toTimeString().substring(0, 5);
       this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
       // this.hallazgo.registraciones = null;

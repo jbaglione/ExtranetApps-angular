@@ -17,8 +17,9 @@ export class DialogComponent implements OnInit {
   @ViewChild('file') file;
 
   public files: Set<File> = new Set();
-  constructor(public dialogRef: MatDialogRef<DialogComponent>, public uploadService: UploadService, ,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  constructor(  public dialogRef: MatDialogRef<DialogComponent>,
+                public uploadService: UploadService,
+                @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     uploadService.path = data.path;
   }
 
@@ -27,7 +28,7 @@ export class DialogComponent implements OnInit {
 
   progress;
   canBeClosed = true;
-  primaryButtonText = 'Upload';
+  primaryButtonText = 'Subir';
   showCancelButton = true;
   uploading = false;
   uploadSuccessful = false;
@@ -36,7 +37,13 @@ export class DialogComponent implements OnInit {
     const files: { [key: string]: File } = this.file.nativeElement.files;
     for (let key in files) {
       if (!isNaN(parseInt(key))) {
-        this.files.add(files[key]);
+        if(this.esImagen(files[key].type))
+          this.files.add(files[key]);
+        else{
+          console.log(files[key].name + ' no es una imagen valida');
+          alert(files[key].name + ' no es una imagen valida');
+        }
+          
       }
     }
   }
@@ -44,6 +51,10 @@ export class DialogComponent implements OnInit {
   addFiles() {
     this.file.nativeElement.click();
   }
+
+private esImagen(tipoArchivo:string):Boolean{
+   return (tipoArchivo === '' || tipoArchivo === undefined)?false:tipoArchivo.startsWith('image');
+}
 
   closeDialog() {
     // if everything was uploaded already, just close the dialog
@@ -71,7 +82,7 @@ export class DialogComponent implements OnInit {
     // Adjust the state variables
 
     // The OK-button should have the text "Finish" now
-    this.primaryButtonText = 'Finish';
+    this.primaryButtonText = 'Finalizar';
 
     // The dialog should not be closed while uploading
     this.canBeClosed = false;

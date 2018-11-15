@@ -8,7 +8,7 @@ import { AppConfig } from '../../configs/app.config';
 @Injectable()
 export class UploadService {
   url:string;
-  path:string = '1647-0-0';
+  path:string = '0-0-0';
 
   constructor(private http: HttpClient) {
     this.url = AppConfig.endpoints.upload;
@@ -23,13 +23,13 @@ export class UploadService {
       const formData: FormData = new FormData();
       formData.append(this.path, file, file.name);
 
-      const req = new HttpRequest('POST', this.url, formData);
+      // const req = new HttpRequest('POST', this.url, formData);
 
       // // create a http-post request and pass the form
       // // tell it to report the upload progress
-      // const req = new HttpRequest('POST', this.url, formData, {
-      //   reportProgress: true
-      // });
+      const req = new HttpRequest('POST', this.url, formData, {
+        reportProgress: true
+      });
 
       // create a new progress-subject for every file
       const progress = new Subject<number>();

@@ -1,11 +1,16 @@
 using System;
 using  System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace ExtranetApps.Api.Models
 {
     public class Hallazgo
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column(Order = 1, TypeName = "serial")]
         public long Id { get; set; }
         public long Nro { get; set; }
         public DateTime Fecha { get; set; }

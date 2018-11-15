@@ -48,14 +48,14 @@ namespace ExtranetApps.Api.Controllers
                             Fecha = DateTime.Now,
                             Hora =  DateTime.Now.ToShortTimeString(),
                             Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
-                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto","C:\\RutaDeAdjunto_B" }
+                            //Adjuntos = new Adjunto { FullPath = fullPath, Name = nameFile }
                         },new Registracion {
                             Id = 2,
                             Usuario = "Usuario Reg 2 (Id?)",
                             Fecha = DateTime.Now,
                             Hora =   DateTime.Now.ToShortTimeString(),
                             Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
-                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
+                            //Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
                         }},
                     });
                     _context.SaveChanges();
@@ -151,7 +151,7 @@ namespace ExtranetApps.Api.Controllers
 
             var item = _context.HallazgoItems
                 //.Include(h => h.Destinos)
-                .Include(h => h.Registraciones)
+                .Include(h => h.Registraciones).ThenInclude(x => x.Adjuntos)
                 .AsQueryable().Where(x => x.Id == id).FirstOrDefault();
 
 
@@ -165,26 +165,13 @@ namespace ExtranetApps.Api.Controllers
             //FIX error EF Core in save adjuntos
             if (item.Id == 1)
             {
-                item.Registraciones = new List<Registracion> {
-                        new Registracion {
-                            Id = 1,
-                            Usuario = "Usuario Reg 1 (Id?)",
-                            Fecha = DateTime.Now,
-                            Hora =  DateTime.Now.ToShortTimeString(),
-                            Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
-                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto","C:\\RutaDeAdjunto_B" }
-                        },new Registracion {
-                            Id = 2,
-                            Usuario = "Usuario Reg 2 (Id?)",
-                            Fecha = DateTime.Now,
-                            Hora =  DateTime.Now.ToShortTimeString(),
-                            Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
-                            Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
-                        }};
-                DataRow dr = CreateFakeDataTable();
-                item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
-                item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
+                item.Registraciones.FirstOrDefault().Adjuntos = new List<Adjunto> { new Adjunto { FullPath = "file:///C:/Paramedic/ExtranetApps-angular/ExtranetApps.Api/wwwroot/Upload/Hallazgos/0/1/2/PARAMEDIC.png", Name = "PARAMEDIC" } };
             }
+
+            //DataRow dr = CreateFakeDataTable();
+            //item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
+            //item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
+
 
 
             return item;

@@ -1,17 +1,19 @@
+import { Adjunto } from "./adjunto.model";
+
 export class Registracion {
     id: number;
     usuario: string;
     fecha: Date | string;
     hora: string;
     descripcion: string;
-    adjuntos: string[];
+    adjuntos: Adjunto[];
     constructor(
         id: number = 0,
         usuario: string = "",
         fecha: Date | string = new Date(),
         hora: string = "",
         descripcion: string = "",
-        adjuntos: string[] = []) {
+        adjuntos: Adjunto[] = []) {
         this.id = id;
         this.usuario = usuario;
         this.fecha = fecha;
