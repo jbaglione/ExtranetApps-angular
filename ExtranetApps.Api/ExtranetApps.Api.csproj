@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ShamanCache\Shaman\ShamanClases\ShamanClases\ShamanClases.vbproj" />
     <ProjectReference Include="..\..\ShamanCache\Shaman\ShamanClases_CSharp\ShamanClases_CSharp.csproj" />
+    <ProjectReference Include="..\ExrtanetApps.Security\ExrtanetApps.Security.csproj" />
   </ItemGroup>
 
 </Project>

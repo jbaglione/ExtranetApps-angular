@@ -14,7 +14,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DialogComponent} from '../../shared/dialog/dialog.component'
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {} from 
+
 @Component({
   selector: 'app-hallazgo-detail',
   templateUrl: './hallazgo-detail.component.html',

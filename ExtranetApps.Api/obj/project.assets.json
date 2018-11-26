@@ -4653,6 +4653,19 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
+      "ExrtanetApps.Security/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "Microsoft.NETCore.App": "2.1.0"
+        },
+        "compile": {
+          "bin/placeholder/ExrtanetApps.Security.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ExrtanetApps.Security.dll": {}
+        }
+      },
       "ShamanClases/1.0.0": {
         "type": "project",
         "compile": {
@@ -12337,6 +12350,11 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
+    "ExrtanetApps.Security/1.0.0": {
+      "type": "project",
+      "path": "../ExrtanetApps.Security/ExrtanetApps.Security.csproj",
+      "msbuildProject": "../ExrtanetApps.Security/ExrtanetApps.Security.csproj"
+    },
     "ShamanClases/1.0.0": {
       "type": "project",
       "path": "../../ShamanCache/Shaman/ShamanClases/ShamanClases/ShamanClases.vbproj",
@@ -12350,6 +12368,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "ExrtanetApps.Security >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
@@ -12389,6 +12408,9 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
+            "C:\\Paramedic\\ExtranetApps-angular\\ExrtanetApps.Security\\ExrtanetApps.Security.csproj": {
+              "projectPath": "C:\\Paramedic\\ExtranetApps-angular\\ExrtanetApps.Security\\ExrtanetApps.Security.csproj"
+            },
             "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases\\ShamanClases\\ShamanClases.vbproj": {
               "projectPath": "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases\\ShamanClases\\ShamanClases.vbproj"
             },

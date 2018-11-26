@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using ExtranetApps.Api.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+using NLog;
 
 namespace ExtranetApps.Api.Controllers
 {
@@ -14,37 +15,76 @@ namespace ExtranetApps.Api.Controllers
     public class HallazgosListablesController : ControllerBase
     {
         private readonly ExtranetAppsContext _context;
+        public IConfiguration Configuration { get; }
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public HallazgosListablesController(ExtranetAppsContext context)
+        public HallazgosListablesController(ExtranetAppsContext context, IConfiguration configuration)
         {
             _context = context;
-
-            if (_context.MotivoItems.Count() == 0)
-            {
-                _context.MotivoItems.Add(new Motivo { Id = "1", Descripcion = "Motivo 1", });
-                _context.MotivoItems.Add(new Motivo { Id = "2", Descripcion = "Motivo 2", });
-                _context.MotivoItems.Add(new Motivo { Id = "3", Descripcion = "Motivo 3", });
-                _context.MotivoItems.Add(new Motivo { Id = "4", Descripcion = "Motivo 4", });
-                _context.MotivoItems.Add(new Motivo { Id = "5", Descripcion = "Motivo 5", });
-                _context.SaveChanges();
-            }
-            if (_context.EstadoItems.Count() == 0)
-            {
-                _context.EstadoItems.Add(new Estado { Id = "1", Descripcion = "Estado 1", });
-                _context.EstadoItems.Add(new Estado { Id = "2", Descripcion = "Estado 2", });
-                _context.EstadoItems.Add(new Estado { Id = "3", Descripcion = "Estado 3", });
-                _context.EstadoItems.Add(new Estado { Id = "4", Descripcion = "Estado 4", });
-                _context.EstadoItems.Add(new Estado { Id = "5", Descripcion = "Estado 5", });
-                _context.SaveChanges();
-            }
+            Configuration = configuration;
         }
+
+        //[Route("GetMotivos")]
+        //[HttpGet(Name = "GetMotivos")]
+        //[DisableCors]
+        //public ActionResult<List<Motivo>> GetMotivos()
+        //{
+
+        //    List<Motivo> lstMotivos = new List<Motivo>();
+        //    try
+        //    {
+        //        PanelC.Conexion objConexion = new PanelC.Conexion();
+
+        //        if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
+        //        {
+        //            //TrySaveMotivosBitacoras();
+
+        //            DataTable dt = new EmergencyC.MotivosBitacoras().GetAll();
+                    
+        //            objConexion.Cerrar(objConexion.PID);
+
+        //            if (dt == null) return lstMotivos;
+
+        //            foreach (DataRow r in dt.Rows)
+        //                lstMotivos.Add(new Motivo(r, "ID"));//Hacer un metodo generico que devuelva lista de objetos y no tablas.
+
+        //            return lstMotivos;// Hacer un save new motivo para probar.
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.Error(ex);
+        //    }
+        //    return null;
+
+        //    //return _context.MotivoItems.ToList();
+        //}
 
         [Route("GetMotivos")]
         [HttpGet(Name = "GetMotivos")]
         [DisableCors]
         public ActionResult<List<Motivo>> GetMotivos()
         {
-            return _context.MotivoItems.ToList();
+
+            List<Motivo> lstMotivos;
+            try
+            {
+                PanelC.Conexion objConexion = new PanelC.Conexion();
+
+                if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
+                {
+                    lstMotivos = new EmergencyC.MotivosBitacoras().GetAll<Motivo>(ShamanClases.modDeclares.motBitacorasClasificaciones.hTodos, true);
+
+                    objConexion.Cerrar(objConexion.PID);
+
+                    return lstMotivos;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            return null;
         }
 
         [Route("GetEstados")]
@@ -52,7 +92,7 @@ namespace ExtranetApps.Api.Controllers
         [DisableCors]
         public ActionResult<List<Estado>> GetEstados()
         {
-            return _context.EstadoItems.ToList();
+            return new List<Estado> { new Estado("1"), new Estado("2"), new Estado("3") };
         }
 
     }

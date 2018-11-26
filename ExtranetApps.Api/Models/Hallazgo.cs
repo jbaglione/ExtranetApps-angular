@@ -6,7 +6,7 @@ using System.Data;
 
 namespace ExtranetApps.Api.Models
 {
-    public class Hallazgo
+    public class Hallazgo: IUseAlias
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,24 +18,22 @@ namespace ExtranetApps.Api.Models
         public string Titulo { get; set; }
         public Motivo Motivo { get; set; }
         public string Administrador { get; set; }
-        public Estado Estado { get; set; } //0 = ,1 = pendiente,2 = Finalizado
+        public Estado Estado { get; set; }
         public DateTime UltFecha { get; set; }
         public short DiasRta { get; set; } //=> Calcular
         public short Duracion { get; set; } //=> Calcular
         public List<Registracion> Registraciones { get; set; } //=> GetRegistracionesByBitacora
-        //public List<Destino> Destinos { get; set; }
+
         public Hallazgo()
         {
         }
-        public Hallazgo (DataRow dr)
+
+        public string GetAlias(string key)
         {
-
-            Id = Convert.ToInt64(dr["Id"]);
-            Nro = Convert.ToInt64(dr["Nro"]);
-
-            Motivo = new Motivo(dr, "CondicionIVAId", "CondicionIVA");
-            Estado = new Estado(dr, "CondicionIVAId", "CondicionIVA");
-            //...
+            return new Dictionary<string, string> {
+                    { "NumeroId", "Nro" },
+                    { "FecBitacora", "Fecha" },
+                    { "ultFecha", "UltFecha" }}[key];
         }
     }
 }

@@ -1,4 +1,4 @@
-export class Registracion {
+export class Adjunto {
     id: number;
     path: string;
     name: string;

@@ -6,11 +6,12 @@ using ExtranetApps.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using Microsoft.AspNetCore.Cors;
-using ShamanClases;
+//using ShamanClases;
 using NLog;
 using System.Data;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace ExtranetApps.Api.Controllers
 {
@@ -19,56 +20,58 @@ namespace ExtranetApps.Api.Controllers
     public class HallazgosController : ControllerBase
     {
         private readonly ExtranetAppsContext _context;
+        public IConfiguration Configuration { get; }
 
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-        public HallazgosController(ExtranetAppsContext context)
+
+        
+        public HallazgosController(ExtranetAppsContext context, IConfiguration configuration)
         {
-            try
-            {
-                _context = context;
 
-                if (_context.HallazgoItems.Count() == 0)
-                {
-                    _context.HallazgoItems.Add(new Hallazgo
-                    {
-                        Id = 1,
-                        Nro = 1,
-                        Fecha = DateTime.ParseExact("20/10/2018", "dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        Hora = DateTime.Now.ToShortTimeString(),
-                        Titulo = "Primer hallazgo prueba",
-                        Administrador = "Deberia ser un Id Administrador",
-                        UltFecha = DateTime.Now,
-                        DiasRta = 1,
-                        Duracion = 1,
-                        Registraciones = new List<Registracion> {
-                        new Registracion {
-                            Id = 1,
-                            Usuario = "Usuario Reg 1 (Id?)",
-                            Fecha = DateTime.Now,
-                            Hora =  DateTime.Now.ToShortTimeString(),
-                            Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
-                            //Adjuntos = new Adjunto { FullPath = fullPath, Name = nameFile }
-                        },new Registracion {
-                            Id = 2,
-                            Usuario = "Usuario Reg 2 (Id?)",
-                            Fecha = DateTime.Now,
-                            Hora =   DateTime.Now.ToShortTimeString(),
-                            Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
-                            //Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
-                        }},
-                    });
-                    _context.SaveChanges();
-                }
+            _context = context;
+            Configuration = configuration;
 
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            //try
+            //{
+            //    if (_context.HallazgoItems.Count() == 0)
+            //    {
+            //        _context.HallazgoItems.Add(new Hallazgo
+            //        {
+            //            Id = 1,
+            //            Nro = 1,
+            //            Fecha = DateTime.ParseExact("20/10/2018", "dd/MM/yyyy", CultureInfo.InvariantCulture),
+            //            Hora = DateTime.Now.ToShortTimeString(),
+            //            Titulo = "Primer hallazgo prueba",
+            //            Administrador = "Deberia ser un Id Administrador",
+            //            UltFecha = DateTime.Now,
+            //            DiasRta = 1,
+            //            Duracion = 1,
+            //            Registraciones = new List<Registracion> {
+            //            new Registracion {
+            //                Id = 1,
+            //                Usuario = "Usuario Reg 1 (Id?)",
+            //                Fecha = DateTime.Now,
+            //                Hora =  DateTime.Now.ToShortTimeString(),
+            //                Descripcion = "Descripcion de Registraciones, Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion Descripcion",
+            //                //Adjuntos = new Adjunto { FullPath = fullPath, Name = nameFile }
+            //            },new Registracion {
+            //                Id = 2,
+            //                Usuario = "Usuario Reg 2 (Id?)",
+            //                Fecha = DateTime.Now,
+            //                Hora =   DateTime.Now.ToShortTimeString(),
+            //                Descripcion = "Descripcion de Registraciones 2, Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2 Descripcion 2",
+            //                //Adjuntos = new List<string>{"C:\\RutaDeAdjunto2"}
+            //            }},
+            //        });
+            //        _context.SaveChanges();
+            //    }
+            //    _context.SaveChanges();
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
         }
 
         private DataRow CreateFakeDataTable()
@@ -92,50 +95,52 @@ namespace ExtranetApps.Api.Controllers
             return userRow;
         }
 
-        [HttpGet]
-        [DisableCors]
-        public ActionResult<List<Hallazgo>> Get()
-        {
-            List<Hallazgo> lstHallazgos = new List<Hallazgo>();
-            Hallazgo item = _context.HallazgoItems.FirstOrDefault();
+        //[HttpGet]
+        //[DisableCors]
+        //public ActionResult<List<Hallazgo>> Get()
+        //{
+        //    List<Hallazgo> lstHallazgos = new List<Hallazgo>();
+        //    Hallazgo item = _context.HallazgoItems.FirstOrDefault();
 
-            lstHallazgos = _context.HallazgoItems.ToList();
+        //    lstHallazgos = _context.HallazgoItems.ToList();
 
-            DataRow dr = CreateFakeDataTable();
-            item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
-            item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
+        //    DataRow dr = CreateFakeDataTable();
+        //    item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
+        //    item.Estado = new Estado(dr, "EstadoID", "EstadoDesc");
 
-            return lstHallazgos;
-        }
+        //    return lstHallazgos;
+        //}
 
         //[HttpGet]
         //[DisableCors]
         //public ActionResult<List<Hallazgo>> Get()
         //{
-
         //    List<Hallazgo> lstHallazgos = new List<Hallazgo>();
         //    try
         //    {
-        //        //< appSettings >
-        //        //< add key = "cacheNameSpace" value = "DESA" />< !--value = "SHAMAN"-- >   
-        //        //< add key = "cachePort" value = "1972" />
-        //        //< add key = "cacheServer" value = "200.49.156.125" />         
-        //        //< add key = "cacheShamanAplicacion" value = "EMERGENCIAS" />            
-        //        //< add key = "cacheShamanCentro" value = "1" />
-        //        //< add key = "cacheShamanUser" value = "JOB" />
-        //        //< add key = "tangoEmpresaId" value = "3" />
-        //        //</ appSettings >
-        //        //if (objConexion.Iniciar(appSettings.Get("cacheServer"), int.Parse(appSettings.Get("cachePort")), appSettings.Get("cacheNameSpace"), appSettings.Get("cacheShamanAplicacion"), appSettings.Get("cacheShamanUser"), int.Parse(appSettings.Get("cacheShamanCentro")), true))
+        //        PanelC.Conexion objConexion = new PanelC.Conexion();
 
-        //            EmergencyC.Bitacoras objBitacoras = new EmergencyC.Bitacoras();
-        //            DataTable dt = objBitacoras.GetHallazgos(29);
+        //        if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
+        //        {
+        //            //TrySaveMotivosBitacoras();
+        //            EmergencyC.Bitacoras bitacoras = new EmergencyC.Bitacoras();
+
+        //            DataTable dt = bitacoras.GetHallazgos(29);
+                    
+
+        //            if (dt == null) return lstHallazgos;
 
         //            foreach (DataRow r in dt.Rows)
-        //                lstHallazgos.Add(new Hallazgo(r));
+        //            {
+        //                Hallazgo hallazgo = new Hallazgo(r);
+        //                hallazgo.Registraciones = GetRegistraciones(bitacoras, hallazgo.Id);
+        //                lstHallazgos.Add(hallazgo);//Hacer un metodo generico que devuelva lista de objetos y no tablas.
+        //            }
 
-        //            return lstHallazgos;
-        //        //return _context.HallazgoItems.ToList();
+        //            objConexion.Cerrar(objConexion.PID);
 
+        //            return lstHallazgos;// Hacer un save new motivo para probar.
+        //        }
         //    }
         //    catch (Exception ex)
         //    {
@@ -143,6 +148,82 @@ namespace ExtranetApps.Api.Controllers
         //    }
         //    return null;
         //}
+
+        [HttpGet]
+        [DisableCors]
+        public ActionResult<List<Hallazgo>> Get()
+        {
+            List<Hallazgo> lstHallazgos = new List<Hallazgo>();
+            try
+            {
+                PanelC.Conexion objConexion = new PanelC.Conexion();
+
+                if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
+                {
+                    //TrySaveMotivosBitacoras();
+                    EmergencyC.Bitacoras bitacoras = new EmergencyC.Bitacoras();
+
+                    lstHallazgos = bitacoras.GetHallazgos<Hallazgo>(29);
+
+
+                    if (lstHallazgos.Count == 0) return lstHallazgos;
+
+                    foreach (Hallazgo hallazgo in lstHallazgos)
+                    {
+                        hallazgo.Registraciones = GetRegistraciones(bitacoras, hallazgo.Id);
+                        //lstHallazgos.Add(hallazgo);//Hacer un metodo generico que devuelva lista de objetos y no tablas.
+                    }
+
+                    objConexion.Cerrar(objConexion.PID);
+
+                    return lstHallazgos;// Hacer un save new motivo para probar.
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            return null;
+        }
+
+        private List<Registracion> GetRegistraciones(EmergencyC.Bitacoras bitacoras, long id)
+        {
+            List<Registracion> lr = new List<Registracion>();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID");
+            dt.Columns.Add("UsuarioId");
+            dt.Columns.Add("Usuario");
+            dt.Columns.Add("regFecha");
+            dt.Columns.Add("regHora");
+            dt.Columns.Add("Adjunto");
+            dt.Columns.Add("Detalle");
+            dt.Columns.Add("DireccionEmail");
+            dt.Columns.Add("TipoRespuestaBitacoraId");
+
+            bitacoras.GetRegistracionesByBitacora(id, ref dt);
+            foreach (DataRow dr in dt.Rows)
+            {
+                lr.Add(new Registracion(dr));
+            }
+            return lr;
+        }
+
+        private void TrySaveMotivosBitacoras()
+        {
+            Emergency.MotivosBitacoras mb = new Emergency.MotivosBitacoras();
+
+            //mb.ID = 1;
+            mb.ClasificacionId = 2;// modDeclares.motBitacorasClasificaciones.hSoporteTecnico;
+            mb.Descripcion = "S - BASE - SOLICITUD DE REPARACIONES (edit)";
+            mb.TipoNovedad = "";
+            mb.VisualColor = "";
+            //mb.flgEdicionDestino = "0";
+            //mb.flgTaller = "0";
+            //mb.regFecha = "10/11/2018";
+            //mb.regUsuario = "JAVIER";
+
+            mb.Salvar(mb);
+        }
 
         [HttpGet("{id}", Name = "GetHallazgo")]
         [DisableCors]

@@ -1,11 +1,11 @@
 import { Routes, RouterModule } from '@angular/router';
 // import { NgModule } from '@angular/core';
 
-import { HomeComponent } from './components/home/home.component';
-import { ListHallazgosComponent } from './components/hallazgos/hallazgos-list/hallazgos-list.component';
-import { HallazgoDetailComponent } from './components/hallazgos/hallazgo-detail/hallazgo-detail.component';
+import { HomeComponent } from './modules/home/home/home.component';
+import { ListHallazgosComponent } from './modules/hallazgos/hallazgos-list/hallazgos-list.component';
+import { HallazgoDetailComponent } from './modules/hallazgos/hallazgo-detail/hallazgo-detail.component';
 // import { Name4Component } from './';
-import { NotFoundComponent } from './components/shared/not-found/not-found.component';
+import { NotFoundComponent } from './modules/shared/not-found/not-found.component';
 
 const APP_ROUTES: Routes = [
     { path: 'home', component: HomeComponent },

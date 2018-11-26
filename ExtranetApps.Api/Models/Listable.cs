@@ -12,7 +12,7 @@ namespace ExtranetApps.Api.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order = 1, TypeName = "serial")]
         public string Id { get; set; }
-        public string Descripcion { get; set; }
+        public virtual string Descripcion { get; set; }
 
         public Listable()
         {

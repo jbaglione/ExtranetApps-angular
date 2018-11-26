@@ -1,6 +1,10 @@
-import {NgModule} from '@angular/core';
-import {MaterialModule} from './modules/material.module';
-import {CdkTableModule} from '@angular/cdk/table';
+import { NgModule } from '@angular/core';
+import { MaterialModule } from '../material/material.module';
+import { CdkTableModule } from '@angular/cdk/table';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { DialogComponent } from "./dialog/dialog.component";
 // import {TranslateModule} from '@ngx-translate/core';
 // import {FlexLayoutModule} from '@angular/flex-layout';
 // import {CommonModule} from '@angular/common';
@@ -30,17 +34,13 @@ import {CdkTableModule} from '@angular/cdk/table';
     CdkTableModule,
     MaterialModule
   ],
-  // declarations: [
-  //   HomePageComponent,
-  //   Error404PageComponent,
-  //   HeaderComponent,
-  //   SearchBarComponent,
-  //   FooterComponent,
-  //   SpinnerComponent,
-  //   HeroCardComponent,
-  //   HeroLoadingComponent,
-  //   ScrollToFirstInvalidDirective
-  // ],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    NotFoundComponent,
+    DialogComponent
+  ],
+  // entryComponents: [DialogComponent],
   exports: [
     // CommonModule,
     // FlexLayoutModule,
@@ -54,10 +54,13 @@ import {CdkTableModule} from '@angular/cdk/table';
     // HeroCardComponent,
     // HeroLoadingComponent,
     // ScrollToFirstInvalidDirective,
+    HeaderComponent,
     CdkTableModule,
-    MaterialModule
+    FooterComponent,
+    NotFoundComponent
   ]
 })
 
 export class SharedModule {
+
 }
