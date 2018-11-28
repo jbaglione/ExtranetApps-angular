@@ -1,7 +1,4 @@
 <mat-card class="example-card">
-    <!-- <mat-card-header>
-        <mat-card-title>Error</mat-card-title>
-    </mat-card-header> -->
     <img mat-card-image src="../../../../assets/images/404.gif" alt="ERROR">
     <mat-card-content>
         <p>
@@ -9,7 +6,7 @@
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button>Ingresar</button>
-        <button mat-button color="primary"><a routerLink="/home">Pagina Principal</a></button>
+        <!-- <button mat-button>Ingresar</button> -->
+        <button mat-button color="primary" (click)=GoHome()>Pagina Principal</button>
     </mat-card-actions>
 </mat-card>

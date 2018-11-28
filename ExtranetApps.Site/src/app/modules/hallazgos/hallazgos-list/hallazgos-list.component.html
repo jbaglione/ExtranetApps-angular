@@ -19,14 +19,14 @@
             Fecha
         </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element">
-            <span class="mobile-label">Fecha:</span>{{element.fecha}}
+            <span class="mobile-label">Fecha:</span>{{element.fecha | date: 'dd/MM/yyyy'}}
             <!-- | date: 'dd/MM/yyyy'}} -->
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="hora">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Hora</mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span class="mobile-label">Hora:</span> {{element.hora}}
+            <span class="mobile-label">Hora:</span> {{element.hora | date: 'hh:mm'}}
             <!--  | date: 'hh:mm'}} -->
         </mat-cell>
     </ng-container>
@@ -59,7 +59,7 @@
             Ult.Fecha/Hora
         </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element">
-            <span class="mobile-label">Ult. Fecha/Hora:</span> {{element.ultFecha | date: 'dd/MM/yyyy'}}
+            <span class="mobile-label">Ult. Fecha/Hora:</span> {{element.ultFecha | date: 'dd/MM/yyyy hh:mm'}}
         </mat-cell>
     </ng-container>
     <ng-container matColumnDef="diasRta">

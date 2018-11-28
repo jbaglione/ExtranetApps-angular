@@ -35,6 +35,18 @@
     display: none;
 }
 
+.mat-column-fecha {
+    flex: 0 0 85px;
+}
+
+.mat-column-hora {
+    flex: 0 0 80px;
+}
+
+.mat-row::selection {
+    background-color: gray;
+}
+
 @media(max-width: 600px) {
     #tableR {
         min-width: auto !important;

@@ -1,19 +1,19 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HallazgosListService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
 import { listable } from '../../../models/listable.model';
-import { Usuario } from 'src/app/models/usuario.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
 import { MatTableDataSource, MatSort, MatDialog} from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Destino } from 'src/app/models/destino.model';
 import { Registracion } from 'src/app/models/registracion.model';
 import { Adjunto } from 'src/app/models/adjunto.model';
-import { getLocaleDateTimeFormat } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {DialogComponent} from '../../shared/dialog/dialog.component'
+import {ActivatedRoute, Router} from '@angular/router';
+
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Destino } from 'src/app/models/destino.model';
+import { getLocaleDateTimeFormat } from '@angular/common';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -38,10 +38,12 @@ export class HallazgoDetailComponent implements OnInit {
   
   resultDialog: boolean;
 
-  constructor(private _activatedRoute: ActivatedRoute,
+  constructor(
     private _hallazgosListService: HallazgosListService,
     public dialog: MatDialog,
-    private _router:Router) {
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
+    ) {
     _activatedRoute.params.subscribe(params => {
       this.hallazgo.id = params['id'] == 'nuevo' ? 0 : parseFloat(params['id']);
       this._hallazgosListService.GetMotivos().subscribe(data => this.motivos = data);
@@ -72,6 +74,7 @@ export class HallazgoDetailComponent implements OnInit {
 
   loadHallazgo(){
     debugger;
+
     if (this.hallazgo.motivo == null || this.hallazgo.estado == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
       this.resultDialog = false;
       this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
@@ -137,7 +140,6 @@ export class HallazgoDetailComponent implements OnInit {
       console.log(registracion);
       console.log(this.idRegistracionSeleccionada);
     }
-
     // console.log(JSON.stringify(registracion));
   }
 
@@ -152,8 +154,8 @@ export class HallazgoDetailComponent implements OnInit {
     console.log(this.hallazgoForm.value);
   }
 
-
   guardarHallazgo() {
+    debugger;
     console.log(this.hallazgoForm.value);
     if (this.hallazgoForm.valid) {
 

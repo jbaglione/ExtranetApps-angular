@@ -14,7 +14,7 @@ namespace ExtranetApps.Api.Models
         public long Id { get; set; }
         public long Nro { get; set; }
         public DateTime Fecha { get; set; }
-        public string Hora { get; set; }
+        public string Hora { get; set; } //Borrar->se toma la primera registracion.
         public string Titulo { get; set; }
         public Motivo Motivo { get; set; }
         public string Administrador { get; set; }
@@ -33,7 +33,9 @@ namespace ExtranetApps.Api.Models
             return new Dictionary<string, string> {
                     { "NumeroId", "Nro" },
                     { "FecBitacora", "Fecha" },
-                    { "ultFecha", "UltFecha" }}[key];
+                    { "ultFecha", "UltFecha" },
+                    { "FecHorIngreso", "Hora" }
+                    }[key];
         }
     }
 }

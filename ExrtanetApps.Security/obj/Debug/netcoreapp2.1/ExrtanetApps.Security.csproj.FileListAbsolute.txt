@@ -11,3 +11,4 @@ C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Debug\netcoreapp2.1\
 C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Debug\netcoreapp2.1\ExrtanetApps.Security.RazorTargetAssemblyInfo.cache
 C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Debug\netcoreapp2.1\ExrtanetApps.Security.dll
 C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Debug\netcoreapp2.1\ExrtanetApps.Security.pdb
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Debug\netcoreapp2.1\ExrtanetApps.Security.csprojAssemblyReference.cache

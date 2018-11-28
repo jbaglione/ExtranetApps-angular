@@ -30,6 +30,8 @@ namespace ExtranetApps.Api.Controllers
         {
             try
             {
+                //TODO: no hace falta hacer un path combinado, usar el directorio virtual designado ("Hallazgos")
+                //y guardar archivo con el nombre de idHallazgo + "--" + idRegistracion + nro de archivo ==> 266503--1_0.png
                 var file = Request.Form.Files[0];
                 string folderName = "Upload\\Hallazgos";
                 string[] values = file.Name.Split('-');
@@ -49,25 +51,37 @@ namespace ExtranetApps.Api.Controllers
                         file.CopyTo(stream);
                     }
 
-                    if (values.Length == 3)
-                    {
-                        long idHallazgo = Convert.ToInt64(values[1]);
-                        long idRegistracion = Convert.ToInt64(values[2]);
+                    //En liquidaciones=>
+                    //string path = "~/hallazgosAdjuntos/";
+                    //if (!Directory.Exists(Server.MapPath(path) + ArchivoOrden.Substring(0, ArchivoOrden.LastIndexOf('\\'))))
+                    //    Directory.CreateDirectory(Server.MapPath(path) + ArchivoOrden.Substring(0, ArchivoOrden.LastIndexOf('\\')));
+                    //string fileName = ArchivoOrden.Substring(ArchivoOrden.LastIndexOf('\\') + 1);
+                    //file.SaveAs(Path.Combine(Server.MapPath(path) + ArchivoOrden.Substring(0, ArchivoOrden.LastIndexOf('\\')), fileName));
+                    //Session["ArchivoOrden"] = ArchivoOrden;
 
-                        if (idHallazgo > 0 && idRegistracion > 0)
-                        {
-                            var reg = _context.HallazgoItems.Include(h => h.Registraciones).AsQueryable()
-                                        .Where(x => x.Id == idHallazgo).FirstOrDefault()
-                                        .Registraciones.First(x=>x.Id == idRegistracion);
-                            if(reg.Adjuntos==null)
-                                reg.Adjuntos = new List<Adjunto>();
-                            reg.Adjuntos.Add(new Adjunto { FullPath = fullPath, Name = fileName });
-                            _context.SaveChanges();
-                        }
-                    }
+                    //En ctaCorrientes
+                    //file.SaveAs(Path.Combine(Server.MapPath("~/App_Data/tempCtaCte/"), $"{Session["usr_id"]}_{id}_PDF_{Path.GetExtension(file.FileName)}"));
+                    //return Json(new { }, JsonRequestBehavior.AllowGet);
+
+                    //if (values.Length == 3)
+                    //{
+                    //    long idHallazgo = Convert.ToInt64(values[1]);
+                    //    long idRegistracion = Convert.ToInt64(values[2]);
+
+                    //    if (idHallazgo > 0 && idRegistracion > 0)
+                    //    {
+                    //        var reg = _context.HallazgoItems.Include(h => h.Registraciones).AsQueryable()
+                    //                    .Where(x => x.Id == idHallazgo).FirstOrDefault()
+                    //                    .Registraciones.First(x => x.Id == idRegistracion.ToString());//idRegistracion.ToString()
+                    //        if (reg.Adjuntos == null)
+                    //            reg.Adjuntos = new List<Adjunto>();
+                    //        reg.Adjuntos.Add(new Adjunto { FullPath = fullPath, Name = fileName });
+                    //        _context.SaveChanges();
+                    //    }
+                    //}
                 }
 
-                
+
 
                 return Json("Upload Successful.");
             }

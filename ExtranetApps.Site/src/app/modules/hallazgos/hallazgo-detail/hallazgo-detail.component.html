@@ -38,7 +38,7 @@
                 Debe seleccionar un motivo.
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="margin-lr5">
+        <mat-form-field fxFlex class="margin-lr5">
             <input matInput placeholder="Titulo" formControlName="titulo" type="text" name="txtTitulo">
             <mat-error *ngIf="!hallazgoForm.controls.titulo.valid">
                 Ingrese un titulo valido.
@@ -68,9 +68,9 @@
                             <ng-container matColumnDef="usuario">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     Usuario </mat-header-cell>
-                                <mat-cell *matCellDef="let element" class="mat-cell-first">
+                                <mat-cell *matCellDef="let element" class="mat-cell-first" style="margin-right: 8px">
                                     <span class="mobile-label">Usuario:</span>
-                                    <button type="button" (click)="verRegistracion(element)" mat-icon-button class="mat-cell-button">{{element.usuario}}</button>
+                                    <button style="margin-right: 8px" type="button" (click)="verRegistracion(element)" mat-icon-button class="mat-cell-button">{{element.usuario}}</button>
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="fecha">
@@ -116,11 +116,12 @@
                     <br />
                     <mat-divider></mat-divider>
                     <mat-list>
-                        <!-- <h3 mat-subheader>Adjuntos</h3>
+                        <h3 mat-subheader>Adjuntos</h3>
+                        <!-- <a href="file://archivos/shamanadj$/liquidaciones/29143_9408656.jpg" target="_blank">sss</a> -->
                         <mat-list-item *ngFor="let adjunto of reg_adjuntos">
-                            <h4 mat-line>{{adjunto.name}}</h4>
+                            <h4 mat-line><a [href]=adjunto.fullPath target="_blank">{{adjunto.name}}</a></h4>
                             <img [src]="adjunto.fullPath">
-                        </mat-list-item> -->
+                        </mat-list-item>
                     </mat-list>
                 </mat-card-content>
                 <div *ngIf='hallazgo.id != 0 && idRegistracionSeleccionada != 0'>

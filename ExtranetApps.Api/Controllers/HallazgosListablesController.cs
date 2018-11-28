@@ -17,11 +17,17 @@ namespace ExtranetApps.Api.Controllers
         private readonly ExtranetAppsContext _context;
         public IConfiguration Configuration { get; }
         private Logger logger = LogManager.GetCurrentClassLogger();
+        private string connectionString;
 
         public HallazgosListablesController(ExtranetAppsContext context, IConfiguration configuration)
         {
             _context = context;
             Configuration = configuration;
+            connectionString = "Server = " + Configuration["ConexionCache:CacheServer"] +
+                    "; Port = " + Configuration["ConexionCache:CachePort"] +
+                    "; Namespace = " + Configuration["ConexionCache:CacheNameSpace"] +
+                    "; Password = " + "sys" +
+                    "; User ID = " + "_system" + "; ";
         }
 
         //[Route("GetMotivos")]
@@ -29,25 +35,17 @@ namespace ExtranetApps.Api.Controllers
         //[DisableCors]
         //public ActionResult<List<Motivo>> GetMotivos()
         //{
-
         //    List<Motivo> lstMotivos = new List<Motivo>();
         //    try
         //    {
         //        PanelC.Conexion objConexion = new PanelC.Conexion();
-
         //        if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
         //        {
-        //            //TrySaveMotivosBitacoras();
-
-        //            DataTable dt = new EmergencyC.MotivosBitacoras().GetAll();
-                    
+        //            DataTable dt = new EmergencyC.MotivosBitacoras().GetAll();                  
         //            objConexion.Cerrar(objConexion.PID);
-
         //            if (dt == null) return lstMotivos;
-
         //            foreach (DataRow r in dt.Rows)
         //                lstMotivos.Add(new Motivo(r, "ID"));//Hacer un metodo generico que devuelva lista de objetos y no tablas.
-
         //            return lstMotivos;// Hacer un save new motivo para probar.
         //        }
         //    }
@@ -56,29 +54,18 @@ namespace ExtranetApps.Api.Controllers
         //        logger.Error(ex);
         //    }
         //    return null;
-
         //    //return _context.MotivoItems.ToList();
         //}
-
         [Route("GetMotivos")]
         [HttpGet(Name = "GetMotivos")]
         [DisableCors]
         public ActionResult<List<Motivo>> GetMotivos()
         {
-
-            List<Motivo> lstMotivos;
             try
             {
-                PanelC.Conexion objConexion = new PanelC.Conexion();
-
-                if (objConexion.Iniciar(Configuration["ConexionCache:CacheServer"], int.Parse(Configuration["ConexionCache:CachePort"]), Configuration["ConexionCache:CacheNameSpace"], Configuration["ConexionCache:CacheShamanAplicacion"], Configuration["ConexionCache:CacheShamanUser"], int.Parse(Configuration["ConexionCache:CacheShamanCentro"]), true))
-                {
-                    lstMotivos = new EmergencyC.MotivosBitacoras().GetAll<Motivo>(ShamanClases.modDeclares.motBitacorasClasificaciones.hTodos, true);
-
-                    objConexion.Cerrar(objConexion.PID);
-
-                    return lstMotivos;
-                }
+                //GetAll
+                string pTip = ((int)ShamanClases.modDeclares.motBitacorasClasificaciones.hTodos).ToString();//TODO: Mejorar.
+                return modGenerics.GetList<Motivo>(new EmergencyC.MotivosBitacoras().CacheClassController, "GetAll", false, connectionString, pTip);
             }
             catch (Exception ex)
             {
