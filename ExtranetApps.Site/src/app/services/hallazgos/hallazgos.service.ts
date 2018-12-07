@@ -74,6 +74,16 @@ export class HallazgosListService {
       catchError(HallazgosListService.handleError<listable>("GetEstados"))
     );
   }
+  public CreateHallazgoFake(): Observable<any> {
+    let token:string = "";
+    const url = `https://localhost:5001/security/Users`;
+    const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${token}` });
+    return this.httpClient.get<any>(url, { headers: headerOptions }).pipe(
+      tap(() => LoggerService.log("fetched CreateHallazgoFake")),
+      catchError(HallazgosListService.handleError<any>("CreateHallazgoFake"))
+    );
+  }
+  
 
   public CreateHallazgo(hallazgo: Hallazgo) {
     const url = `${this.extranetUrl}`;

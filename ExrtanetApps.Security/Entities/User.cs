@@ -9,4 +9,10 @@ namespace ExrtanetApps.Security.Entities
         public string Password { get; set; }
         public string Token { get; set; }
     }
+
+    public class UserBase64
+    {
+        public int Id { get; set; }
+        public string Base64 { get; set; }
+    }
 }

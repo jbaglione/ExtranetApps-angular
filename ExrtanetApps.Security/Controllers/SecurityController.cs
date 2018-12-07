@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using ExrtanetApps.Security.Services;
 using ExrtanetApps.Security.Entities;
+using System.Linq;
 
 namespace ExrtanetApps.Security.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("security/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -31,6 +32,23 @@ namespace ExrtanetApps.Security.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
+        [HttpPost("authenticateBase64")]
+        public IActionResult AuthenticateBase64()
+        {
+            var req = Request;
+            var headers = req.Headers;
+            var values = headers["userBase64"];
+
+            UserService userService = new UserService();
+            var user = _userService.AuthenticateBase64(values.ToString());
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
+        }
+
         ////POST security/Users
         //[HttpPost]
         //public void Post([FromBody] User userParam)
@@ -38,8 +56,11 @@ namespace ExrtanetApps.Security.Controllers
         //}
 
         [HttpGet]
+        //[AllowAnonymous]
         public IActionResult GetAll()
         {
+            string aut = Request.Headers["Authorization"];
+
             var users = _userService.GetAll();
             return Ok(users);
         }

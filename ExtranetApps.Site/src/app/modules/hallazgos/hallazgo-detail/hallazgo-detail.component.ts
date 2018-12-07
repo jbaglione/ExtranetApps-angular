@@ -182,7 +182,14 @@ export class HallazgoDetailComponent implements OnInit {
     console.log(this.hallazgoForm.value);
   }
 
-  guardarHallazgo() {
+  guardarHallazgo(){
+    debugger;
+    let anyV:any;
+    this._hallazgosListService.CreateHallazgoFake().subscribe(data => anyV = data);
+
+  }
+
+  guardarHallazgoOrigin() {
     console.log(this.hallazgoForm.value);
     if (this.hallazgoForm.valid) {
 
