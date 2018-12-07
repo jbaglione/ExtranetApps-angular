@@ -23,6 +23,11 @@
     margin-right: 5px;
 }
 
+
+/* .long-form-field {
+    min-width: 50%;
+} */
+
 #tableR {
     min-width: 400px;
 }
@@ -43,11 +48,29 @@
     flex: 0 0 80px;
 }
 
-.mat-row::selection {
-    background-color: gray;
+.very-short-form-field {
+    max-width: 80px;
+}
+
+.short-form-field {
+    max-width: 110px;
+}
+
+.long-form-field {
+    min-width: 300px;
 }
 
 @media(max-width: 600px) {
+    mat-form-field {
+        width: 100% !important;
+    }
+    mat-card {
+        width: 100%;
+    }
+    .rightPanelEdit {
+        min-width: 100%;
+        max-width: 900px;
+    }
     #tableR {
         min-width: auto !important;
     }

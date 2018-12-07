@@ -1,0 +1,14 @@
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\bin\Release\netcoreapp2.1\ExrtanetApps.Security.deps.json
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\bin\Release\netcoreapp2.1\ExrtanetApps.Security.runtimeconfig.json
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\bin\Release\netcoreapp2.1\ExrtanetApps.Security.runtimeconfig.dev.json
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\bin\Release\netcoreapp2.1\ExrtanetApps.Security.dll
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\bin\Release\netcoreapp2.1\ExrtanetApps.Security.pdb
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.csproj.CoreCompileInputs.cache
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.RazorAssemblyInfo.cache
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.RazorAssemblyInfo.cs
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.AssemblyInfoInputs.cache
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.AssemblyInfo.cs
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.RazorTargetAssemblyInfo.cache
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.dll
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.pdb
+C:\Paramedic\ExtranetApps-angular\ExrtanetApps.Security\obj\Release\netcoreapp2.1\ExrtanetApps.Security.csprojAssemblyReference.cache

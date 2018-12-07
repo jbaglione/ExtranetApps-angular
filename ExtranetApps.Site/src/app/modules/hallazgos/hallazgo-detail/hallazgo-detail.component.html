@@ -16,7 +16,7 @@
     <!--#form="ngForm"-->
     <div id="cabecera">
 
-        <mat-form-field class="margin-lr5" [hidden]="hallazgo.id==0">
+        <mat-form-field class="margin-lr5 very-short-form-field" [hidden]="hallazgo.id==0">
             <input matInput placeholder="Número" formControlName="numero" type="number">
         </mat-form-field>
 
@@ -38,7 +38,7 @@
                 Debe seleccionar un motivo.
             </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex class="margin-lr5">
+        <mat-form-field class="margin-lr5 long-form-field">
             <input matInput placeholder="Titulo" formControlName="titulo" type="text" name="txtTitulo">
             <mat-error *ngIf="!hallazgoForm.controls.titulo.valid">
                 Ingrese un titulo valido.
@@ -69,8 +69,8 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     Usuario </mat-header-cell>
                                 <mat-cell *matCellDef="let element" class="mat-cell-first" style="margin-right: 8px">
-                                    <span class="mobile-label">Usuario:</span>
-                                    <button style="margin-right: 8px" type="button" (click)="verRegistracion(element)" mat-icon-button class="mat-cell-button">{{element.usuario}}</button>
+                                    <span class="mobile-label">Usuario:</span> {{element.usuario}}
+                                    <!-- <button style="margin-right: 8px" type="button" (click)="verRegistracion(element)" mat-icon-button class="mat-cell-button">{{element.usuario}}</button> -->
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="fecha">
@@ -91,7 +91,7 @@
                                 <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="dcRegistraciones"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: dcRegistraciones;"></mat-row>
+                            <mat-row *matRowDef="let row; columns: dcRegistraciones;" (click)="verRegistracion(row)" [style.background]="highlightedRows.indexOf(row) != -1 ? 'lightblue' : ''"></mat-row>
                         </mat-table>
                     </mat-card-content>
                 </mat-card>
@@ -103,7 +103,7 @@
         <div [className]="hallazgo.id == 0 ? 'rightPanelNew' : 'rightPanelEdit'">
             <mat-card>
                 <mat-card-header style="background-color: #f5f5f5">
-                    <p style="width: 160px;">Detalle Registracion</p>
+                    <p style="width: 290px;">Escriba aqui lo que nos quiere comentar</p>
 
                 </mat-card-header>
                 <mat-card-content>
@@ -116,7 +116,7 @@
                     <br />
                     <mat-divider></mat-divider>
                     <mat-list>
-                        <h3 mat-subheader>Adjuntos</h3>
+                        <h3 mat-subheader *ngIf="reg_adjuntos != null && reg_adjuntos.length > 0">Adjuntos</h3>
                         <!-- <a href="file://archivos/shamanadj$/liquidaciones/29143_9408656.jpg" target="_blank">sss</a> -->
                         <mat-list-item *ngFor="let adjunto of reg_adjuntos">
                             <h4 mat-line><a [href]=adjunto.fullPath target="_blank">{{adjunto.name}}</a></h4>
@@ -125,7 +125,7 @@
                     </mat-list>
                 </mat-card-content>
                 <div *ngIf='hallazgo.id != 0 && idRegistracionSeleccionada != 0'>
-                    <app-upload [path]='"0" + "-" + hallazgo.id.toString() + "-" + idRegistracionSeleccionada.toString()'></app-upload>
+                    <app-upload [path]='"0" + "-" + hallazgo.id.toString() + "-" + idRegistracionSeleccionada.toString()  + "-" + GetNroRegistros() + "-"' (emitirData)="recargarAdjuntos($event)"></app-upload>
                 </div>
             </mat-card>
 

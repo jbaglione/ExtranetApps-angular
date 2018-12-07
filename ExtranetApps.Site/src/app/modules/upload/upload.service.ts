@@ -18,11 +18,13 @@ export class UploadService {
     // this will be the our resulting map
     const status = {};
      console.log('PATH UPLOAD:' + this.path);
+     let nroFile:number = 0;
     files.forEach(file => {
+      
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      formData.append(this.path, file, file.name);
-
+      formData.append(this.path + nroFile, file, file.name);
+      nroFile ++;
       // const req = new HttpRequest('POST', this.url, formData);
 
       // // create a http-post request and pass the form

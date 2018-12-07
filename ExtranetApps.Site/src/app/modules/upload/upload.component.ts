@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from './dialog/dialog.component';
 import { UploadService } from './upload.service';
@@ -8,10 +8,39 @@ import { UploadService } from './upload.service';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
-export class UploadComponent {
+// implements OnInit
+export class UploadComponent  {
   @Input() path:string;
+  @Output() emitirData: EventEmitter<any> = new EventEmitter();
+  public data:string;
+  // visible: boolean = true;
+  // @Output() close: EventEmitter<any> = new EventEmitter();
+  // toggle() {
+  //   this.visible = !this.visible;
+  //   if (this.visible) {
+  //     this.open.emit(null);
+  //   } else {
+  //     this.close.emit(null);
+  //   }
+  // }
+
+  //Originalmente, la idea era devolver la lista de archivos guardados.
+  returnData(event){
+    this.data = "OK";
+    this.emitirData.emit(this.data);
+  }
+
+  public datos:string;
 
   constructor(public dialog: MatDialog, public uploadService: UploadService) {
+    dialog.afterAllClosed
+    .subscribe(() => {
+      debugger;
+      console.log('afterAllClosed');+
+    // update a variable or call a function when the dialog closes
+      this.returnData(event);
+    }
+  );
   }
 
   public openUploadDialog() {

@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Upload\1\1\" />
+    <Compile Remove="wwwroot\Upload\1\**" />
+    <Content Remove="wwwroot\Upload\1\**" />
+    <EmbeddedResource Remove="wwwroot\Upload\1\**" />
+    <None Remove="wwwroot\Upload\1\**" />
   </ItemGroup>
 
   <ItemGroup>

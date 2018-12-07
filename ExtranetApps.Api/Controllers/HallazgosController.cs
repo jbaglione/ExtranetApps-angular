@@ -14,6 +14,7 @@ namespace ExtranetApps.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicyAllowAny")]
     public class HallazgosController : ControllerBase
     {
         private readonly ExtranetAppsContext _context;
@@ -33,7 +34,7 @@ namespace ExtranetApps.Api.Controllers
         }
 
         [HttpGet]
-        [DisableCors]
+        [EnableCors("MyPolicyAllowAny")]
         public ActionResult<List<Hallazgo>> Get()
         {
             try
@@ -76,7 +77,7 @@ namespace ExtranetApps.Api.Controllers
         }
 
         [HttpGet("{id}", Name = "GetHallazgo")] //=> api/Hallazgos/1
-        [DisableCors]
+        [EnableCors("MyPolicyAllowAny")]
         public ActionResult<Hallazgo> GetHallazgoById(int id)
         {
 
@@ -105,42 +106,48 @@ namespace ExtranetApps.Api.Controllers
             return null;
         }
 
-        [HttpPost]
-        [DisableCors]
-        public IActionResult Post([FromBody] Hallazgo newHallazgo)
-        {
-            try
-            {
-                var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
-                if (lastHallazgos.Registraciones.Count > 0)
-                {
-                    newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
-                }
+        //[HttpPost]
+        //[EnableCors("MyPolicyAllowAny")]
+        //public IActionResult Post([FromBody] string hola)
+        //{
+        //    return new OkObjectResult(hola);
+        //}
 
-                //newHallazgo.
-                if (newHallazgo.Id == 0)
-                {
+        //[HttpPost]
+        //[EnableCors("MyPolicyAllowAny")]
+        //public IActionResult Post([FromBody] Hallazgo newHallazgo)
+        //{
+        //    try
+        //    {
+        //        var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
+        //        if (lastHallazgos.Registraciones.Count > 0)
+        //        {
+        //            newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
+        //        }
+        //        //newHallazgo.
+        //        if (newHallazgo.Id == 0)
+        //        {
+        //            newHallazgo.Id = lastHallazgos.Id + 1;
+        //            newHallazgo.Nro = lastHallazgos.Nro + 1;
+        //            newHallazgo.Hora = DateTime.Now.ToShortTimeString();
+        //            _context.HallazgoItems.Add(newHallazgo);
+        //        }
+        //        else
+        //        {
+        //            _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
+        //            _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
+        //        }
+        //        _context.SaveChanges();
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //    return new OkObjectResult(newHallazgo);
+        //}
 
-                    newHallazgo.Id = lastHallazgos.Id + 1;
-                    newHallazgo.Nro = lastHallazgos.Nro + 1;
-                    newHallazgo.Hora = DateTime.Now.ToShortTimeString();
-                    _context.HallazgoItems.Add(newHallazgo);
-                }
-                else
-                {
-                    _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
-                    _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
-                }
 
 
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-            }
-            return new OkObjectResult(newHallazgo);
-        }
-
+        /*Borrar ->*/
         //private void TrySaveMotivosBitacoras()
         //{
         //    Emergency.MotivosBitacoras mb = new Emergency.MotivosBitacoras();

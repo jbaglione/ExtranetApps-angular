@@ -12,6 +12,7 @@ namespace ExtranetApps.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyPolicyAllowAny")]
     public class HallazgosListablesController : ControllerBase
     {
         private readonly ExtranetAppsContext _context;
@@ -58,7 +59,7 @@ namespace ExtranetApps.Api.Controllers
         //}
         [Route("GetMotivos")]
         [HttpGet(Name = "GetMotivos")]
-        [DisableCors]
+        [EnableCors("MyPolicyAllowAny")]
         public ActionResult<List<Motivo>> GetMotivos()
         {
             try
@@ -76,7 +77,7 @@ namespace ExtranetApps.Api.Controllers
 
         [Route("GetEstados")]
         [HttpGet(Name = "GetEstados")]
-        [DisableCors]
+        [EnableCors("MyPolicyAllowAny")]
         public ActionResult<List<Estado>> GetEstados()
         {
             return new List<Estado> { new Estado("1"), new Estado("2"), new Estado("3") };

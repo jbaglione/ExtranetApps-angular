@@ -17,6 +17,13 @@ namespace ExtranetApps.Api
                 opt.UseInMemoryDatabase("HallazgoList"));
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(o => o.AddPolicy("MyPolicyAllowAny", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         public void Configure(IApplicationBuilder app)

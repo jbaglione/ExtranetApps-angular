@@ -2,12 +2,12 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HallazgosListService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
 import { listable } from '../../../models/listable.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
-import { MatTableDataSource, MatSort, MatDialog} from '@angular/material';
+import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { Registracion } from 'src/app/models/registracion.model';
 import { Adjunto } from 'src/app/models/adjunto.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {DialogComponent} from '../../shared/dialog/dialog.component'
-import {ActivatedRoute, Router} from '@angular/router';
+import { DialogComponent } from '../../shared/dialog/dialog.component'
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Title } from '@angular/platform-browser';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -28,14 +28,14 @@ export class HallazgoDetailComponent implements OnInit {
   motivos: listable;
   estados: listable;
   reg_adjuntos: Adjunto[] = [];
-
+  highlightedRows = [];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('ta_reg_descripcion') ta_reg_descripcion: ElementRef;
   dcRegistraciones: string[] = ['usuario', 'fecha', 'hora'];//', 'adjuntos', 'descripcion',
   mtRegistraciones = new MatTableDataSource();
 
   hallazgoForm: FormGroup;
-  
+
   resultDialog: boolean;
 
   constructor(
@@ -43,7 +43,7 @@ export class HallazgoDetailComponent implements OnInit {
     public dialog: MatDialog,
     private _router: Router,
     private _activatedRoute: ActivatedRoute
-    ) {
+  ) {
     _activatedRoute.params.subscribe(params => {
       this.hallazgo.id = params['id'] == 'nuevo' ? 0 : parseFloat(params['id']);
       this._hallazgosListService.GetMotivos().subscribe(data => this.motivos = data);
@@ -72,64 +72,20 @@ export class HallazgoDetailComponent implements OnInit {
     });
   }
 
-  loadHallazgo(){
-    debugger;
-
-    if (this.hallazgo.motivo == null || this.hallazgo.estado == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
-      this.resultDialog = false;
-      this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
-      //TODO: arreglar dialogo navegacion.
-      //this._hallazgosListService.showSnackBar('Error en los datos');
-    }
-      
-    if(this.hallazgo.registraciones == null || JSON.stringify(this.hallazgo.registraciones) == '[]'){
-      this.hallazgo.registraciones.push(new Registracion());
-      this.mtRegistraciones.data = this.hallazgo.registraciones;
-    }
-    else
-      this.mtRegistraciones.data = this.hallazgo.registraciones;
-   
-    this.verRegistracion(this.hallazgo.registraciones[0]);
-    //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
-    this.hallazgoForm.patchValue({
-      // id: this.hallazgo.id,
-      numero: this.hallazgo.nro,
-      titulo: this.hallazgo.titulo,
-      fecha: this.hallazgo.fecha,
-      motivo: this.hallazgo.motivo == null ? new listable("1", "") : this.hallazgo.motivo.id,
-      estado: this.hallazgo.estado == null ? new listable("1", "") : this.hallazgo.estado.id,
-    });
-  }
-
-  openDialog(pTitle:string, pContent:string): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
-      data: {title: pTitle, content: pContent}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.resultDialog = result;
-      //TODO: arreglar dialogo navegacion.
-      if(!this.resultDialog){
-        this._router.navigate(['/hallazgos']);
-      }
-      console.log(this.resultDialog);
-    });
-  }
-  ngOnInit() {
-    this.mtRegistraciones.sort = this.sort;
-    // this.mtDestinos.sort = this.sort;
-  }
-
-  verRegistracion(registracion: Registracion) {
+  verRegistracion(row: any) {
+    let registracion = new Registracion();
     
+    registracion.id = parseInt(row["id"]);
+    registracion.adjuntos = row["adjuntos"];
+    registracion.descripcion = row["descripcion"]
     // if(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].descripcion =='')
     if (registracion.id != 0 && this.hallazgoForm.controls.reg_descripcion.value == ''
       && this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].id == 0)
 
       this.ta_reg_descripcion.nativeElement.focus();
     else {
+      this.highlightedRows = [];
+      this.highlightedRows.push(row);
       this.hallazgoForm.patchValue({
         reg_descripcion: registracion.descripcion,
         // reg_adjuntos: registracion.adjuntos,
@@ -141,12 +97,84 @@ export class HallazgoDetailComponent implements OnInit {
       console.log(this.idRegistracionSeleccionada);
     }
     // console.log(JSON.stringify(registracion));
+    
   }
+
+  loadHallazgo() {
+    if (this.hallazgo.motivo == null || this.hallazgo.estado == null || JSON.stringify(this.hallazgo.registraciones) == '[]') {
+      this.resultDialog = false;
+      this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
+      //TODO: arreglar dialogo navegacion.
+      //this._hallazgosListService.showSnackBar('Error en los datos');
+    }
+
+    if (this.hallazgo.registraciones == null || JSON.stringify(this.hallazgo.registraciones) == '[]') {
+      this.hallazgo.registraciones.push(new Registracion());
+      this.mtRegistraciones.data = this.hallazgo.registraciones;
+    }
+    else
+      this.mtRegistraciones.data = this.hallazgo.registraciones;
+
+    this.verRegistracion(this.hallazgo.registraciones[0])
+    //Seteo los valores del formulario. (parchValue=algunos, setValue=todos.)
+    this.hallazgoForm.patchValue({
+      // id: this.hallazgo.id,
+      numero: this.hallazgo.nro,
+      titulo: this.hallazgo.titulo,
+      fecha: this.hallazgo.fecha,
+      motivo: this.hallazgo.motivo == null ? new listable("1", "") : this.hallazgo.motivo.id,
+      estado: this.hallazgo.estado == null ? new listable("1", "") : this.hallazgo.estado.id,
+    });
+  }
+
+  openDialog(pTitle: string, pContent: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: { title: pTitle, content: pContent }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.resultDialog = result;
+      //TODO: arreglar dialogo navegacion.
+      if (!this.resultDialog) {
+        this._router.navigate(['/hallazgos']);
+      }
+      console.log(this.resultDialog);
+    });
+  }
+  ngOnInit() {
+    this.mtRegistraciones.sort = this.sort;
+    // this.mtDestinos.sort = this.sort;
+  }
+
+  // verRegistracion(registracion: Registracion) {
+
+  //   // if(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].descripcion =='')
+  //   if (registracion.id != 0 && this.hallazgoForm.controls.reg_descripcion.value == ''
+  //     && this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1].id == 0)
+
+  //     this.ta_reg_descripcion.nativeElement.focus();
+  //   else {
+  //     this.hallazgoForm.patchValue({
+  //       reg_descripcion: registracion.descripcion,
+  //       // reg_adjuntos: registracion.adjuntos,
+  //     });
+  //     this.idRegistracionSeleccionada = registracion.id;
+  //     this.reg_adjuntos = registracion.adjuntos;
+
+  //     console.log(registracion);
+  //     console.log(this.idRegistracionSeleccionada);
+  //   }
+  //   // console.log(JSON.stringify(registracion));
+  // }
 
   nuevaRegistracion() {
     this.hallazgo.registraciones.push(new Registracion);
     this.mtRegistraciones.data = this.hallazgo.registraciones;
-    this.verRegistracion(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1]);
+
+    this.verRegistracion(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1])
+    // this.verRegistracion(this.hallazgo.registraciones[this.hallazgo.registraciones.length - 1]);
     this.ta_reg_descripcion.nativeElement.focus();
     console.log(this.hallazgo);
   }
@@ -155,7 +183,6 @@ export class HallazgoDetailComponent implements OnInit {
   }
 
   guardarHallazgo() {
-    debugger;
     console.log(this.hallazgoForm.value);
     if (this.hallazgoForm.valid) {
 
@@ -165,7 +192,6 @@ export class HallazgoDetailComponent implements OnInit {
       this.hallazgo.titulo = this.hallazgoForm.controls.titulo.value;
       this.hallazgo.fecha = this.hallazgoForm.controls.fecha.value;
       this.hallazgo.motivo = new listable(this.hallazgoForm.controls.motivo.value, "");
-      debugger;
       this.hallazgo.estado = new listable(this.hallazgoForm.controls.estado.value, "");
 
       this.hallazgo.registraciones[indice].descripcion = this.hallazgoForm.controls.reg_descripcion.value;
@@ -188,7 +214,31 @@ export class HallazgoDetailComponent implements OnInit {
       // console.log(JSON.stringify(registracion));
     }
   }
+
+  recargarAdjuntos(event){
+    
+    if(event == "OK")
+    {
+      if (this.hallazgo.id !== 0) {
+        this._hallazgosListService.GetHallazgo(this.hallazgo.id).subscribe(data => {
+          debugger;
+          this.hallazgo.registraciones = data.registraciones;
+          this.mtRegistraciones.data = this.hallazgo.registraciones;
+          this.reg_adjuntos = this.hallazgo.registraciones.find(x=>x.id == this.idRegistracionSeleccionada).adjuntos;
+          // this.loadHallazgo();
+        });
+      }
+    }
+    // // this.idRegistracionSeleccionada
+    // let adj:Adjunto = new Adjunto();
+    // adj.name = "nuevo";
+    // this.reg_adjuntos.push(adj);
+    // console.log(event);
+  }
+  GetNroRegistros()
+  {
+    if(this.reg_adjuntos!=null)
+    return this.reg_adjuntos.length;
+    else return 0;
+  }
 }
-
-
-
