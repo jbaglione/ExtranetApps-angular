@@ -3,15 +3,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './modules/shared/shared.module';
 
+import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 //Servicios
-import { HallazgosListService } from './services/hallazgos/hallazgos.service';
+import { HallazgosService } from './services/hallazgos/hallazgos.service';
 
 // import { HallazgoModule } from './modules/hallazgos/hallazgo.module';
 import { AppRoutingModule } from "./app-routing.module";
@@ -34,7 +35,9 @@ import { AppRoutingModule } from "./app-routing.module";
   ],
 
   providers: [
-    HallazgosListService
+    HallazgosService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [
     AppComponent],

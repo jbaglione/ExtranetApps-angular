@@ -25,6 +25,6 @@
         <button mat-button mat-dialog-close>Cancelar</button>
         <!--*ngIf="showCancelButton" -->
         <!-- || files.Count > 0 -->
-        <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
+        <button mat-raised-button [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
     </mat-dialog-actions>
 </div>

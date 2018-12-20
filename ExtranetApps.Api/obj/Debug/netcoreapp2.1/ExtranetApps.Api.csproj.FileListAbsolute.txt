@@ -12,13 +12,11 @@ C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\Extra
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.pdb
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.csprojAssemblyReference.cache
-C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExrtanetApps.Security.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ShamanClases.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ShamanClases_CSharp.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\InterSystems.Data.CacheClient30.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ShamanClases.pdb
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ShamanClases.xml
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ShamanClases_CSharp.pdb
-C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\ExrtanetApps.Security.pdb
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Debug\netcoreapp2.1\InterSystems.Data.CacheClient30.xml
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Debug\netcoreapp2.1\ExtranetApps.Api.csproj.CopyComplete

@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 
 const homeRoutes: Routes = [
+  {path: ':site/:token', component: HomeComponent},
   {path: '', component: HomeComponent},
 ];
 

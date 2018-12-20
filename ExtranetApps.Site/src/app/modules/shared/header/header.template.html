@@ -1,114 +1,22 @@
-<!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar-top-paramedic">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand title-paramedic" href="#"><img src="/img/paramedic.png" id="logo-paramedic" /></a>
-            <p class="navbar-text title-paramedic" style="color:#357ebd">Gestion de traslados</p>
-        </div>
-
-        <div class="navbar-collapse collapse">
-            <div class="navbar-text pull-right">
-                <span style="display:block">
-                    <i class="fa fa-user azul"></i>
-                    <span id="user-paramedic">usuario.NombreUsuario</span>
-                <span id="icons-top-separator">
-                        |<span>
-                            <a href="#" class="btn btn-default btn-xs" id="navbar-top-logout"><span class="glyphicon glyphicon-off blanco"></span></a>
-                </span>
-                </span>
-                </span>
-            </div>
-        </div>
+<mat-toolbar style="position: fixed; z-index: 10; margin-top:-8px; width: 100%; height: 64px;">
+    <!--class="container" -->
+    <!--style="position: fixed; z-index: 100000; margin-bottom: 250px;" -->
+    <div class="hidden-if-mobile">
+        <span style="width: 12%;"><img class="icon-center" style="width: 100%; float:left !important" src="assets/images/logo.png"></span>
+        <span style="width: 2%;"></span>
     </div>
-</div> -->
-
-<!-- <header>
-    <nav>
-        <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-            <div fxFlex="40"> -->
-
-<!-- <mat-toolbar style="background:white">
-
-    <mat-toolbar-row>
-
-        <div class="text--center">
-            <img src="assets/images/paramedic.png">
-
-            <span style="color: #357ebd;">Mis Hallazgos</span>
-        </div>
-
-        <div fxFlex class="text--right" style="text-align: center;
-        vertical-align: middle;">
-            <mat-icon class="example-icon">account_circle</mat-icon>
-            <span style="color: #357ebd;">jonathan.baglione</span>|
-            <button mat-icon-button>
-                <mat-icon class="example-icon">power_settings_new</mat-icon>
-            </button>
-        </div>
-    </mat-toolbar-row>
-
-</mat-toolbar> -->
-<!-- </div>
-        </div>
-    </nav>
-</header> -->
-
-<!-- <header>
-    <nav>
-        <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-            <div fxFlex="40">
-                <a mat-raised-button>
-                        {{'TRAD' | uppercase}}
-                    </a>
-            </div>
-            <div fxFlex class="text--right">
-                
-                <button mat-icon-button [matMenuTriggerFor]="matmenu">
-                        <mat-icon>public</mat-icon>
-                    </button>
-                <mat-menu #matmenu="matMenu">
-                    
-                </mat-menu>
-                
-            </div>
-        </div>
-    </nav>
-    
-</header> -->
-
-
-<mat-toolbar color="secondary">
-
-    <!-- <div fxShow="true" fxHide.gt-sm="true">
-            <a href="#" (click)="sidenav.toggle()">></a>
-        </div> -->
-    <!-- <button mat-raised-button (click)="sidenav.toggle()">></button> -->
-    <!-- <button mat-icon-button>
-            <a href="#" (click)="sidenav.toggle()">></a>
-        </button> -->
-
-    <span class="example-spacer-small"></span>
-
-    <span><img style="width: 70%" class="icon-center" src="assets/images/paramedic.png"></span>
-
-    <span class="example-spacer-small"></span>
-
-    <span style="color: #357ebd;">Mis Hallazgos</span>
-
+    <span class="primary-color" style="font-size: 17px; font-weight: 600">{{titulo}}</span>
     <span class="example-spacer"></span>
-
-    <!-- Account -->
-    <span class="icon-center"><mat-icon class="example-icon">account_circle</mat-icon></span>
-    <span style="margin-right: 6px"></span>
-    <span style="color: #357ebd; margin-right: 6px">jonathan.baglione</span>|
+    <div class="hidden-if-mobile">
+        <span>
+            <mat-icon class="icon-center hidden-if-mobile" style="font-size: 16px;">account_circle</mat-icon>
+        </span>
+    </div>
+    <span class="float primary-color" style="font-size: 15px;">{{user.identificacion}} |</span>
     <button mat-icon-button>
-                <mat-icon class="icon-center">power_settings_new</mat-icon>
-        </button>
+        <mat-icon class="icon-center" matTooltip="Cerrar sesion" (click)="logout()" color="accent" style="font-size: 15px;">power_settings_new</mat-icon>
+    </button>
+
     <!--Fin Account -->
 
     <!-- <div fxShow="true" fxHide.lt-md="true">
@@ -124,27 +32,12 @@
 
             <a href="#" mat-button>Menu Item 6</a>
         </div> -->
+
 </mat-toolbar>
-
-
-<!-- <mat-sidenav-container>
-    <mat-sidenav #sidenav> Start</mat-sidenav>
-    <mat-sidenav-content>Main</mat-sidenav-content>
-</mat-sidenav-container> -->
-
-<!-- <mat-sidenav-container fxFlexFill class="example-container">
-
-    <mat-sidenav #sidenav fxLayout="column">
-
-        <div fxLayout="column">
-            <a (click)="sidenav.toggle()" href="#" mat-button>Close</a>
-
-            <a href="#" mat-button>Menu Item 1</a>
-            <a href="#" mat-button>Menu Item 2</a>
-        </div>
-
-    </mat-sidenav>
-
-    <mat-sidenav-content fxFlexFill>Main content</mat-sidenav-content>
-
-</mat-sidenav-container> -->
+<div style="border-width: 1.2px;border-style: solid;position: fixed;z-index: 9;width: 100%;margin-top: 56px;" class="accent-color"></div>
+<!-- <mat-divider style="border-width: 1px;
+border-style: solid;" class="accent-color"></mat-divider> -->
+<br />
+<br />
+<br />
+<br />

@@ -4653,20 +4653,6 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "ExrtanetApps.Security/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.1",
-        "dependencies": {
-          "Microsoft.NETCore.App": "2.1.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.1"
-        },
-        "compile": {
-          "bin/placeholder/ExrtanetApps.Security.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ExrtanetApps.Security.dll": {}
-        }
-      },
       "ShamanClases/1.0.0": {
         "type": "project",
         "compile": {
@@ -9653,10 +9639,13 @@
       ]
     },
     "System.Net.Http/4.3.0": {
-      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
+      "sha512": "Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
       "type": "package",
       "path": "system.net.http/4.3.0",
       "files": [
+        ".signature.p7s",
+        "System.Net.Http.4.3.0.nupkg.sha512",
+        "System.Net.Http.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/Xamarinmac20/_._",
@@ -9727,9 +9716,7 @@
         "runtimes/unix/lib/netstandard1.6/System.Net.Http.dll",
         "runtimes/win/lib/net46/System.Net.Http.dll",
         "runtimes/win/lib/netcore50/System.Net.Http.dll",
-        "runtimes/win/lib/netstandard1.3/System.Net.Http.dll",
-        "system.net.http.4.3.0.nupkg.sha512",
-        "system.net.http.nuspec"
+        "runtimes/win/lib/netstandard1.3/System.Net.Http.dll"
       ]
     },
     "System.Net.Primitives/4.3.0": {
@@ -12351,11 +12338,6 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "ExrtanetApps.Security/1.0.0": {
-      "type": "project",
-      "path": "../ExrtanetApps.Security/ExrtanetApps.Security.csproj",
-      "msbuildProject": "../ExrtanetApps.Security/ExrtanetApps.Security.csproj"
-    },
     "ShamanClases/1.0.0": {
       "type": "project",
       "path": "../../ShamanCache/Shaman/ShamanClases/ShamanClases/ShamanClases.vbproj",
@@ -12369,7 +12351,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "ExrtanetApps.Security >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
@@ -12409,9 +12390,6 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Paramedic\\ExtranetApps-angular\\ExrtanetApps.Security\\ExrtanetApps.Security.csproj": {
-              "projectPath": "C:\\Paramedic\\ExtranetApps-angular\\ExrtanetApps.Security\\ExrtanetApps.Security.csproj"
-            },
             "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases\\ShamanClases\\ShamanClases.vbproj": {
               "projectPath": "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases\\ShamanClases\\ShamanClases.vbproj"
             },

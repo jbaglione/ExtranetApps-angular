@@ -14,6 +14,7 @@ export class NotFoundComponent implements OnInit {
   }
   GoHome ()
   {
-    this._router.navigate(['home']);
+    window.location.href = 'http://localhost:2128/Login';
+    // this._router.navigate(['home']);
   }
 }

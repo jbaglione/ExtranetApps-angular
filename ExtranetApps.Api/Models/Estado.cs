@@ -12,7 +12,7 @@ namespace ExtranetApps.Api.Models
 
         }
 
-        public override string Descripcion { get { return this.Id == "1" ? "Pendiente" : this.Id == "2" ? "En curso" : "Finalizado"; } }
+        public override string Descripcion { get { return this.Id == "0" ? "Nuevo" : this.Id == "1" ? "Pendiente" : this.Id == "2" ? "En curso" : "Finalizado"; } }
 
         public Estado(string Id)
         {

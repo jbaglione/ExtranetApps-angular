@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { HallazgosListService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
+import { HallazgosService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
 import { listable } from '../../../models/listable.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
 import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
@@ -9,11 +9,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DialogComponent } from '../../shared/dialog/dialog.component'
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Title } from '@angular/platform-browser';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Destino } from 'src/app/models/destino.model';
-import { getLocaleDateTimeFormat } from '@angular/common';
-import { Usuario } from 'src/app/models/usuario.model';
+// import { Title } from '@angular/platform-browser';
+// import { SelectionModel } from '@angular/cdk/collections';
+// import { Destino } from 'src/app/models/destino.model';
+// import { getLocaleDateTimeFormat } from '@angular/common';
+// import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-hallazgo-detail',
@@ -37,17 +37,21 @@ export class HallazgoDetailComponent implements OnInit {
   hallazgoForm: FormGroup;
 
   resultDialog: boolean;
+  //Usar si quiero mostrar el nuevo numero antes.
+  newHallazgoNro:number;
 
   constructor(
-    private _hallazgosListService: HallazgosListService,
+    private _hallazgosService: HallazgosService,
     public dialog: MatDialog,
     private _router: Router,
     private _activatedRoute: ActivatedRoute
   ) {
     _activatedRoute.params.subscribe(params => {
       this.hallazgo.id = params['id'] == 'nuevo' ? 0 : parseFloat(params['id']);
-      this._hallazgosListService.GetMotivos().subscribe(data => this.motivos = data);
-      this._hallazgosListService.GetEstados().subscribe(data => this.estados = data);
+      this._hallazgosService.GetMotivos().subscribe(data => this.motivos = data);
+      this._hallazgosService.GetEstados().subscribe(data => this.estados = data);
+      //Usar si quiero mostrar el nuevo numero antes.
+      //this._hallazgosService.GetNewHallazgoNro().subscribe(data => this.newHallazgoNro = data);
 
       //Creo el formulario con ReactiveForm
       this.hallazgoForm = new FormGroup({
@@ -56,19 +60,22 @@ export class HallazgoDetailComponent implements OnInit {
         'fecha': new FormControl({ value: new Date(), disabled: this.hallazgo.id !== 0 }, [Validators.required]),
         'motivo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required]),
         'titulo': new FormControl({ value: '', disabled: this.hallazgo.id !== 0 }, [Validators.required, Validators.minLength(3)]),
-        'estado': new FormControl({ value: '1', disabled: true }, [Validators.required]),
+        'estado': new FormControl({ value: '0', disabled: true }, [Validators.required]),
 
         //Panel Registraciones detalle:
         'reg_descripcion': new FormControl('', [Validators.required]),
         // 'reg_adjuntos': new FormControl(),
       })
-
+     
       if (this.hallazgo.id !== 0) {
-        this._hallazgosListService.GetHallazgo(this.hallazgo.id).subscribe(data => {
+        this._hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
           this.hallazgo = data;
           this.loadHallazgo();
+          this._hallazgosService.setTitulo("Hallazgo " + this.hallazgo.titulo);
         });
       }
+      else
+      this._hallazgosService.setTitulo("Nuevo Hallazgo");
     });
   }
 
@@ -105,7 +112,7 @@ export class HallazgoDetailComponent implements OnInit {
       this.resultDialog = false;
       this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
       //TODO: arreglar dialogo navegacion.
-      //this._hallazgosListService.showSnackBar('Error en los datos');
+      //this._hallazgosService.showSnackBar('Error en los datos');
     }
 
     if (this.hallazgo.registraciones == null || JSON.stringify(this.hallazgo.registraciones) == '[]') {
@@ -182,14 +189,7 @@ export class HallazgoDetailComponent implements OnInit {
     console.log(this.hallazgoForm.value);
   }
 
-  guardarHallazgo(){
-    debugger;
-    let anyV:any;
-    this._hallazgosListService.CreateHallazgoFake().subscribe(data => anyV = data);
-
-  }
-
-  guardarHallazgoOrigin() {
+   guardarHallazgo() {
     console.log(this.hallazgoForm.value);
     if (this.hallazgoForm.valid) {
 
@@ -207,7 +207,7 @@ export class HallazgoDetailComponent implements OnInit {
       this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
       // this.hallazgo.registraciones = null;
 
-      this._hallazgosListService.CreateHallazgo(this.hallazgo).subscribe((newHallazgo) => {
+      this._hallazgosService.CreateHallazgo(this.hallazgo).subscribe((newHallazgo) => {
         console.log(JSON.stringify(newHallazgo));
         this.hallazgo = newHallazgo as Hallazgo;
         this.loadHallazgo();
@@ -227,7 +227,7 @@ export class HallazgoDetailComponent implements OnInit {
     if(event == "OK")
     {
       if (this.hallazgo.id !== 0) {
-        this._hallazgosListService.GetHallazgo(this.hallazgo.id).subscribe(data => {
+        this._hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
           debugger;
           this.hallazgo.registraciones = data.registraciones;
           this.mtRegistraciones.data = this.hallazgo.registraciones;

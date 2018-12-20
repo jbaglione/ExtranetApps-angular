@@ -77,7 +77,7 @@ namespace ExtranetApps.Api.Controllers
 
                     Panel.Adjuntos adj = new Panel.Adjuntos();
                     List<TiposAdjuntosMin> TipoAdjuntos = modGenerics.GetList<TiposAdjuntosMin>(new Panel.TiposAdjuntos().CacheClassController, "GetTipoAdjuntos", false, connectionString);
-                    
+
                     adj.CleanProperties(adj);
                     adj.Entidad = "Bitacoras";
                     adj.EntidadId = idHallazgo + "--" + idRegistracion;

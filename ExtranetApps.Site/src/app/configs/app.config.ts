@@ -9,16 +9,18 @@ export const AppConfig: any = {
   },
   endpoints: {
     //  //localhost
-    //  extranet: 'https://localhost:5001/api/Hallazgos',
+     extranet: 'https://localhost:5001/api/Hallazgos',
     //  upload: 'https://localhost:5001/api/Upload'
+    security: 'https://localhost:5002/Security/Users/',
 
     // //Produccion
     // extranet: 'http://paramedicapps.com.ar:5566/api/Hallazgos',
     // upload: 'http://paramedicapps.com.ar:5566/api/Upload'
-
+    
     // Server Local Pilar
-    extranet: 'http://192.168.5.95:5566/api/Hallazgos',
+    //extranet: 'http://192.168.5.95:5566/api/Hallazgos',
     upload: 'http://192.168.5.95:5566/api/Upload'
+    
 
   },
   // votesLimit: 3,

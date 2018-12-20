@@ -76,6 +76,7 @@ using ExrtanetApps.Security.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 
 namespace ExrtanetApps.Security
 {
@@ -115,7 +116,14 @@ namespace ExrtanetApps.Security
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    //ValidateLifetime = true,//validate exp?
+
+                    ValidateLifetime = true,
+                    //ValidateIssuer = true,
+                    //ValidateAudience = true,
+                    ClockSkew = TimeSpan.Zero
+                    
                 };
             });
 

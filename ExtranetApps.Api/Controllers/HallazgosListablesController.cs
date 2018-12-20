@@ -80,7 +80,7 @@ namespace ExtranetApps.Api.Controllers
         [EnableCors("MyPolicyAllowAny")]
         public ActionResult<List<Estado>> GetEstados()
         {
-            return new List<Estado> { new Estado("1"), new Estado("2"), new Estado("3") };
+            return new List<Estado> { new Estado("0"), new Estado("1"), new Estado("2"), new Estado("3") };
         }
 
     }

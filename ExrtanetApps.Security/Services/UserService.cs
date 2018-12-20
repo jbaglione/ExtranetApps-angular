@@ -13,9 +13,10 @@ namespace ExrtanetApps.Security.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
+        User Authenticate(string identificacion, string password);
         User AuthenticateBase64(string userBase64);
         IEnumerable<User> GetAll();
+        User GetUserByToken(string token, bool refresh = false);
     }
 
     public class UserService : IUserService
@@ -23,7 +24,7 @@ namespace ExrtanetApps.Security.Services
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         { 
-            new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" } 
+            new User { Id = 1, Nombre = "Jonathan Baglione", Identificacion="baglione.jonathan", Password = "ahj026" } 
         };
 
         private List<UserBase64> _usersBase64 = new List<UserBase64>
@@ -43,9 +44,9 @@ namespace ExrtanetApps.Security.Services
         {
         }
 
-        public User Authenticate(string username, string password)
+        public User Authenticate(string identificacion, string password)
         {
-            var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            var user = _users.SingleOrDefault(x => x.Identificacion == identificacion && x.Password == password);
 
             // return null if user not found
             if (user == null)
@@ -98,7 +99,13 @@ namespace ExrtanetApps.Security.Services
             // return null if user not found
             if (user == null)
                 return null;
+            SetNewToken(user);
 
+            return user;
+        }
+
+        private void SetNewToken(User user)
+        {
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -108,8 +115,8 @@ namespace ExrtanetApps.Security.Services
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
-                //Expires = DateTime.UtcNow.AddDays(7),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                //Expires = DateTime.UtcNow.AddDays(2),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -117,8 +124,28 @@ namespace ExrtanetApps.Security.Services
 
             // remove password before returning
             user.Password = null;
+        }
+
+        public User GetUserByToken(string token, bool refresh = false)
+        {
+            token = token.Replace("Bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            if (tokenS.ValidTo.AddHours(-3) < DateTime.Now)//revisar zona horaria.
+                return null;
+
+            long userId = Convert.ToInt64(tokenS.Payload["unique_name"]);
+
+            var user = _users.Where(x => x.Id == userId).FirstOrDefault();
+
+            if(refresh)
+                SetNewToken(user);
+            else
+                user.Token = token;
 
             return user;
+
         }
+
     }
 }
