@@ -36,16 +36,14 @@ export class AuthenticationService {
             }));
     }
 
-    //TODO: borrar, es prueba
-    GetAll() {
-        return this.http.get<any[]>(`${this.securityUrl}`);
-    }
+    // //TODO: borrar, es prueba
+    // GetAll() {
+    //     return this.http.get<any[]>(`${this.securityUrl}`);
+    // }
 
     loginByToken(token: string) {
-        debugger;
         return this.http.post<any>(`${this.securityUrl}authenticateByToken`, { token })
             .pipe(map(user => {
-                debugger;
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -58,12 +56,9 @@ export class AuthenticationService {
     }
 
     RefreshToken() {
-        debugger;
-
         const url = `${this.securityUrl}refreshToken`;
-        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `${this.currentUserValue.token}` });
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `${this.currentUserValue.token}`, 'Micrositio': `${this.currentUserValue.micrositio}` });
         return this.http.get<any>(url, { headers: headerOptions }).pipe(map(user => {
-            debugger;
             // login successful if there's a jwt token in the response
             if (user && user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -93,7 +88,6 @@ export class AuthenticationService {
     
 
     loginBase64(base64: string) {
-        debugger;
         return this.http.post<any>(`${this.securityUrl}/authenticateBase64`, { base64 })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
@@ -128,7 +122,6 @@ export class AuthenticationService {
       }
     
       isTokenExpired(token?: string): boolean {
-          debugger;
         if(!token)
             token = this.currentUserValue.token;
         if(!token)

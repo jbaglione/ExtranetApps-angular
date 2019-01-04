@@ -1,4 +1,4 @@
-import {InjectionToken} from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
 export let APP_CONFIG = new InjectionToken('app.config');
 
@@ -9,19 +9,17 @@ export const AppConfig: any = {
   },
   endpoints: {
     //  //localhost
-     extranet: 'https://localhost:5001/api/Hallazgos',
-    //  upload: 'https://localhost:5001/api/Upload'
+    // extranet: 'https://localhost:5001/api/Hallazgos',
+    // upload: 'https://localhost:5001/api/Upload',
     security: 'https://localhost:5002/Security/Users/',
 
     // //Produccion
     // extranet: 'http://paramedicapps.com.ar:5566/api/Hallazgos',
     // upload: 'http://paramedicapps.com.ar:5566/api/Upload'
-    
-    // Server Local Pilar
-    //extranet: 'http://192.168.5.95:5566/api/Hallazgos',
-    upload: 'http://192.168.5.95:5566/api/Upload'
-    
 
+    // Server Local Pilar
+    extranet: 'http://192.168.5.95:5566/api/Hallazgos',
+    upload: 'http://192.168.5.95:5566/api/Upload'
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,

@@ -228,7 +228,6 @@ export class HallazgoDetailComponent implements OnInit {
     {
       if (this.hallazgo.id !== 0) {
         this._hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
-          debugger;
           this.hallazgo.registraciones = data.registraciones;
           this.mtRegistraciones.data = this.hallazgo.registraciones;
           this.reg_adjuntos = this.hallazgo.registraciones.find(x=>x.id == this.idRegistracionSeleccionada).adjuntos;

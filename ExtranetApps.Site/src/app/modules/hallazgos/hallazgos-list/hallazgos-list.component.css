@@ -7,7 +7,7 @@ table {
 }
 
 .mat-column-nro {
-    flex: 0 0 80px;
+    flex: 0 0 75px;
 }
 
 .mat-column-fecha {
@@ -23,7 +23,7 @@ table {
 }
 
 .mat-column-motivo {
-    flex: 0 0 100px;
+    flex: 0 0 260px;
 }
 
 .mat-column-administrador {
@@ -40,10 +40,12 @@ table {
 
 .mat-column-diasRta {
     flex: 0 0 80px;
+    display: none;
 }
 
 .mat-column-duracion {
     flex: 0 0 80px;
+    display: none;
 }
 
 @media(max-width: 600px) {
@@ -66,4 +68,37 @@ table {
     .mat-cell-button {
         width: auto !important;
     }
+    .mat-column-nro {
+        flex: auto !important;
+    }
+    .mat-column-fecha {
+        flex: auto !important;
+    }
+    .mat-column-hora {
+        flex: auto !important;
+    }
+    .mat-column-titulo {
+        flex: auto !important;
+    }
+    .mat-column-motivo {
+        flex: auto !important;
+    }
+    .mat-column-administrador {
+        flex: auto !important;
+    }
+    .mat-column-estado {
+        flex: auto !important;
+    }
+    .mat-column-ultFecha {
+        flex: auto !important;
+    }
+    /* .mat-column-diasRta {
+        flex: 0 0 80px;
+        display: none;
+    }
+    
+    .mat-column-duracion {
+        flex: 0 0 80px;
+        display: none;
+    } */
 }

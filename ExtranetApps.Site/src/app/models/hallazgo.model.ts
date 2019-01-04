@@ -11,7 +11,7 @@ export class Hallazgo {
     titulo: string;
     motivo: listable;
     administrador: string;
-    estado: listable; //0 = ,1 = pendiente,2 = finalizado
+    estado: listable; //0 = Nuevo,1 = pendiente,2 = en custo, 3 = finalizado
     ultFecha: Date | string;
     diasRta: number;
     duracion: number;

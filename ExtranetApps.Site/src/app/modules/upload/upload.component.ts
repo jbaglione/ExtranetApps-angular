@@ -35,8 +35,7 @@ export class UploadComponent  {
   constructor(public dialog: MatDialog, public uploadService: UploadService) {
     dialog.afterAllClosed
     .subscribe(() => {
-      debugger;
-      console.log('afterAllClosed');+
+      console.log('afterAllClosed');
     // update a variable or call a function when the dialog closes
       this.returnData(event);
     }

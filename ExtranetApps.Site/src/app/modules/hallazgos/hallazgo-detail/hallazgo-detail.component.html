@@ -28,7 +28,7 @@
                 Debe ingresar una fecha valida.
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="margin-lr5">
+        <mat-form-field class="margin-lr5 long-form-field">
             <mat-select placeholder="Motivo" formControlName="motivo">
                 <mat-option *ngFor="let item of motivos" [value]="item.id ">
                     {{item.descripcion}}
@@ -38,7 +38,7 @@
                 Debe seleccionar un motivo.
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="margin-lr5 long-form-field">
+        <mat-form-field class="margin-lr5">
             <input matInput placeholder="Titulo" formControlName="titulo" type="text" name="txtTitulo">
             <mat-error *ngIf="!hallazgoForm.controls.titulo.valid">
                 Ingrese un titulo valido.
@@ -120,7 +120,7 @@
                         <!-- <a href="file://archivos/shamanadj$/liquidaciones/29143_9408656.jpg" target="_blank">sss</a> -->
                         <mat-list-item *ngFor="let adjunto of reg_adjuntos">
                             <h4 mat-line><a [href]=adjunto.fullPath target="_blank">{{adjunto.name}}</a></h4>
-                            <img [src]="adjunto.fullPath">
+                            <img [src]="adjunto.fullPath" width=35px height=35px>
                         </mat-list-item>
                     </mat-list>
                 </mat-card-content>

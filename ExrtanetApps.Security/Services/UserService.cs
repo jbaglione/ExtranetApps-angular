@@ -13,18 +13,18 @@ namespace ExrtanetApps.Security.Services
 {
     public interface IUserService
     {
-        User Authenticate(string identificacion, string password);
-        User AuthenticateBase64(string userBase64);
-        IEnumerable<User> GetAll();
-        User GetUserByToken(string token, bool refresh = false);
+        UsuarioSeguridad Authenticate(string identificacion, string password, string micrositio = null);
+        UsuarioSeguridad AuthenticateBase64(string userBase64);
+        IEnumerable<UsuarioSeguridad> GetAll();
+        UsuarioSeguridad GetUserByToken(string token, string micrositio, bool refresh = false);
     }
 
     public class UserService : IUserService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private List<User> _users = new List<User>
+        private List<UsuarioSeguridad> _users = new List<UsuarioSeguridad>
         { 
-            new User { Id = 1, Nombre = "Jonathan Baglione", Identificacion="baglione.jonathan", Password = "ahj026" } 
+            new UsuarioSeguridad { ID = 1, Nombre = "Jonathan Baglione", Identificacion="baglione.jonathan", Password = "ahj026" } 
         };
 
         private List<UserBase64> _usersBase64 = new List<UserBase64>
@@ -44,23 +44,34 @@ namespace ExrtanetApps.Security.Services
         {
         }
 
-        public User Authenticate(string identificacion, string password)
-        {
-            var user = _users.SingleOrDefault(x => x.Identificacion == identificacion && x.Password == password);
+        ExtranetC.Usuarios userController = new ExtranetC.Usuarios();
 
-            // return null if user not found
-            if (user == null)
-                return null;
+        public UsuarioSeguridad Authenticate(string identificacion, string password, string micrositio = null)
+        {
+            //var user = _users.SingleOrDefault(x => x.Identificacion == identificacion && x.Password == password);
+           
+
+            var aLink = userController.LoginArray<LinkAplicacion>(identificacion, password).FirstOrDefault();//Si es valido, devuelve una lista de aplicaciones y el usuario Id.
+            if (aLink == null)
+                return null;// return null if user not found
+            UsuarioSeguridad user = new UsuarioSeguridad { ID = aLink.UsuarioId, Micrositio = aLink.Jerarquia};
+            //aLink.Jerarquia
+
+            if (micrositio != null)
+                user.Micrositio = micrositio;// user = userController.GetUsuarioInfo<UsuarioSeguridad>(user.ID, micrositio).FirstOrDefault();
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+
                 Subject = new ClaimsIdentity(new Claim[] 
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
+                    new Claim(ClaimTypes.Name, user.ID.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Micrositio.ToString())
+                }
+                ),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -73,7 +84,7 @@ namespace ExrtanetApps.Security.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UsuarioSeguridad> GetAll()
         {
 
             var handler = new JwtSecurityTokenHandler();
@@ -88,13 +99,13 @@ namespace ExrtanetApps.Security.Services
             });
         }
 
-        public User AuthenticateBase64(string userBase64)
+        public UsuarioSeguridad AuthenticateBase64(string userBase64)
         {
             //Get UserIdBybase64
             var userId = _usersBase64.SingleOrDefault(x => x.Base64 == userBase64).Id;
 
             //Get UserById
-            var user = _users.SingleOrDefault(x => x.Id == userId);
+            var user = _users.SingleOrDefault(x => x.ID == userId);
 
             // return null if user not found
             if (user == null)
@@ -104,7 +115,7 @@ namespace ExrtanetApps.Security.Services
             return user;
         }
 
-        private void SetNewToken(User user)
+        private void SetNewToken(UsuarioSeguridad user)
         {
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -113,7 +124,7 @@ namespace ExrtanetApps.Security.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.ID.ToString())
                 }),
                 //Expires = DateTime.UtcNow.AddDays(2),
                 Expires = DateTime.UtcNow.AddMinutes(5),
@@ -126,7 +137,7 @@ namespace ExrtanetApps.Security.Services
             user.Password = null;
         }
 
-        public User GetUserByToken(string token, bool refresh = false)
+        public UsuarioSeguridad GetUserByToken(string token, string micrositio, bool refresh = false)
         {
             token = token.Replace("Bearer ", "");
             var handler = new JwtSecurityTokenHandler();
@@ -135,10 +146,12 @@ namespace ExrtanetApps.Security.Services
                 return null;
 
             long userId = Convert.ToInt64(tokenS.Payload["unique_name"]);
+            if(string.IsNullOrEmpty(micrositio))
+                micrositio = tokenS.Payload["nameid"].ToString();
 
-            var user = _users.Where(x => x.Id == userId).FirstOrDefault();
-
-            if(refresh)
+            UsuarioSeguridad user = userController.GetUsuarioInfo<UsuarioSeguridad>(userId, micrositio).FirstOrDefault();
+            user.Micrositio = micrositio;
+            if (refresh)
                 SetNewToken(user);
             else
                 user.Token = token;

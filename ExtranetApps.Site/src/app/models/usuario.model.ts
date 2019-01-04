@@ -9,6 +9,8 @@ export class Usuario {
     empresa: string;
     situacion: boolean;
     token?: string;
+    micrositio: string;
+    parametros: string[];
 
     constructor(
         id: number = 0,
@@ -19,8 +21,9 @@ export class Usuario {
         acceso: string = "",
         empresa: string = "",
         situacion: boolean = true,
-        url: string = "",
-        token: string = "") {
+        token: string = "",
+        micrositio: string = "",
+        parametros: string[] = []) {
         this.id = id;
         this.email = email;
         this.fecNacimiento = fecNacimiento;
@@ -30,5 +33,7 @@ export class Usuario {
         this.empresa = empresa;
         this.situacion = situacion;
         this.token = token;
+        this.micrositio = micrositio;
+        this.parametros = parametros;
     }
 }

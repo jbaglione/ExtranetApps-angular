@@ -76,7 +76,7 @@ namespace ExtranetApps.Api
                    .AllowCredentials());
 
             app.UseAuthentication();
-
+            app.UseStaticFiles();
             app.UseMvc();
             
         }

@@ -65,7 +65,7 @@ namespace ExtranetApps.Api.Controllers
             try
             {
                 //GetAll
-                string pTip = ((int)ShamanClases.modDeclares.motBitacorasClasificaciones.hTodos).ToString();//TODO: Mejorar.
+                string pTip = ((int)ShamanClases.modDeclares.motBitacorasClasificaciones.hOperativo).ToString();//TODO: Mejorar.
                 return modGenerics.GetList<Motivo>(new EmergencyC.MotivosBitacoras().CacheClassController, "GetAll", false, connectionString, pTip);
             }
             catch (Exception ex)

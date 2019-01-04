@@ -20,5 +20,3 @@ C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Release\netcoreapp2.1\Ext
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Release\netcoreapp2.1\ExtranetApps.Api.csproj.CopyComplete
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Release\netcoreapp2.1\ExtranetApps.Api.dll
 C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\obj\Release\netcoreapp2.1\ExtranetApps.Api.pdb
-C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Release\netcoreapp2.1\ExrtanetApps.Security.dll
-C:\Paramedic\ExtranetApps-angular\ExtranetApps.Api\bin\Release\netcoreapp2.1\ExrtanetApps.Security.pdb

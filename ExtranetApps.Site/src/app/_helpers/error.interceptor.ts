@@ -26,7 +26,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     // }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        debugger;
         return next.handle(request).pipe(
 	        tap(event => {
 	          if (event instanceof HttpResponse) {

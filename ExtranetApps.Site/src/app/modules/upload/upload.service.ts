@@ -29,6 +29,7 @@ export class UploadService {
 
       // // create a http-post request and pass the form
       // // tell it to report the upload progress
+      debugger;
       const req = new HttpRequest('POST', this.url, formData, {
         reportProgress: true
       });
@@ -40,6 +41,7 @@ export class UploadService {
 
       let startTime = new Date().getTime();
       this.http.request(req).subscribe(event => {
+        debugger;
         if (event.type === HttpEventType.UploadProgress) {
           // calculate the progress percentage
           const percentDone = Math.round((100 * event.loaded) / event.total);

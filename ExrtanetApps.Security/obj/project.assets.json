@@ -4615,6 +4615,27 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "ShamanClases/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/ShamanClases.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ShamanClases.dll": {}
+        }
+      },
+      "ShamanClases_CSharp/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "ShamanClases": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ShamanClases_CSharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ShamanClases_CSharp.dll": {}
+        }
       }
     }
   },
@@ -12209,6 +12230,16 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "ShamanClases/1.0.0": {
+      "type": "project",
+      "path": "../../ShamanCache/Shaman/ShamanClases/ShamanClases/ShamanClases.vbproj",
+      "msbuildProject": "../../ShamanCache/Shaman/ShamanClases/ShamanClases/ShamanClases.vbproj"
+    },
+    "ShamanClases_CSharp/1.0.0": {
+      "type": "project",
+      "path": "../../ShamanCache/Shaman/ShamanClases_CSharp/ShamanClases_CSharp.csproj",
+      "msbuildProject": "../../ShamanCache/Shaman/ShamanClases_CSharp/ShamanClases_CSharp.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -12216,7 +12247,8 @@
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
+      "ShamanClases_CSharp >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -12248,7 +12280,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases_CSharp\\ShamanClases_CSharp.csproj": {
+              "projectPath": "C:\\Paramedic\\ShamanCache\\Shaman\\ShamanClases_CSharp\\ShamanClases_CSharp.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

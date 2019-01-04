@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
 using ExtranetApps.Api.Helpers;
 using static modDeclares;
+using System.IO;
 
 namespace ExtranetApps.Api.Controllers
 {
@@ -45,7 +46,9 @@ namespace ExtranetApps.Api.Controllers
         {
             try
             {
-                return modGenerics.GetList<Hallazgo>(new EmergencyC.Bitacoras().CacheClassController, "GetHallazgos", false, connectionString, "29");
+                string usuarioId = Request.Headers["UsuarioId"];
+                //var user = _userService.GetUserByToken(aut, micrositio, true);
+                return modGenerics.GetList<Hallazgo>(new EmergencyC.Bitacoras().CacheClassController, "GetBitacoras", false, connectionString, usuarioId);
             }
             catch (Exception ex)
             {
@@ -70,7 +73,7 @@ namespace ExtranetApps.Api.Controllers
                     hallazgo.Fecha = DateTime.ParseExact(bitacoras.FecHorIngreso, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                     hallazgo.Motivo = new Motivo { Id = bitacoras.MotivoBitacoraId.ID.ToString() };
                     hallazgo.Titulo = bitacoras.Titulo;
-                    hallazgo.Estado = new Estado { Id = bitacoras.Situacion };
+                    hallazgo.Estado = new Estado { Id = bitacoras.Situacion.ToString() };
                     hallazgo.Registraciones = GetRegistraciones(bitacoras, hallazgo.Id);
                 }
 
@@ -99,7 +102,12 @@ namespace ExtranetApps.Api.Controllers
                     if (item.Adjunto > 0)
                     {
                         item.Adjuntos = modGenerics.GetList<Adjunto>(new Panel.Adjuntos().CacheClassController, "GetAdjuntosAndPath", false, connectionString, "Bitacoras", idSplit[0] + "--" + idSplit[1]);
-                        //item.Adjuntos[0].Path = item.Adjuntos[0].Path + "\\liquidaciones\\";
+
+                        //TODO: borrar
+                        item.Adjuntos.Select(x => x.Path = "http://192.168.5.95:5566/Hallazgos/").ToList();
+                        //item.Adjuntos.Select(x => x.Path = "https://localhost:5001/Hallazgos/").ToList();
+                        
+                        //item.Adjuntos[0].Path + "\\liquidaciones\\";
                         //item.Adjuntos[0].Name = "29143_9408656.jpg";
                         //item.Adjuntos[0].FullPath = item.Adjuntos[0].Path + item.Adjuntos[0].Name;
                     }
@@ -117,36 +125,55 @@ namespace ExtranetApps.Api.Controllers
             try
             {
                 EmergencyC.Bitacoras objBitacoras = new EmergencyC.Bitacoras();
-                string mensaje;
+
+                string usuarioId = Request.Headers["UsuarioId"];
+                //string mensaje;
+                //bool vIsEnding = false;
                 IList<string> iListReclamosId;
-                bool vIsEnding = false;
-                if (objBitacoras.ID == 0)
+
+                if (newHallazgo.Id == 0)
                 {
                     objBitacoras.FecHorIngreso = DateTime.Now.ToString();
                     //TODO: podria buscarlo y setarlo en el get new.
-                    newHallazgo.Nro = Convert.ToInt64(objBitacoras.GetNewBitacoraId(DateTime.Now, "29"));// ShamanSession.UsuarioId.ID);
-                }
-                    
-                objBitacoras.NroTicket = "";//newHallazgo.Nro.ToString(); //newHallazgo.EditValue;
-                objBitacoras.FecBitacora = newHallazgo.Fecha.ToString(); // this.dtpFecBitacora.DateTime.Date;
-                objBitacoras.NumeroId = newHallazgo.Nro.ToString(); // this.txtNroBitacora.Tag; ==>GetNewBitacoraId
-                objBitacoras.MotivoBitacoraId.SetObjectId(newHallazgo.Motivo.Id); //getItemData(this.cmbMotivos));
-                objBitacoras.Titulo = newHallazgo.Titulo;
-                DataTable dtRegistaciones = TablasYListas.ToDataTable(newHallazgo.Registraciones);
-                objBitacoras.Situacion = (Convert.ToInt16(newHallazgo.Estado.Id) + 1).ToString();
-                //if (objBitacoras.Validar(dtRegistaciones, vIsEnding, this.getUsuarioFin(), motBitacorasClasificaciones.hSoporteTecnico))
-                //usuario de finalizacion no tenemos, envio true, porque el validar da error si no.
-                var tupleValidar = objBitacoras.Validar(dtRegistaciones, vIsEnding, true, motBitacorasClasificaciones.hSoporteTecnico);
-                if (true)
-                {
-                    //Try fix error salvar
-                    objBitacoras.IncidenteId = "";
-                    objBitacoras.PersonalId = ""; objBitacoras.MovilId = ""; objBitacoras.regUsuario = "";
-                    if (objBitacoras.Salvar(objBitacoras))
-                        iListReclamosId = objBitacoras.SetRegistraciones(objBitacoras.ID, dtRegistaciones);
+                    newHallazgo.Nro = Convert.ToInt64(objBitacoras.GetNewBitacoraId(DateTime.Now, usuarioId));// ShamanSession.UsuarioId.ID);
+                                                                                                              //objBitacoras.NroTicket = "";//newHallazgo.Nro.ToString(); //newHallazgo.EditValue;
+                    objBitacoras.FecBitacora = newHallazgo.Fecha; // this.dtpFecBitacora.DateTime.Date;
+                    objBitacoras.NumeroId = newHallazgo.Nro; // this.txtNroBitacora.Tag; ==>GetNewBitacoraId
+                    objBitacoras.MotivoBitacoraId.SetObjectId(newHallazgo.Motivo.Id); //getItemData(this.cmbMotivos));
+                    objBitacoras.Titulo = newHallazgo.Titulo;
                 }
                 else
-                    mensaje = tupleValidar.Item2;
+                {
+                    if (!objBitacoras.Abrir(newHallazgo.Id.ToString(), connectionString))
+                    {
+                        return null;
+                    }
+                }
+                    
+
+                DataTable dtRegistaciones = TablasYListas.ToDataTable(newHallazgo.Registraciones);
+                objBitacoras.Situacion = Convert.ToInt16(newHallazgo.Estado.Id) + 1;
+                //if (objBitacoras.Validar(dtRegistaciones, vIsEnding, this.getUsuarioFin(), motBitacorasClasificaciones.hSoporteTecnico))
+                //usuario de finalizacion no tenemos, envio true, porque el validar da error si no.
+                //var tupleValidar = objBitacoras.Validar(dtRegistaciones, vIsEnding, true, motBitacorasClasificaciones.hSoporteTecnico);
+                //if (true)
+                //{
+                    if (objBitacoras.Salvar(objBitacoras))
+                    {
+                        newHallazgo.Id = Convert.ToInt64(objBitacoras.ID);
+                        newHallazgo.Nro = Convert.ToInt64(objBitacoras.NumeroId);
+                        newHallazgo.Estado.Id = objBitacoras.Situacion.ToString();
+
+                        iListReclamosId = objBitacoras.SetRegistraciones(objBitacoras.ID, dtRegistaciones);
+
+                        if (iListReclamosId.Count > 0 && iListReclamosId[0] != "0")
+                            newHallazgo.Registraciones = GetRegistraciones(objBitacoras, newHallazgo.Id);
+
+                    }
+                        
+                //}
+                //else
+                //    mensaje = tupleValidar.Item2;
             }
             catch (Exception ex)
             {
