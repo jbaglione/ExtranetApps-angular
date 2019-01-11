@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
+import { AppConfig } from '../configs/app.config'
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
         // not logged in so redirect to login page with the return url
         // this.router.navigate(['/loginBase64'], { queryParams: { returnUrl: state.url } });
         // this.router.navigate(['/hallazgos']);
-        window.location.href = 'http://localhost:2128/Login?logout=true';
+        window.location.href = AppConfig.endpoints.oldExranet + 'Login?logout=true';
         return false;
     }
 }

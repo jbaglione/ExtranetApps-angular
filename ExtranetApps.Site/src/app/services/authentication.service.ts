@@ -12,10 +12,13 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<Usuario>;
     public currentUser: Observable<Usuario>;
     securityUrl: string;
+    oldExranetUrl: string;
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<Usuario>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+        
         this.securityUrl = AppConfig.endpoints.security;
+        this.oldExranetUrl = AppConfig.endpoints.oldExranet;
     }
 
     public get currentUserValue(): Usuario {
@@ -108,7 +111,7 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
 
-        window.location.href = 'http://localhost:2128/Login?logout=true';
+        window.location.href = this.oldExranetUrl + 'Login?logout=true';
     }
 
     getTokenExpirationDate(token: string): Date {

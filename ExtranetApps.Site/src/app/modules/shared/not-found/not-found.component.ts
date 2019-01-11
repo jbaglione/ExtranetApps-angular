@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConfig } from '../../../configs/app.config';
 
 @Component({
   selector: 'app-not-found',
@@ -8,13 +9,12 @@ import { Router } from '@angular/router';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor(private _router:Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
-  GoHome ()
-  {
-    window.location.href = 'http://localhost:2128/Login';
+  GoHome() {
+    window.location.href = AppConfig.endpoints.oldExranet + 'Login';
     // this._router.navigate(['home']);
   }
 }

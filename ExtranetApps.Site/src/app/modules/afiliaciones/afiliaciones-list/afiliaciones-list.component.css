@@ -1,0 +1,111 @@
+table {
+    width: 100%;
+}
+
+.mobile-label {
+    display: none;
+}
+
+.margin-lr5 {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+/* { dataField: 'ClienteId', hidden: true },
+{ text: 'Nombre Comercial', dataField: 'NombreComercial', width: '17%', minwidth: '149px', cellsalign: 'left', renderer: $scope.columnrenderer },
+{ text: 'Rubro', dataField: 'Rubro', width: '11%', minwidth: '98px', cellsalign: 'left', renderer: $scope.columnrenderer, cellsrenderer: $scope.crRubro },
+{ text: 'Razon Social', dataField: 'RazonSocial', width: '17%', minwidth: '149px', cellsalign: 'left', renderer: $scope.columnrenderer },
+{ text: 'Cuit', dataField: 'Cuit', width: '9%', minwidth: '94px', cellsalign: 'left', renderer: $scope.columnrenderer },
+{ text: 'Domicilio', dataField: 'Domicilio', width: '22%', minwidth: '170px', cellsalign: 'left', renderer: $scope.columnrenderer },
+{ text: 'Localidad', dataField: 'Localidad', width: '10%', minwidth: '98px', cellsalign: 'center', renderer: $scope.columnrenderer, cellsrenderer: $scope.crLocalidad },
+{ text: 'Nro de Cliente', dataField: 'CredencialID', width: '9%', minwidth: '84px', cellsalign: 'right', renderer: $scope.columnrenderer },
+{ text: 'Estado', dataField: 'Estado', width: '5%*', minwidth: '45px', cellsrenderer: $scope.crAfiliar, renderer: $scope.columnrenderer },
+{ text: 'Contrato', dataField: '', width: '5%*', minwidth: '45px', cellsrenderer: $scope.crContrato, renderer: $scope.columnrenderer, hidden: false }//$scope.acceso != "Administrador" */
+
+.mat-column-nombreComercial {
+    flex: 0 0 *px;
+}
+
+.mat-column-rubro {
+    flex: 0 0 13%;
+}
+
+.mat-column-razonSocial {
+    flex: 0 0 17%;
+}
+
+.mat-column-cuit {
+    flex: 0 0 8%;
+}
+
+.mat-column-domicilio {
+    flex: 0 0 18%;
+}
+
+.mat-column-localidad {
+    flex: 0 0 9%;
+}
+
+.mat-column-credencialID {
+    flex: 0 0 8%;
+}
+
+.mat-column-estado {
+    flex: 0 0 5%;
+}
+
+.mat-column-contrato {
+    flex: 0 0 5%;
+    /* display: none; */
+}
+
+@media(max-width: 600px) {
+    .mobile-label {
+        width: 85px;
+        display: inline-block;
+        font-weight: bold;
+    }
+    .mat-header-row {
+        display: none;
+    }
+    .mat-row {
+        flex-direction: column;
+        align-items: start;
+        padding: 8px 24px;
+    }
+    .mat-cell-first {
+        padding-left: 0px !important;
+    }
+    .mat-cell-button {
+        width: auto !important;
+    }
+    .mat-column-nombreComercial {
+        flex: auto !important;
+    }
+    .mat-column-rubro {
+        flex: auto !important;
+    }
+    .mat-column-razonSocial {
+        flex: auto !important;
+    }
+    .mat-column-cuit {
+        flex: auto !important;
+    }
+    .mat-column-domicilio {
+        flex: auto !important;
+    }
+    .mat-column-localidad {
+        flex: auto !important;
+    }
+    .mat-column-credencialID {
+        flex: auto !important;
+    }
+    .mat-column-estado {
+        flex: auto !important;
+    }
+    .mat-column-contrato {
+        flex: auto !important;
+        /* display: none; */
+    }
+}

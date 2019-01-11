@@ -1,0 +1,27 @@
+.mat-dialog-content {
+    margin: 0;
+    padding: 0;
+}
+
+.frame {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    max-width: 95%;
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    box-sizing: border-box;
+}
+
+.mat-dialog-actions {
+    display: none;
+}
+
+.mat-dialog-container {
+    padding: 0px!important;
+}
+
+.mat-dialog-content {
+    max-height: 80vh !important;
+}

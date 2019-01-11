@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import {HallazgosService, PeriodicElement} from '../../../services/hallazgos/hallazgos.service';
+import { MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import { HallazgosService} from '../../../services/hallazgos/hallazgos.service';
+import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
 
@@ -12,26 +13,38 @@ import { Hallazgo } from 'src/app/models/hallazgo.model';
 })
 export class ListHallazgosComponent implements OnInit {
 
-  dcHallazgos: string[] = ['nro','fecha','hora','titulo','motivo','administrador','estado','ultFecha','diasRta','duracion'];
-  mtHallazgos = new MatTableDataSource();
-  userToken:string;
+  dcHallazgos: string[] = ['nro', 'fecha', 'hora', 'titulo', 'motivo', 'administrador', 'estado', 'ultFecha', 'diasRta', 'duracion'];
+  mtHallazgos: MatTableDataSource<Hallazgo>;
+  userToken: string;
 
   @ViewChild(MatSort) sort: MatSort;
-  
-  constructor( private _hallazgosService:HallazgosService,
-              private _router:Router) {
-                  this._hallazgosService.GetHallazgos().subscribe(data=>{this.mtHallazgos.data = data});
-                  console.log(this.mtHallazgos.data);
-              
-                  _hallazgosService.setTitulo("Lista de Hallazgos")
-    }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(private hallazgosService: HallazgosService,
+    private commonService: CommonService,
+    private router: Router) {
+      commonService.setTitulo("Lista de Hallazgos");
+  }
+  // ngOnInit() {
+  //   this.mtHallazgos.sort = this.sort;
+  // }
+
   ngOnInit() {
-    this.mtHallazgos.sort = this.sort;
+    this.hallazgosService.GetHallazgos().subscribe(data => {
+      this.mtHallazgos = new MatTableDataSource(data)
+      this.mtHallazgos.paginator = this.paginator;
+      this.mtHallazgos.sort = this.sort;
+    });
   }
 
-  verHallazgo(id:any)
-  {
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.mtHallazgos.filter = filterValue;
+  }
+
+  verHallazgo(id: any) {
     console.log(this.mtHallazgos.data);
-    this._router.navigate(['hallazgos/detail', id]);
+    this.router.navigate(['hallazgos/detail', id]);
   }
 }

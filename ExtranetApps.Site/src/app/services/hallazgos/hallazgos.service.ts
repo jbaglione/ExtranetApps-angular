@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { AppConfig } from '../../configs/app.config';
 
-import {BehaviorSubject, Observable, of, throwError as observableThrowError } from 'rxjs';
+import {Observable, of, throwError as observableThrowError } from 'rxjs';
 import { LoggerService } from '../logger.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import {Usuario} from '../../models/usuario.model';
@@ -14,21 +14,21 @@ import {MatSnackBar,MatSnackBarConfig} from '@angular/material';
 @Injectable()
 export class HallazgosService {
   pamiUrl: string;
-  extranetUrl: string;
+  hallazgoApiUrl: string;
 
-  public tituloHallazgo:Observable<string>;
-  private tituloHallazgoSubject: BehaviorSubject<string>;
+  // public tituloHallazgo:Observable<string>;
+  // private tituloHallazgoSubject: BehaviorSubject<string>;
   
   constructor(private http: Http, private httpClient: HttpClient, public snackBar: MatSnackBar) {
-    this.extranetUrl = AppConfig.endpoints.extranet;
+    this.hallazgoApiUrl = AppConfig.endpoints.extranet + 'Hallazgos';
     this.pamiUrl = AppConfig.endpoints.pami;
-    this.tituloHallazgoSubject = new BehaviorSubject<string>("Hallazgos");
-        this.tituloHallazgo = this.tituloHallazgoSubject.asObservable();
+    // this.tituloHallazgoSubject = new BehaviorSubject<string>("Hallazgos");
+    //     this.tituloHallazgo = this.tituloHallazgoSubject.asObservable();
   }
 
-  public setTitulo(newTitle) {
-    this.tituloHallazgoSubject.next(newTitle);
-  }
+  // public setTitulo(newTitle) {
+  //   this.tituloHallazgoSubject.next(newTitle);
+  // }
 
   hallazgos: Hallazgo[];
   public getHallazgos() {
@@ -53,7 +53,7 @@ export class HallazgosService {
     };
   }
   public GetHallazgos(): Observable<Hallazgo[]> {
-    const url = `${this.extranetUrl}`;
+    const url = `${this.hallazgoApiUrl}`;
     return this.httpClient.get<Hallazgo[]>(url).pipe(
       tap(() => LoggerService.log("fetched GetHallazgos")),
       catchError(HallazgosService.handleError<Hallazgo[]>("GetHallazgos"))
@@ -61,7 +61,7 @@ export class HallazgosService {
   }
 
   public GetHallazgosToken(token:string): Observable<any> {
-    const url = `${this.extranetUrl}`;
+    const url = `${this.hallazgoApiUrl}`;
     const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `${token}` });
     return this.httpClient.get<Hallazgo[]>(url, { headers: headerOptions }).pipe(
       tap(() => LoggerService.log("fetched GetHallazgosToken")),
@@ -70,7 +70,7 @@ export class HallazgosService {
   }
 
   public GetHallazgo(id: number): Observable<Hallazgo> {
-    const url = `${this.extranetUrl}/${id}`;
+    const url = `${this.hallazgoApiUrl}/${id}`;
     return this.httpClient.get<Hallazgo>(url).pipe(
       tap(() => LoggerService.log(`fetched Hallazgo id=${id}`)),
       catchError(HallazgosService.handleError<Hallazgo>(`GetHallazgo id=${id}`))
@@ -78,7 +78,7 @@ export class HallazgosService {
   }
 
   public GetMotivos(): Observable<listable> {
-    const url = `${this.extranetUrl}Listables/GetMotivos`;
+    const url = `${this.hallazgoApiUrl}Listables/GetMotivos`;
     return this.httpClient.get<listable>(url).pipe(
       tap(() => LoggerService.log("fetched GetMotivos")),
       catchError(HallazgosService.handleError<listable>("GetMotivos"))
@@ -86,7 +86,7 @@ export class HallazgosService {
   }
 
   public GetEstados(): Observable<listable> {
-    const url = `${this.extranetUrl}Listables/GetEstados`;
+    const url = `${this.hallazgoApiUrl}Listables/GetEstados`;
     return this.httpClient.get<listable>(url).pipe(
       tap(() => LoggerService.log("fetched GetEstados")),
       catchError(HallazgosService.handleError<listable>("GetEstados"))
@@ -94,7 +94,7 @@ export class HallazgosService {
   }
 
   public GetNewHallazgoNro(): Observable<number> {
-    const url = `${this.extranetUrl}GetNewHallazgoNro`;
+    const url = `${this.hallazgoApiUrl}GetNewHallazgoNro`;
     return this.httpClient.get<number>(url).pipe(
       tap(() => LoggerService.log("fetched GetNewHallazgoNro")),
       catchError(HallazgosService.handleError<number>("GetNewHallazgoNro"))
@@ -112,32 +112,23 @@ export class HallazgosService {
   
 
   public CreateHallazgo(hallazgo: Hallazgo) {
-    const url = `${this.extranetUrl}`;
+    const url = `${this.hallazgoApiUrl}`;
     const body = JSON.stringify(hallazgo);
     const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.httpClient.post(url, body, { headers: headerOptions }).pipe(
         tap(() => 
         {
           LoggerService.log("fetched CreateHallazgo");
-          this.showSnackBar("Hallazgo craedo");
+          this.showSnackBar("Hallazgo creado");
         }),
         catchError(HallazgosService.handleError<Hallazgo>("CreateHallazgo"))
       );
   }
 
 
-  public showSnackBar(name): void {
+  private showSnackBar(name): void {
       const config: any = new MatSnackBarConfig();
       config.duration = AppConfig.snackBarDuration;
       this.snackBar.open(name, 'OK', config);
     }
-}
-
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
 }

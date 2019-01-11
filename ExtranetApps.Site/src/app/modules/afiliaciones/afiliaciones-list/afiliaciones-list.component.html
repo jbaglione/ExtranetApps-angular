@@ -1,0 +1,115 @@
+<div>
+    <button mat-raised-button (click)="openDialogCliente()">Nuevo Cliente</button>
+</div>
+<br />
+
+<mat-form-field class="margin-lr5">
+    <mat-select placeholder="Tipo de Cliente" [formControl]="tiposClientesSelect">
+        <mat-option *ngFor="let item of tiposClientes" [value]="item.id">
+            {{item.descripcion}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field class="margin-lr5" *ngIf="userAcceso == '3'">
+    <mat-select placeholder="Vendedores" [formControl]="vendedoresSelect">
+        <mat-option *ngFor="let item of vendedores" [value]="item.id">
+            {{item.descripcion}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<!-- <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field> -->
+
+<mat-form-field class="margin-lr5">
+    <input matInput placeholder="Descripcion" type="text" [formControl]="descripcionInput" name="Descripcion">
+</mat-form-field>
+
+<button mat-raised-button (click)="GetClientesFiltrados()">Buscar</button>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="mtClientesPotenciales" matSort>
+
+        <ng-container matColumnDef="nombreComercial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Nombre Comercial </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="mat-cell-first">
+                <span class="mobile-label">Nombre Comercial:</span>
+                <button (click)="openDialogCliente(element.clienteId)" mat-icon-button class="mat-cell-button">{{element.nombreComercial}}</button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="rubro">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Rubro
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Rubro:</span>{{element.rubroObj.descripcion}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="razonSocial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Razon Social:</span> {{element.razonSocial}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cuit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Cuit</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Cuit:</span> {{element.cuit}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="domicilio">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Domicilio</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Domicilio:</span> {{element.domicilio}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="localidad">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Localidad</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Localidad:</span> {{element.localidadObj.localidadDescripcion}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="credencialID">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nro de Cliente</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Nro de Cliente:</span> {{element.credencialID}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef>
+                Estado
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button (click)="openDialogCliente(element.clienteId)" mat-icon-button [ngStyle]="{'color': element.estado == 1 ? 'green' : (element.estado == 2 ? 'blue' : 'red') }">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Estado
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Estado:</span> {{element.estado}}
+            </mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="contrato">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Contrato</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Contrato:</span> {{element.contrato}}
+            </mat-cell>
+        </ng-container>
+
+
+
+        <mat-header-row *matHeaderRowDef="dcClientesPotenciales"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: dcClientesPotenciales;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+<br />

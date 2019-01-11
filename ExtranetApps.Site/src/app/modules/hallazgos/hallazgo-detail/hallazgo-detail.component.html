@@ -1,21 +1,10 @@
-<!-- <div class="mat-typography">
-    <h1>
-        Hallazgo <small> <small><small> <small>{{hallazgo.titulo | uppercase}}</small></small>
-        </small>
-        </small>
-    </h1>
-</div> -->
 <div>
     <button mat-raised-button [routerLink]="['/hallazgos']">Volver</button>
     <button mat-raised-button type="submit" (click)="guardarHallazgo()">Guardar</button>
-    <!-- <button mat-raised-button type="button" (click)="CheckForm()">CheckForm({{hallazgoForm.valid}})</button> -->
-    <!--(click)="guardarHallazgo()" -->
 </div>
 <br />
 <form class="example-form" [formGroup]="hallazgoForm" (ngSubmit)="guardarHallazgo()" novalidate="novalidate">
-    <!--#form="ngForm"-->
     <div id="cabecera">
-
         <mat-form-field class="margin-lr5 very-short-form-field" [hidden]="hallazgo.id==0">
             <input matInput placeholder="Número" formControlName="numero" type="number">
         </mat-form-field>
@@ -99,7 +88,6 @@
             <br />
             <br />
         </div>
-        <!-- <div class="rightPanelNew"> -->
         <div [className]="hallazgo.id == 0 ? 'rightPanelNew' : 'rightPanelEdit'">
             <mat-card>
                 <mat-card-header style="background-color: #f5f5f5">
@@ -128,8 +116,6 @@
                     <app-upload [path]='"0" + "-" + hallazgo.id.toString() + "-" + idRegistracionSeleccionada.toString()  + "-" + GetNroRegistros() + "-"' (emitirData)="recargarAdjuntos($event)"></app-upload>
                 </div>
             </mat-card>
-
-
             <br />
             <br />
         </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { HallazgosService, PeriodicElement } from '../../../services/hallazgos/hallazgos.service';
+import { HallazgosService} from '../../../services/hallazgos/hallazgos.service';
+import { CommonService } from '../../../services/common.service';
 import { listable } from '../../../models/listable.model';
 import { Hallazgo } from 'src/app/models/hallazgo.model';
 import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
@@ -41,17 +42,18 @@ export class HallazgoDetailComponent implements OnInit {
   newHallazgoNro:number;
 
   constructor(
-    private _hallazgosService: HallazgosService,
+    private hallazgosService: HallazgosService,
+    private commonService: CommonService,
     public dialog: MatDialog,
-    private _router: Router,
-    private _activatedRoute: ActivatedRoute
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    _activatedRoute.params.subscribe(params => {
+    activatedRoute.params.subscribe(params => {
       this.hallazgo.id = params['id'] == 'nuevo' ? 0 : parseFloat(params['id']);
-      this._hallazgosService.GetMotivos().subscribe(data => this.motivos = data);
-      this._hallazgosService.GetEstados().subscribe(data => this.estados = data);
+      this.hallazgosService.GetMotivos().subscribe(data => this.motivos = data);
+      this.hallazgosService.GetEstados().subscribe(data => this.estados = data);
       //Usar si quiero mostrar el nuevo numero antes.
-      //this._hallazgosService.GetNewHallazgoNro().subscribe(data => this.newHallazgoNro = data);
+      //this.hallazgosService.GetNewHallazgoNro().subscribe(data => this.newHallazgoNro = data);
 
       //Creo el formulario con ReactiveForm
       this.hallazgoForm = new FormGroup({
@@ -68,14 +70,14 @@ export class HallazgoDetailComponent implements OnInit {
       })
      
       if (this.hallazgo.id !== 0) {
-        this._hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
+        this.hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
           this.hallazgo = data;
           this.loadHallazgo();
-          this._hallazgosService.setTitulo("Hallazgo " + this.hallazgo.titulo);
+          commonService.setTitulo("Hallazgo " + this.hallazgo.titulo)
         });
       }
       else
-      this._hallazgosService.setTitulo("Nuevo Hallazgo");
+      commonService.setTitulo("Nuevo Hallazgo");
     });
   }
 
@@ -112,7 +114,7 @@ export class HallazgoDetailComponent implements OnInit {
       this.resultDialog = false;
       this.openDialog("Error Datos", "Hubo un error en la carga de datos. ¿Desea abrir el registro igual?");
       //TODO: arreglar dialogo navegacion.
-      //this._hallazgosService.showSnackBar('Error en los datos');
+      //this.hallazgosService.showSnackBar('Error en los datos');
     }
 
     if (this.hallazgo.registraciones == null || JSON.stringify(this.hallazgo.registraciones) == '[]') {
@@ -145,7 +147,7 @@ export class HallazgoDetailComponent implements OnInit {
       this.resultDialog = result;
       //TODO: arreglar dialogo navegacion.
       if (!this.resultDialog) {
-        this._router.navigate(['/hallazgos']);
+        this.router.navigate(['/hallazgos']);
       }
       console.log(this.resultDialog);
     });
@@ -207,7 +209,7 @@ export class HallazgoDetailComponent implements OnInit {
       this.hallazgo.registraciones[indice].usuario = 'jonathan.baglione';
       // this.hallazgo.registraciones = null;
 
-      this._hallazgosService.CreateHallazgo(this.hallazgo).subscribe((newHallazgo) => {
+      this.hallazgosService.CreateHallazgo(this.hallazgo).subscribe((newHallazgo) => {
         console.log(JSON.stringify(newHallazgo));
         this.hallazgo = newHallazgo as Hallazgo;
         this.loadHallazgo();
@@ -227,7 +229,7 @@ export class HallazgoDetailComponent implements OnInit {
     if(event == "OK")
     {
       if (this.hallazgo.id !== 0) {
-        this._hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
+        this.hallazgosService.GetHallazgo(this.hallazgo.id).subscribe(data => {
           this.hallazgo.registraciones = data.registraciones;
           this.mtRegistraciones.data = this.hallazgo.registraciones;
           this.reg_adjuntos = this.hallazgo.registraciones.find(x=>x.id == this.idRegistracionSeleccionada).adjuntos;

@@ -1,6 +1,6 @@
 import { Registracion } from "./registracion.model";
-import { Destino } from "./destino.model";
-import { getLocaleDateTimeFormat } from "@angular/common";
+// import { Destino } from "./destino.model";
+// import { getLocaleDateTimeFormat } from "@angular/common";
 import { listable } from "./listable.model";
 
 export class Hallazgo {

@@ -14,24 +14,24 @@ export class HomeComponent implements OnInit {
   usuario: Usuario[] = [];
   site: string;
   userToken: string;
-  constructor(private _userService: UserService, 
-              private _activatedRoute: ActivatedRoute,
-              private _authenticationService:AuthenticationService,
-              private _router: Router,) {
-                _activatedRoute.params.subscribe(params => {
+  constructor(private userService: UserService, 
+              private activatedRoute: ActivatedRoute,
+              private authenticationService:AuthenticationService,
+              private router: Router,) {
+                activatedRoute.params.subscribe(params => {
                   this.site = params['site'];
                   this.userToken = params['token'];
                   //Works as login
-                  this._authenticationService.loginByToken(this.userToken).pipe(first())
+                  this.authenticationService.loginByToken(this.userToken).pipe(first())
                   .subscribe(
                       data => {
-                        this._router.navigate([this.site]);//['hallazgos']
+                        this.router.navigate([this.site]);//['hallazgos']
                       },
                       error => {
                         console.log(error);
-                        this._authenticationService.logout();
+                        this.authenticationService.logout();
                        
-                        //this._router.navigate(['Sesion vencida']);
+                        //tis._router.navigate(['Sesion vencida']);
                       });
               });
               }
