@@ -30,12 +30,12 @@ ExtranetApps.Api/!.vscode/launch.json
 ExtranetApps.Api/!.vscode/extensions.json
 
 ExtranetApps.Api/.vs
-ExtranetApps.Api/.bin
-ExtranetApps.Api/.obj
+ExtranetApps.Api/bin
+ExtranetApps.Api/obj
 
 ExtranetApps.Security/.vs
-ExtranetApps.Security/.bin
-ExtranetApps.Security/.obj
+ExtranetApps.Security/bin
+ExtranetApps.Security/obj
 
 # misc
 ExtranetApps.Site/.sass-cache
