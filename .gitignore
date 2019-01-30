@@ -78,3 +78,9 @@ ExtranetApps.Site/Thumbs.db
 
 # Virtual Directory
 ExtranetApps.Api/wwwroot/*
+/ExrtanetApps.Security/bin
+/ExrtanetApps.Security/obj
+/ExtranetApps.Api/.vscode
+/ExrtanetApps.Security/bin
+/ExrtanetApps.Security/bin
+/ExrtanetApps.Security/obj
