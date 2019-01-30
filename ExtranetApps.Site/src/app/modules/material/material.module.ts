@@ -15,6 +15,7 @@ import {
   MatTooltipModule,
   MatToolbarModule,
   MatTableModule,
+  MatTabsModule,
   MatSortModule,
   MatPaginatorModule,
   MatSidenavModule,
@@ -25,7 +26,9 @@ import {
   MatCheckboxModule,
   MatExpansionModule,
 } from '@angular/material';
+
 import {NgModule} from '@angular/core';
+// import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
@@ -45,12 +48,14 @@ import {NgModule} from '@angular/core';
     MatDialogModule,
     MatToolbarModule,
     MatTableModule,
+    MatTabsModule,
     MatSortModule,
     MatPaginatorModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
+    // MatMomentDateModule,
     MatNativeDateModule,
     MatCheckboxModule,
     MatExpansionModule
@@ -72,12 +77,14 @@ import {NgModule} from '@angular/core';
     MatDialogModule,
     MatToolbarModule,
     MatTableModule,
+    MatTabsModule,
     MatSortModule,
     MatPaginatorModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
+    // MatMomentDateModule,
     MatNativeDateModule,
     MatCheckboxModule,
     MatExpansionModule

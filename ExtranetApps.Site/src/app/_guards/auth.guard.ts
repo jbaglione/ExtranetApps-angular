@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
         //TODO: navegar a error.
         // not logged in so redirect to login page with the return url
         // this.router.navigate(['/loginBase64'], { queryParams: { returnUrl: state.url } });
-        // this.router.navigate(['/hallazgos']);
+        // this.router.navigate(['/bitacoras']);
         window.location.href = AppConfig.endpoints.oldExranet + 'Login?logout=true';
         return false;
     }

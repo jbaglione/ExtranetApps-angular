@@ -13,7 +13,11 @@ namespace ExtranetApps.Api.Models
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         //[Column(Order = 1, TypeName = "serial")]
         public string Id { get; set; }
-        public string Usuario { get; set; }
+        public string Usuario { get; set; } // Jonathan Baglione
+        public string UsuarioId { get; set; } //baglione.jonathan
+        public string UsuarioShamanId { get; set; } //EXTRANET
+        public string UsuarioExtranetId { get; set; } //1908
+
         public DateTime Fecha { get; set; }
         public string Hora { get; set; }
         public string Descripcion { get; set; }
@@ -67,7 +71,7 @@ namespace ExtranetApps.Api.Models
         {
             get
             {
-                return Path + Name;
+                return Path + Name; //+"\\"
             }
         }
     }

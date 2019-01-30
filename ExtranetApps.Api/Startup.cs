@@ -18,7 +18,7 @@ namespace ExtranetApps.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ExtranetAppsContext>(opt =>
-                opt.UseInMemoryDatabase("HallazgoList"));
+                opt.UseInMemoryDatabase("BitacoraList"));
 
             services.AddMvc();
             //        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

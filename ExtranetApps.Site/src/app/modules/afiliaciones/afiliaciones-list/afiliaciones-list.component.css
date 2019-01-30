@@ -11,6 +11,17 @@ table {
     margin-right: 5px;
 }
 
+::ng-deep .my-panel {
+    overflow: hidden !important;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+::ng-deep .mat-dialog-container {
+    overflow: hidden !important;
+    padding-right: 1px;
+}
+
 
 /* { dataField: 'ClienteId', hidden: true },
 { text: 'Nombre Comercial', dataField: 'NombreComercial', width: '17%', minwidth: '149px', cellsalign: 'left', renderer: $scope.columnrenderer },
@@ -55,8 +66,8 @@ table {
     flex: 0 0 5%;
 }
 
-.mat-column-contrato {
-    flex: 0 0 5%;
+.mat-column-actividad {
+    flex: 0 0 4%;
     /* display: none; */
 }
 
@@ -104,7 +115,7 @@ table {
     .mat-column-estado {
         flex: auto !important;
     }
-    .mat-column-contrato {
+    .mat-column-actividad {
         flex: auto !important;
         /* display: none; */
     }

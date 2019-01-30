@@ -24,12 +24,22 @@ $extranet-app-theme: mat-light-theme($extranet-app-primary, $extranet-app-accent
     margin: 3px !important;
 }
 
+// .mat-raised-button {
+//     color: mat-color($extranet-app-primary);
+//     background-color: mat-color($extranet-app-primary, default-contrast);
+//     margin: 3px !important;
+// }
 .mat-button {
     background-color: mat-color($extranet-app-accent);
     color: mat-color($extranet-app-primary, default-contrast);
     margin: 3px !important;
 }
 
+// .mat-button {
+//     color: mat-color($extranet-app-accent);
+//     background-color: mat-color($extranet-app-primary, default-contrast);
+//     margin: 3px !important;
+// }
 .example-container {
     position: absolute;
     top: 0;

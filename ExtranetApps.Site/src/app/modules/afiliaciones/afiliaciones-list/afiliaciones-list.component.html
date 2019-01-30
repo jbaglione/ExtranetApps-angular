@@ -36,7 +36,7 @@
                 Nombre Comercial </mat-header-cell>
             <mat-cell *matCellDef="let element" class="mat-cell-first">
                 <span class="mobile-label">Nombre Comercial:</span>
-                <button (click)="openDialogCliente(element.clienteId)" mat-icon-button class="mat-cell-button">{{element.nombreComercial}}</button>
+                <button (click)="openDialogCliente(element.clienteId, element.estado)" mat-icon-button class="mat-cell-button">{{element.nombreComercial}}</button>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="rubro">
@@ -79,16 +79,29 @@
         </ng-container>
 
         <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef>
-                Estado
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Afiliacion
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <button (click)="openDialogCliente(element.clienteId)" mat-icon-button [ngStyle]="{'color': element.estado == 1 ? 'green' : (element.estado == 2 ? 'blue' : 'red') }">
+                <span class="mobile-label">Afiliacion:</span>
+                <!-- <button (click)="openDialogCliente(element.clienteId)" mat-icon-button [ngStyle]="{'color': element.estado == 1 ? '#f1c40f' : (element.estado == 2 ? '#357ebd' :  (element.estado == 3 ? '#27ae60' : '#e74c3c')) }" [matTooltip]='estadosDesc[element.estado].descripcion'> -->
+                <button (click)="openDialogCliente(element.clienteId)" mat-icon-button [color]='estadosDesc[element.estado].id' [matTooltip]='estadosDesc[element.estado].descripcion'>
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="actividad">
+            <mat-header-cell *matHeaderCellDef>
+                Actividad
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Actividad:</span>
+                <button (click)="navigateToActividadCliente(element.clienteId)" mat-icon-button matTooltip='Gestionar actividades del Cliente'>
+                        <mat-icon color="primary">date_range</mat-icon>
+                    </button>
+            </mat-cell>
+        </ng-container>
         <!-- <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
                 Estado
@@ -97,12 +110,12 @@
                 <span class="mobile-label">Estado:</span> {{element.estado}}
             </mat-cell>
         </ng-container> -->
-        <ng-container matColumnDef="contrato">
+        <!-- <ng-container matColumnDef="contrato">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Contrato</mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <span class="mobile-label">Contrato:</span> {{element.contrato}}
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
 
 
 

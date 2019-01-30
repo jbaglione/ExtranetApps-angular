@@ -4,8 +4,10 @@ import { UploadService } from '../upload.service';
 import { forkJoin } from 'rxjs';
 
 export interface DialogData {
-  path: string;
-  // content: string;
+  entidad:string;
+  idFirstEntidad:string;
+  idSecondEntidad:string;
+  currentNumberOfFiles:number;
 }
 
 @Component({
@@ -20,7 +22,10 @@ export class DialogComponent implements OnInit {
   constructor(  public dialogRef: MatDialogRef<DialogComponent>,
                 public uploadService: UploadService,
                 @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    uploadService.path = data.path;
+    uploadService.entidad = data.entidad;
+    uploadService.idFirstEntidad = data.idFirstEntidad;
+    uploadService.idSecondEntidad = data.idSecondEntidad;
+    uploadService.currentNumberOfFiles = data.currentNumberOfFiles;
   }
 
   ngOnInit() {

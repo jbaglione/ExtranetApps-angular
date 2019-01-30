@@ -17,7 +17,7 @@ export class AuthenticationService {
         this.currentUserSubject = new BehaviorSubject<Usuario>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
         
-        this.securityUrl = AppConfig.endpoints.security;
+        this.securityUrl = AppConfig.endpoints.security + "Users/";
         this.oldExranetUrl = AppConfig.endpoints.oldExranet;
     }
 
@@ -26,7 +26,7 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`${this.securityUrl}/authenticate`, { username, password })
+        return this.http.post<any>(`${this.securityUrl}authenticate`, { username, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
@@ -77,7 +77,7 @@ export class AuthenticationService {
 
         // return this.http.get<any>(`${this.securityUrl}refreshToken`)
         //     .pipe(map(user => {
-        //         debugger;
+        //         
         //         // login successful if there's a jwt token in the response
         //         if (user && user.token) {
         //             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -91,7 +91,7 @@ export class AuthenticationService {
     
 
     loginBase64(base64: string) {
-        return this.http.post<any>(`${this.securityUrl}/authenticateBase64`, { base64 })
+        return this.http.post<any>(`${this.securityUrl}authenticateBase64`, { base64 })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {

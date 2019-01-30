@@ -4,11 +4,10 @@ import { MatTableDataSource, MatSort, MatDialog, MatPaginator } from '@angular/m
 import { AfiliacionesService } from '../../../services/afiliaciones/afiliaciones.service';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { CommonService } from '../../../services/common.service';
-// import { Router } from '@angular/router';
-// import { Hallazgo } from 'src/app/models/hallazgo.model';
 import { listable } from 'src/app/models/listable.model';
 import { FormControl, Validators } from '@angular/forms';
 import { ClientePotencial } from 'src/app/models/cliente-potencial.model';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-afiliaciones-list',
@@ -18,7 +17,7 @@ import { ClientePotencial } from 'src/app/models/cliente-potencial.model';
 
 export class AfiliacionesListComponent implements OnInit {
 
-  dcClientesPotenciales: string[] = ['nombreComercial', 'rubro', 'razonSocial', 'cuit', 'domicilio', 'localidad', 'credencialID'];
+  dcClientesPotenciales: string[] = ['nombreComercial', 'rubro', 'razonSocial', 'cuit', 'domicilio', 'localidad', 'credencialID', 'estado', 'actividad'];
   mtClientesPotenciales: MatTableDataSource<ClientePotencial>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -34,6 +33,13 @@ export class AfiliacionesListComponent implements OnInit {
     { descripcion: 'Activos', id: '3' },
     { descripcion: 'Inactivos', id: '4' }
   ];
+  estadosDesc: listable[] = [
+    { descripcion: 'Sin estado', id: 'black' },
+    { descripcion: 'Potencial', id: 'accent' },
+    { descripcion: 'Preparado', id: 'primary' },
+    { descripcion: 'Activo', id: 'black' },
+    { descripcion: 'Inactivo', id: 'warn' }
+  ];
   vendedores: listable[] = [{ descripcion: 'Todos', id: '' }];//For fix error load.
   tiposClientesSelect: FormControl;
   vendedoresSelect: FormControl;
@@ -43,7 +49,8 @@ export class AfiliacionesListComponent implements OnInit {
     private afiliacionesService: AfiliacionesService,
     private authenticationService: AuthenticationService,
     private commonService: CommonService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router) {
 
     commonService.setTitulo("Lista de Clientes Potenciales");
 
@@ -52,14 +59,14 @@ export class AfiliacionesListComponent implements OnInit {
     this.vendedoresSelect = new FormControl(this.vendedores[0].id);
 
     this.afiliacionesService.getVendedores().subscribe(data => {
-      debugger;
+      
       this.vendedores = data;
       // this.vendedoresSelect = new FormControl("");
     });
-    debugger;
+    
     this.userAcceso = this.authenticationService.currentUserValue.acceso;
-    if (this.userAcceso == '1')
-      this.dcClientesPotenciales.push('estado', 'contrato');
+    // if (this.userAcceso == '1')
+    //   this.dcClientesPotenciales.push('estado', 'actividad');// , 'contrato'
   }
 
   ngOnInit() {
@@ -84,16 +91,42 @@ export class AfiliacionesListComponent implements OnInit {
       });
   }
 
-  openDialogCliente(paramClienteId: number = 0): void {
-    debugger;
+  openDialogCliente(paramClienteId: number = 0, paramClienteEstado: number = 1,): void {
+    //  this.downloadContrato(paramClienteId);
+    
     const dialogRef = this.dialog.open(AfiliacionesDetailComponent, {
-      width: '95%',
+      width: '95vw',
       height: '95%',
-      data: { clienteId: paramClienteId }
+      maxWidth: '95vw',
+      panelClass: 'my-panel',
+      data: { clienteId: paramClienteId, acceso:this.userAcceso, estado: paramClienteEstado}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log('The dialog was closed');
     });
   }
+
+
+  navigateToActividadCliente(paramClienteId: number = 0) {
+    this.router.navigate(['actividadesclientes/', paramClienteId]);
+  }
+
+
+  // downloadContrato(paramClienteId: number = 0): void {
+  //   
+  // this.afiliacionesService.GetContrato(paramClienteId).subscribe(data => this.downloadFile(data)),//console.log(data),
+  //                error => console.log('Error downloading the file.'),
+  //                () => console.info('OK');
+  // }
+  // downloadFile(data: any) {
+  //   const blob = new Blob([data], { type: 'text/csv' });
+  //   const url= window.URL.createObjectURL(blob);
+  //   window.open(url);
+  // }
+  // getDescEstado(estado:number){
+  //   this.tiposClientes[estado].descripcion;
+  // }
+  
+  
 }

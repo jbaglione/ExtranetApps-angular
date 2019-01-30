@@ -36,7 +36,7 @@ namespace ExtranetApps.Api.Controllers
             Configuration = configuration;
             connectionString =  "Server = " + Configuration["ConexionCache:CacheServer"] +
                                 "; Port = " + Configuration["ConexionCache:CachePort"] +
-                                "; Namespace = " + "DESA" + //Configuration["ConexionCache:CacheNameSpace"] +
+                                "; Namespace = " + Configuration["ConexionCache:CacheNameSpace"] +
                                 "; Password = " + "sys" +
                                 "; User ID = " + "_system" + "; ";
         }
@@ -76,7 +76,7 @@ namespace ExtranetApps.Api.Controllers
             {
                 string usuarioId = Request.Headers["UsuarioId"];
                 List<Vendedor> lstVendedores = modGenerics.GetList<Vendedor>(new VentasC.Gestionadores().CacheClassController, "GetVendedores", false, connectionString, usuarioId);
-                lstVendedores.Remove(s => string.IsNullOrEmpty(s.Descripcion));
+                lstVendedores.RemoveAll(s => string.IsNullOrEmpty(s.Descripcion));
                 
                 lstVendedores.Insert(0, new Vendedor { Id = "", Descripcion = "Todos" });
 
@@ -88,27 +88,56 @@ namespace ExtranetApps.Api.Controllers
             }
             return null;
         }
+
         //[Authorize]
-        //[HttpGet("{id}", Name = "GetHallazgo")] //=> api/Hallazgos/1
-        //public ActionResult<Hallazgo> GetHallazgoById(int id)
+        //[HttpGet("GetContrato")]
+        //public ActionResult GetContrato()
         //{
-        //    Hallazgo hallazgo = new Hallazgo();
+        //    try
+        //    {
+        //        string clienteId = Request.Headers["ClienteId"];
+        //        ShamanFECAE fecae = new ShamanFECAE();
+
+        //        var result = fecae.GetContratoVenta(clienteId.ToString());
+        //        if (result == null)
+        //            return NoContent();
+        //        //return Json("Error al obtener contrato", JsonRequestBehavior.AllowGet);
+
+        //        return File(result, MediaTypeNames.Application.Pdf, "contrato_" + clienteId + ".pdf");
+        //        //WSShamanFECAE.WSShamanFECAESoapClient.EndpointConfiguration c = new WSShamanFECAE.WSShamanFECAESoapClient.EndpointConfiguration();
+        //        //WSShamanFECAE.WSShamanFECAESoapClient client = new WSShamanFECAE.WSShamanFECAESoapClient(c);
+        //        //var result = client.GetContratoVentaAsync(clienteId.ToString());
+        //        //if (result == null)
+        //        //    return NoContent();
+
+        //        //return File(result, MediaTypeNames.Application.Pdf, "contrato_" + clienteId + ".pdf");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //[Authorize]
+        //[HttpGet("{id}", Name = "GetBitacora")] //=> api/Bitacoras/1
+        //public ActionResult<Bitacora> GetBitacoraById(int id)
+        //{
+        //    Bitacora bitacora = new Bitacora();
         //    try
         //    {
         //        EmergencyC.Bitacoras bitacoras = new EmergencyC.Bitacoras();
 
         //        if (bitacoras.Abrir(id.ToString(), connectionString))
         //        {
-        //            hallazgo.Id = (long)bitacoras.ID;
-        //            hallazgo.Nro = Convert.ToInt32(bitacoras.NumeroId);
-        //            hallazgo.Fecha = DateTime.ParseExact(bitacoras.FecHorIngreso, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-        //            hallazgo.Motivo = new Motivo { Id = bitacoras.MotivoBitacoraId.ID.ToString() };
-        //            hallazgo.Titulo = bitacoras.Titulo;
-        //            hallazgo.Estado = new Estado { Id = bitacoras.Situacion.ToString() };
-        //            hallazgo.Registraciones = GetRegistraciones(bitacoras, hallazgo.Id);
+        //            bitacora.Id = (long)bitacoras.ID;
+        //            bitacora.Nro = Convert.ToInt32(bitacoras.NumeroId);
+        //            bitacora.Fecha = DateTime.ParseExact(bitacoras.FecHorIngreso, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        //            bitacora.Motivo = new Motivo { Id = bitacoras.MotivoBitacoraId.ID.ToString() };
+        //            bitacora.Titulo = bitacoras.Titulo;
+        //            bitacora.Estado = new Estado { Id = bitacoras.Situacion.ToString() };
+        //            bitacora.Registraciones = GetRegistraciones(bitacoras, bitacora.Id);
         //        }
 
-        //        return hallazgo;
+        //        return bitacora;
         //    }
         //    catch (Exception ex)
         //    {
@@ -135,8 +164,8 @@ namespace ExtranetApps.Api.Controllers
         //                item.Adjuntos = modGenerics.GetList<Adjunto>(new Panel.Adjuntos().CacheClassController, "GetAdjuntosAndPath", false, connectionString, "Bitacoras", idSplit[0] + "--" + idSplit[1]);
 
         //                //TODO: borrar
-        //                item.Adjuntos.Select(x => x.Path = "http://192.168.5.95:5566/Hallazgos/").ToList();
-        //                //item.Adjuntos.Select(x => x.Path = "https://localhost:5001/Hallazgos/").ToList();
+        //                item.Adjuntos.Select(x => x.Path = "http://192.168.5.95:5566/Bitacoras/").ToList();
+        //                //item.Adjuntos.Select(x => x.Path = "https://localhost:5001/Bitacoras/").ToList();
 
         //                //item.Adjuntos[0].Path + "\\liquidaciones\\";
         //                //item.Adjuntos[0].Name = "29143_9408656.jpg";
@@ -151,7 +180,7 @@ namespace ExtranetApps.Api.Controllers
 
         //[HttpPost]
         //[Authorize]
-        //public IActionResult Post([FromBody] Hallazgo newHallazgo)
+        //public IActionResult Post([FromBody] Bitacora newBitacora)
         //{
         //    try
         //    {
@@ -162,28 +191,28 @@ namespace ExtranetApps.Api.Controllers
         //        //bool vIsEnding = false;
         //        IList<string> iListReclamosId;
 
-        //        if (newHallazgo.Id == 0)
+        //        if (newBitacora.Id == 0)
         //        {
         //            objBitacoras.FecHorIngreso = DateTime.Now.ToString();
         //            //TODO: podria buscarlo y setarlo en el get new.
-        //            newHallazgo.Nro = Convert.ToInt64(objBitacoras.GetNewBitacoraId(DateTime.Now, usuarioId));// ShamanSession.UsuarioId.ID);
-        //                                                                                                      //objBitacoras.NroTicket = "";//newHallazgo.Nro.ToString(); //newHallazgo.EditValue;
-        //            objBitacoras.FecBitacora = newHallazgo.Fecha; // this.dtpFecBitacora.DateTime.Date;
-        //            objBitacoras.NumeroId = newHallazgo.Nro; // this.txtNroBitacora.Tag; ==>GetNewBitacoraId
-        //            objBitacoras.MotivoBitacoraId.SetObjectId(newHallazgo.Motivo.Id); //getItemData(this.cmbMotivos));
-        //            objBitacoras.Titulo = newHallazgo.Titulo;
+        //            newBitacora.Nro = Convert.ToInt64(objBitacoras.GetNewBitacoraId(DateTime.Now, usuarioId));// ShamanSession.UsuarioId.ID);
+        //                                                                                                      //objBitacoras.NroTicket = "";//newBitacora.Nro.ToString(); //newBitacora.EditValue;
+        //            objBitacoras.FecBitacora = newBitacora.Fecha; // this.dtpFecBitacora.DateTime.Date;
+        //            objBitacoras.NumeroId = newBitacora.Nro; // this.txtNroBitacora.Tag; ==>GetNewBitacoraId
+        //            objBitacoras.MotivoBitacoraId.SetObjectId(newBitacora.Motivo.Id); //getItemData(this.cmbMotivos));
+        //            objBitacoras.Titulo = newBitacora.Titulo;
         //        }
         //        else
         //        {
-        //            if (!objBitacoras.Abrir(newHallazgo.Id.ToString(), connectionString))
+        //            if (!objBitacoras.Abrir(newBitacora.Id.ToString(), connectionString))
         //            {
         //                return null;
         //            }
         //        }
 
 
-        //        DataTable dtRegistaciones = TablasYListas.ToDataTable(newHallazgo.Registraciones);
-        //        objBitacoras.Situacion = Convert.ToInt16(newHallazgo.Estado.Id) + 1;
+        //        DataTable dtRegistaciones = TablasYListas.ToDataTable(newBitacora.Registraciones);
+        //        objBitacoras.Situacion = Convert.ToInt16(newBitacora.Estado.Id) + 1;
         //        //if (objBitacoras.Validar(dtRegistaciones, vIsEnding, this.getUsuarioFin(), motBitacorasClasificaciones.hSoporteTecnico))
         //        //usuario de finalizacion no tenemos, envio true, porque el validar da error si no.
         //        //var tupleValidar = objBitacoras.Validar(dtRegistaciones, vIsEnding, true, motBitacorasClasificaciones.hSoporteTecnico);
@@ -191,14 +220,14 @@ namespace ExtranetApps.Api.Controllers
         //        //{
         //            if (objBitacoras.Salvar(objBitacoras))
         //            {
-        //                newHallazgo.Id = Convert.ToInt64(objBitacoras.ID);
-        //                newHallazgo.Nro = Convert.ToInt64(objBitacoras.NumeroId);
-        //                newHallazgo.Estado.Id = objBitacoras.Situacion.ToString();
+        //                newBitacora.Id = Convert.ToInt64(objBitacoras.ID);
+        //                newBitacora.Nro = Convert.ToInt64(objBitacoras.NumeroId);
+        //                newBitacora.Estado.Id = objBitacoras.Situacion.ToString();
 
         //                iListReclamosId = objBitacoras.SetRegistraciones(objBitacoras.ID, dtRegistaciones);
 
         //                if (iListReclamosId.Count > 0 && iListReclamosId[0] != "0")
-        //                    newHallazgo.Registraciones = GetRegistraciones(objBitacoras, newHallazgo.Id);
+        //                    newBitacora.Registraciones = GetRegistraciones(objBitacoras, newBitacora.Id);
 
         //            }
 
@@ -210,11 +239,11 @@ namespace ExtranetApps.Api.Controllers
         //    {
         //        logger.Error(ex);
         //    }
-        //    return new OkObjectResult(newHallazgo);
+        //    return new OkObjectResult(newBitacora);
         //}
 
         //Borrar: referencia a original.
-        //private void Actualizar(Hallazgo newHallazgo)
+        //private void Actualizar(Bitacora newBitacora)
         //{
         //    try
         //    {
@@ -238,17 +267,17 @@ namespace ExtranetApps.Api.Controllers
         //        //    MsgBox("En este momento no es posible agregar archivos adjuntos", MsgBoxStyle.Information, "Adjuntos Soporte Técnico");
         //        //}
 
-        //        objBitacoras.NroTicket = newHallazgo.Nro.ToString(); //newHallazgo.EditValue;
-        //        objBitacoras.FecBitacora = newHallazgo.Fecha.ToString(); // this.dtpFecBitacora.DateTime.Date;
-        //        objBitacoras.NumeroId = newHallazgo.Nro.ToString(); // this.txtNroBitacora.Tag;
-        //        objBitacoras.MotivoBitacoraId.SetObjectId(newHallazgo.Motivo.Id); //getItemData(this.cmbMotivos));
-        //        objBitacoras.Titulo = newHallazgo.Titulo;
+        //        objBitacoras.NroTicket = newBitacora.Nro.ToString(); //newBitacora.EditValue;
+        //        objBitacoras.FecBitacora = newBitacora.Fecha.ToString(); // this.dtpFecBitacora.DateTime.Date;
+        //        objBitacoras.NumeroId = newBitacora.Nro.ToString(); // this.txtNroBitacora.Tag;
+        //        objBitacoras.MotivoBitacoraId.SetObjectId(newBitacora.Motivo.Id); //getItemData(this.cmbMotivos));
+        //        objBitacoras.Titulo = newBitacora.Titulo;
 
         //        //if (objBitacoras.Situacion <= 2 && this.cmbEstados.SelectedIndex == 2)
         //        //    vIsEnding = true;
-        //        DataTable dtRegistaciones = TablasYListas.ToDataTable(newHallazgo.Registraciones);
+        //        DataTable dtRegistaciones = TablasYListas.ToDataTable(newBitacora.Registraciones);
 
-        //        objBitacoras.Situacion = newHallazgo.Estado.Id + 1;
+        //        objBitacoras.Situacion = newBitacora.Estado.Id + 1;
         //        //if (objBitacoras.Validar(dtRegistaciones, vIsEnding, this.getUsuarioFin(), motBitacorasClasificaciones.hSoporteTecnico))
         //        var tupleValidar = objBitacoras.Validar(dtRegistaciones, vIsEnding, false, motBitacorasClasificaciones.hSoporteTecnico);
         //        if (tupleValidar.Item1)
@@ -373,34 +402,34 @@ namespace ExtranetApps.Api.Controllers
 
         //[HttpPost]
         //[EnableCors("MyPolicyAllowAny")]
-        //public IActionResult Post([FromBody] Hallazgo newHallazgo)
+        //public IActionResult Post([FromBody] Bitacora newBitacora)
         //{
         //    try
         //    {
-        //        var lastHallazgos = _context.HallazgoItems.Include(h => h.Registraciones).ToList().Last();
-        //        if (lastHallazgos.Registraciones.Count > 0)
+        //        var lastBitacoras = _context.BitacoraItems.Include(h => h.Registraciones).ToList().Last();
+        //        if (lastBitacoras.Registraciones.Count > 0)
         //        {
-        //            newHallazgo.Registraciones.ToList().Last().Id = lastHallazgos.Registraciones.ToList().Last().Id + 1;
+        //            newBitacora.Registraciones.ToList().Last().Id = lastBitacoras.Registraciones.ToList().Last().Id + 1;
         //        }
-        //        //newHallazgo.
-        //        if (newHallazgo.Id == 0)
+        //        //newBitacora.
+        //        if (newBitacora.Id == 0)
         //        {
-        //            newHallazgo.Id = lastHallazgos.Id + 1;
-        //            newHallazgo.Nro = lastHallazgos.Nro + 1;
-        //            newHallazgo.Hora = DateTime.Now.ToShortTimeString();
-        //            _context.HallazgoItems.Add(newHallazgo);
+        //            newBitacora.Id = lastBitacoras.Id + 1;
+        //            newBitacora.Nro = lastBitacoras.Nro + 1;
+        //            newBitacora.Hora = DateTime.Now.ToShortTimeString();
+        //            _context.BitacoraItems.Add(newBitacora);
         //        }
         //        else
         //        {
-        //            _context.HallazgoItems.First(a => a.Id == newHallazgo.Id).Registraciones = newHallazgo.Registraciones;
-        //            _context.HallazgoItems.Update(_context.HallazgoItems.First(a => a.Id == newHallazgo.Id));
+        //            _context.BitacoraItems.First(a => a.Id == newBitacora.Id).Registraciones = newBitacora.Registraciones;
+        //            _context.BitacoraItems.Update(_context.BitacoraItems.First(a => a.Id == newBitacora.Id));
         //        }
         //        _context.SaveChanges();
         //    }
         //    catch (Exception)
         //    {
         //    }
-        //    return new OkObjectResult(newHallazgo);
+        //    return new OkObjectResult(newBitacora);
         //}
 
         //private void TrySaveMotivosBitacoras()
@@ -418,15 +447,15 @@ namespace ExtranetApps.Api.Controllers
         //    mb.Salvar(mb);
         //}
 
-        //[HttpGet("{id}", Name = "GetHallazgo")]
+        //[HttpGet("{id}", Name = "GetBitacora")]
         //[DisableCors]
-        //public ActionResult<Hallazgo> GetHallazgoById(int id)
+        //public ActionResult<Bitacora> GetBitacoraById(int id)
         //{
-        //    var item = _context.HallazgoItems
+        //    var item = _context.BitacoraItems
         //        //.Include(h => h.Destinos)
         //        .Include(h => h.Registraciones).ThenInclude(x => x.Adjuntos)
         //        .AsQueryable().Where(x => x.Id == id).FirstOrDefault();
-        //    //var item = _context.HallazgoItems.Find(id);
+        //    //var item = _context.BitacoraItems.Find(id);
         //    if (item == null)
         //    {
         //        return NotFound();
@@ -434,7 +463,7 @@ namespace ExtranetApps.Api.Controllers
         //    //FIX error EF Core in save adjuntos
         //    if (item.Id == 1)
         //    {
-        //        item.Registraciones.FirstOrDefault().Adjuntos = new List<Adjunto> { new Adjunto { FullPath = "file:///C:/Paramedic/ExtranetApps-angular/ExtranetApps.Api/wwwroot/Upload/Hallazgos/0/1/2/PARAMEDIC.png", Name = "PARAMEDIC" } };
+        //        item.Registraciones.FirstOrDefault().Adjuntos = new List<Adjunto> { new Adjunto { FullPath = "file:///C:/Paramedic/ExtranetApps-angular/ExtranetApps.Api/wwwroot/Upload/Bitacoras/0/1/2/PARAMEDIC.png", Name = "PARAMEDIC" } };
         //    }
         //    //DataRow dr = CreateFakeDataTable();
         //    //item.Motivo = new Motivo(dr, "MotivoID", "MotivoDesc");
@@ -444,7 +473,7 @@ namespace ExtranetApps.Api.Controllers
         //[HttpGet]
         ////[AllowAnonymous]
         //[Authorize]
-        //public async System.Threading.Tasks.Task<ActionResult<List<Hallazgo>>> Get()
+        //public async System.Threading.Tasks.Task<ActionResult<List<Bitacora>>> Get()
         //{
         //    try
         //    {
@@ -458,7 +487,7 @@ namespace ExtranetApps.Api.Controllers
         //        //ValidateUserAsync(Request.Headers["UserBase64"]);//GET-TOKEN
 
         //        //TODO: pasar a metodo interno en Bitacoras.
-        //        return modGenerics.GetList<Hallazgo>(new EmergencyC.Bitacoras().CacheClassController, "GetHallazgos", false, connectionString, "29");
+        //        return modGenerics.GetList<Bitacora>(new EmergencyC.Bitacoras().CacheClassController, "GetBitacoras", false, connectionString, "29");
         //    }
         //    catch (Exception ex)
         //    {
@@ -492,9 +521,9 @@ namespace ExtranetApps.Api.Controllers
         //    return false;
         //}
 
-        //[HttpGet("{id}", Name = "GetHallazgo")] //=> api/Hallazgos/1
+        //[HttpGet("{id}", Name = "GetBitacora")] //=> api/Bitacoras/1
         //[EnableCors("MyPolicyAllowAny")]
-        //public ActionResult<Hallazgo> GetHallazgoById(int id)
+        //public ActionResult<Bitacora> GetBitacoraById(int id)
         //[HttpGet("{token}", Name = "Get")]
 
         //[HttpGet]
@@ -505,7 +534,7 @@ namespace ExtranetApps.Api.Controllers
 
         //    //var users = _userService.GetAll();
         //    //return Ok();
-        //    return Redirect("http://localhost:4200/hallazgos");
+        //    return Redirect("http://localhost:4200/bitacoras");
         //}
 
         //private async System.Threading.Tasks.Task<bool> ValidateUserAsync(string base64)

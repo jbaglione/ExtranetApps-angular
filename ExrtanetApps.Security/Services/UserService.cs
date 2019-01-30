@@ -24,7 +24,7 @@ namespace ExrtanetApps.Security.Services
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<UsuarioSeguridad> _users = new List<UsuarioSeguridad>
         { 
-            new UsuarioSeguridad { ID = 1, Nombre = "Jonathan Baglione", Identificacion="baglione.jonathan", Password = "ahj026" } 
+            new UsuarioSeguridad { ID = 1, Nombre = "Jonathan Baglione", Identificacion="baglione.jonathan", Password = "ahj026" }
         };
 
         private List<UserBase64> _usersBase64 = new List<UserBase64>
@@ -127,7 +127,7 @@ namespace ExrtanetApps.Security.Services
                     new Claim(ClaimTypes.Name, user.ID.ToString())
                 }),
                 //Expires = DateTime.UtcNow.AddDays(2),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -142,7 +142,7 @@ namespace ExrtanetApps.Security.Services
             token = token.Replace("Bearer ", "");
             var handler = new JwtSecurityTokenHandler();
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
-            if (tokenS.ValidTo.AddHours(-3) < DateTime.Now)//revisar zona horaria.
+            if (tokenS.ValidTo.ToLocalTime() < DateTime.Now)//revisar zona horaria.
                 return null;
 
             long userId = Convert.ToInt64(tokenS.Payload["unique_name"]);
@@ -150,6 +150,8 @@ namespace ExrtanetApps.Security.Services
                 micrositio = tokenS.Payload["nameid"].ToString();
 
             UsuarioSeguridad user = userController.GetUsuarioInfo<UsuarioSeguridad>(userId, micrositio).FirstOrDefault();
+            //TODO: Eliminar
+            //user.Acceso = "3";
             user.Micrositio = micrositio;
             if (refresh)
                 SetNewToken(user);

@@ -1,0 +1,32 @@
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.mat-dialog-content {
+    width: 100%;
+    /* max-width: 500px; */
+}
+
+
+/* .example-card {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mat-card-actions {
+    margin-left: auto;
+    margin-right: auto
+} */

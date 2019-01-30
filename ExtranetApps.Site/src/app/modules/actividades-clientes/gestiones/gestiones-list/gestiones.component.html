@@ -1,0 +1,76 @@
+<div>
+    <button mat-raised-button (click)="verGestion('nuevo')">Nueva Gestion</button>
+</div>
+<br />
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="mtClientesGestiones" matSort>
+        <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Fecha:</span>{{element.fecha | date: 'dd/MM/yyyy'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Estado:</span> {{element.estado == null?'': element.estado.descripcion}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="observaciones">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Observaciones:</span> {{element.observaciones}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaRecontacto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha Recontacto
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Fecha Recontacto:</span>{{element.fechaRecontacto | date: 'dd/MM/yyyy'}}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="adjunto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> adjunto</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">adjunto:</span>
+                <a [href]=element.adjunto.fullPath target="_blank">{{element.adjunto.name}}</a>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Editar
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Editar:</span>
+                <!-- <button (click)="openDialogCliente(element.Id)" mat-icon-button [ngStyle]="{'color': element.estado == 1 ? '#f1c40f' : (element.estado == 2 ? '#357ebd' :  (element.estado == 3 ? '#27ae60' : '#e74c3c')) }" [matTooltip]='estadosDesc[element.estado].descripcion'> -->
+                <button (click)="verGestion(element.id)" mat-icon-button color='accent' matTooltip='Editar esta gestion'>
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Eliminar
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Eliminar:</span>
+                <!-- <button (click)="openDialogCliente(element.Id)" mat-icon-button [ngStyle]="{'color': element.estado == 1 ? '#f1c40f' : (element.estado == 2 ? '#357ebd' :  (element.estado == 3 ? '#27ae60' : '#e74c3c')) }" [matTooltip]='estadosDesc[element.estado].descripcion'> -->
+                <button (click)="verGestion(element.Id)" mat-icon-button color='warn' matTooltip='Eliminar esta gestion'>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="dcClientesGestiones"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: dcClientesGestiones;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<br />

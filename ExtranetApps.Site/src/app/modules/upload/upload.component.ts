@@ -10,7 +10,11 @@ import { UploadService } from './upload.service';
 })
 // implements OnInit
 export class UploadComponent  {
-  @Input() path:string;
+  @Input() entidad:string;
+  @Input() idFirstEntidad:string;
+  @Input() idSecondEntidad:string;
+  @Input() currentNumberOfFiles:number;
+
   @Output() emitirData: EventEmitter<any> = new EventEmitter();
   public data:string;
   // visible: boolean = true;
@@ -43,6 +47,15 @@ export class UploadComponent  {
   }
 
   public openUploadDialog() {
-    let dialogRef = this.dialog.open(DialogComponent , { width: '50%', height: '50%', data: {path: this.path}});
+    let dialogRef = this.dialog.open(DialogComponent ,
+      { width: '50%', 
+      height: '50%',
+      data: {
+        entidad: this.entidad,
+        idFirstEntidad: this.idFirstEntidad,
+        idSecondEntidad: this.idSecondEntidad,
+        currentNumberOfFiles: this.currentNumberOfFiles
+      }
+    });
   }
 }

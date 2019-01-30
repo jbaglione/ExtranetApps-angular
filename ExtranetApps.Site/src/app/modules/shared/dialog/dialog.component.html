@@ -4,10 +4,13 @@
     <!-- <mat-form-field>
         <input matInput [(ngModel)]="data.animal">
     </mat-form-field> -->
-    <p>{{data.content}}</p>
+    {{data.content}}
+
+    <p>{{data.isQuestion}}</p>
+
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Gracias</button>
+    <button mat-button (click)="onNoClick()">No Graciass</button>
     <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
     <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
 </div>

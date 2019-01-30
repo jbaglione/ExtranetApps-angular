@@ -22,7 +22,7 @@ export class AfiliacionesService {
     private tituloAfiliacionSubject: BehaviorSubject<string>;
 
     constructor(private http: Http, private httpClient: HttpClient, public snackBar: MatSnackBar) {
-        this.afiliacionesApiUrl = AppConfig.endpoints.extranet + 'Afiliaciones';
+        this.afiliacionesApiUrl = AppConfig.endpoints.api + 'Afiliaciones';
         this.pamiUrl = AppConfig.endpoints.pami;
         this.tituloAfiliacionSubject = new BehaviorSubject<string>("Afiliaciones");
         this.tituloAfiliacion = this.tituloAfiliacionSubject.asObservable();
@@ -71,6 +71,15 @@ export class AfiliacionesService {
         );
     }
 
+
+    public GetContrato(clienteId:number) {
+        const url = `${this.afiliacionesApiUrl}/GetContrato`;
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'ClienteId': `${clienteId}`});
+        return this.httpClient.get<any>(url, { headers: headerOptions }).pipe(
+            tap(() => LoggerService.log("fetched GetClientePotencial")),
+            catchError(AfiliacionesService.handleError<any>("GetClientePotencial"))
+        );
+    }
 //     public GetAfiliacionesToken(token: string): Observable<any> {
 //         const url = `${this.extranetUrl}`;
 //         const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `${token}` });

@@ -5,18 +5,19 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { SharedModule } from './modules/shared/shared.module';
 
 import { JwtInterceptor, ErrorInterceptor} from './_helpers';
 
 //Servicios
-import { HallazgosService } from './services/hallazgos/hallazgos.service';
+import { BitacorasService } from './services/bitacoras/bitacoras.service';
 import { AfiliacionesService } from './services/afiliaciones/afiliaciones.service';
-// import { HallazgoModule } from './modules/hallazgos/hallazgo.module';
+import { GestionesService } from './services/actividades-clientes/gestiones.service';
+// import { BitacoraModule } from './modules/bitacoras/bitacora.module';
 import { AppRoutingModule } from "./app-routing.module";
 import { CommonService } from './services/common.service';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 
 
@@ -37,11 +38,13 @@ import { CommonService } from './services/common.service';
   ],
 
   providers: [
-    HallazgosService,
+    BitacorasService,
     AfiliacionesService,
     CommonService,
+    GestionesService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-AR'},
   ],
   bootstrap: [
     AppComponent],

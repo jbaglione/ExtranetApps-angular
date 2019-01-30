@@ -1,0 +1,95 @@
+<div>
+    <button mat-raised-button (click)="verBitacora('nuevo')">Nueva Bitacora</button>
+</div>
+<br />
+
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="mtBitacoras" matSort>
+        <ng-container matColumnDef="nro">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Nro. </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="mat-cell-first">
+                <span class="mobile-label">Nro.:</span>
+                <button (click)="verBitacora(element.id)" mat-icon-button class="mat-cell-button">{{element.nro}}</button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Fecha:</span>{{element.fecha | date: 'dd/MM/yyyy'}}
+                <!-- | date: 'dd/MM/yyyy'}} -->
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="hora">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Hora</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Hora:</span> {{element.hora | date: 'hh:mm'}}
+                <!--  | date: 'hh:mm'}} -->
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="titulo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Titulo</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Titulo:</span> {{element.titulo}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="motivo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Motivo</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Motivo:</span> {{element.motivo == null?'':element.motivo.descripcion}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="administrador">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Administrador</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Administrador:</span> {{element.administrador}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Estado:</span> {{element.estado == null?'': element.estado.descripcion}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ultFecha">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Ult.Fecha/Hora
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+                <span class="mobile-label">Ult. Fecha/Hora:</span> {{element.ultFechaHora | date: 'dd/MM/yyyy hh:mm'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="diasRta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Días Rta.</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Días Rta.:</span> {{element.diasRta}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="duracion">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Duracion</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Duracion:</span> {{element.duracion}}
+            </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="dcBitacoras"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: dcBitacoras;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<br />
+
+
+
+<!-- <button mat-raised-button color="primary"><a routerLink="detail">detail</a></button> -->
+
+<!-- <button mat-raised-button color="accent"><a routerLink="/sent">Sent</a></button>
+<a routerLink="/message-compose"><button color="warn">Compose</button></a>  -->

@@ -21,11 +21,13 @@ export class HomeComponent implements OnInit {
                 activatedRoute.params.subscribe(params => {
                   this.site = params['site'];
                   this.userToken = params['token'];
+                  debugger;
+
                   //Works as login
                   this.authenticationService.loginByToken(this.userToken).pipe(first())
                   .subscribe(
                       data => {
-                        this.router.navigate([this.site]);//['hallazgos']
+                        this.router.navigate([this.site]);//['bitacoras']
                       },
                       error => {
                         console.log(error);
@@ -37,7 +39,7 @@ export class HomeComponent implements OnInit {
               }
 
   ngOnInit() {
-    // debugger;
+    // 
     // this.userService.getAll().pipe(first()).subscribe(users => {
     //     this.usuario = users;
     // });

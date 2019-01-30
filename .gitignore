@@ -29,8 +29,13 @@ ExtranetApps.Api/!.vscode/tasks.json
 ExtranetApps.Api/!.vscode/launch.json
 ExtranetApps.Api/!.vscode/extensions.json
 
-
 ExtranetApps.Api/.vs
+ExtranetApps.Api/.bin
+ExtranetApps.Api/.obj
+
+ExtranetApps.Security/.vs
+ExtranetApps.Security/.bin
+ExtranetApps.Security/.obj
 
 # misc
 ExtranetApps.Site/.sass-cache
@@ -41,6 +46,31 @@ ExtranetApps.Site/npm-debug.log
 ExtranetApps.Site/yarn-error.log
 ExtranetApps.Site/testem.log
 ExtranetApps.Site/typings
+
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
 
 # System Files
 ExtranetApps.Site/.DS_Store

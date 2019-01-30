@@ -11,13 +11,15 @@ export class AfiliacionesDetailComponent implements OnInit {
 
   url_1: string = AppConfig.endpoints.oldExranet + 'afiliacionesPopUp?GetDirectClienteId=';
   url_2: string = '&GetDirectSolicitud=true';
+  url_3: string = '&Acceso=';
+  url_4: string = '&Estado=';
   urlFinal: string;
   constructor(
     public dialogRef: MatDialogRef<AfiliacionesDetailComponent>
     , @Inject(MAT_DIALOG_DATA) public data: AfiliacionesDialogData
   ) {
-    debugger;
-    this.urlFinal = this.url_1 + data.clienteId + this.url_2;
+    
+    this.urlFinal = this.url_1 + data.clienteId + this.url_2 + this.url_3 + '3' +  this.url_4 + '3';
   }
 
   onNoClick(): void {
@@ -31,4 +33,6 @@ export class AfiliacionesDetailComponent implements OnInit {
 
 export interface AfiliacionesDialogData {
   clienteId: string;
+  acceso: string;
+  estado: string;
 }

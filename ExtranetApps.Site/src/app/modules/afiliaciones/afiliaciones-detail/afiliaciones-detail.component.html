@@ -4,5 +4,5 @@
 <h1 mat-dialog-title>Cliente Potencial
 </h1>
 <div mat-dialog-content>
-    <iframe [src]="urlFinal | safe" class="frame"></iframe>
+    <iframe [src]="urlFinal | safe" allow="geolocation" class="frame" onLoad="alert(this.contentWindow.location);"></iframe>
 </div>

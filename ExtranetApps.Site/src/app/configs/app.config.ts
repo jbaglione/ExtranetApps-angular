@@ -9,19 +9,18 @@ export const AppConfig: any = {
   },
   endpoints: {
     //  //localhost
-    extranet: 'https://localhost:5001/api/',
-    // upload: 'https://localhost:5001/api/Upload',
-    security: 'https://localhost:5002/Security/Users/',
+    api: 'https://localhost:5001/api/',
+    security: 'https://localhost:5002/security/',
     oldExranet: 'http://localhost:2128/',
 
-    // //Produccion
-    // extranet: 'http://paramedicapps.com.ar:5566/api/Hallazgos',
-    // upload: 'http://paramedicapps.com.ar:5566/api/Upload'
+    // Produccion
+    // site: http://paramedicapps.com.ar:5567/
+    // api: 'http://paramedicapps.com.ar:5566/api/',
+    // security: 'http://paramedicapps.com.ar:5568/security/',
     // oldExranet: 'http://paramedicapps.com.ar:58885/',
 
     // Server Local Pilar
-    // extranet: 'http://192.168.5.95:5566/api/',
-    upload: 'http://192.168.5.95:5566/api/Upload'
+    // api: 'http://192.168.5.95:5566/api/',
   },
   // votesLimit: 3,
   // topHeroesLimit: 4,

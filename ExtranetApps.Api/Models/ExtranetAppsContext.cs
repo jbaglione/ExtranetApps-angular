@@ -9,7 +9,7 @@ namespace ExtranetApps.Api.Models
         {
         }
 
-        public DbSet<Hallazgo> HallazgoItems { get; set; }
+        public DbSet<Bitacora> BitacoraItems { get; set; }
         public DbSet<Destino> DestinoItems { get; set; }
         public DbSet<Registracion> RegistracionItems { get; set; }
 

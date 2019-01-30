@@ -7,29 +7,37 @@ import { AppConfig } from '../../configs/app.config';
 
 @Injectable()
 export class UploadService {
-  url:string;
-  path:string = '0-0-0';
+  entidad:string;
+  idFirstEntidad:string;
+  idSecondEntidad:string;
+  currentNumberOfFiles:number;
+  url:string; 
 
   constructor(private http: HttpClient) {
-    this.url = AppConfig.endpoints.upload;
+    this.url = AppConfig.endpoints.api + 'Upload';
   }
 
   public upload(files: Set<File>): { [key: string]: Observable<number> } {
     // this will be the our resulting map
     const status = {};
-     console.log('PATH UPLOAD:' + this.path);
-     let nroFile:number = 0;
+    console.log(`Values upload entidad = ${this.entidad}, idFirstEntidad = ${this.idFirstEntidad}, idSecondEntidad = ${this.idSecondEntidad}`);
+    let nroFile:number = this.currentNumberOfFiles;
+    
     files.forEach(file => {
       
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      formData.append(this.path + nroFile, file, file.name);
+      formData.set("entidad", this.entidad);
+      formData.set("idFirstEntidad", this.idFirstEntidad);
+      formData.set("idSecondEntidad", this.idSecondEntidad);
+      formData.set("nroFile", nroFile.toString());
+      
+      formData.append(file.name, file);
+      
       nroFile ++;
       // const req = new HttpRequest('POST', this.url, formData);
-
       // // create a http-post request and pass the form
       // // tell it to report the upload progress
-      debugger;
       const req = new HttpRequest('POST', this.url, formData, {
         reportProgress: true
       });
@@ -41,7 +49,7 @@ export class UploadService {
 
       let startTime = new Date().getTime();
       this.http.request(req).subscribe(event => {
-        debugger;
+        
         if (event.type === HttpEventType.UploadProgress) {
           // calculate the progress percentage
           const percentDone = Math.round((100 * event.loaded) / event.total);

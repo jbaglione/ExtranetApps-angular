@@ -5,22 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Upload\1\**" />
-    <Content Remove="wwwroot\Upload\1\**" />
-    <EmbeddedResource Remove="wwwroot\Upload\1\**" />
-    <None Remove="wwwroot\Upload\1\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.7.0" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\ShamanCache\Shaman\ShamanClases\ShamanClases\ShamanClases.vbproj" />
     <ProjectReference Include="..\..\ShamanCache\Shaman\ShamanClases_CSharp\ShamanClases_CSharp.csproj" />
+    <ProjectReference Include="..\..\WSShamanFecae\WSShamanFECAE-CSharp\WSShamanFECAE-CSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Connected Services\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
